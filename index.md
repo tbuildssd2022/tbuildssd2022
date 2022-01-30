@@ -1,4 +1,4 @@
-## Secure Software Development Team Project - 2022
+## SSD Team Project - 2022
 
 This site is intended to be used by the builders' team of the Secure Software Development 2022 module of the University of Essex Online
 
