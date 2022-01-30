@@ -1,8 +1,8 @@
-## Welcome to GitHub Pages
+## Secure Software Development Team Project - 2022
 
-You can use the [editor on GitHub](https://github.com/tbuildssd2022/tbuildssd2022/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This site is intended to be used by the builders' team of the Secure Software Development 2022 module of the University of Essex Online
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+As the Builders Team progresses through the module, numerous entries, including diagrams, design documents and work-in-progress materials, are expected to be documented here.
 
 ### Markdown
 
