@@ -1,4 +1,13 @@
-### Hi there 👋
+### ISS Secure File Repository
+
+Split into 3 sections
+
+Flask front end with login, file viewing/download and an upload function
+
+Docker files for nodes once working prototype finished
+
+SQL and HTTP log monitoring
+
 
 <!--
 **tbuildssd2022/tbuildssd2022** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
