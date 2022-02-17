@@ -25,6 +25,8 @@ def index():
     print(current_user.is_authenticated)
     return render_template('index.html')
 
+# Adding comment
+
 # If no customer ID then redirect to login page
 # Current bug? user you can guess customer ID?
 #@main.route('/customer', defaults={'sessioncid': None})
