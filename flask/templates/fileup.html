@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  File Upload Selection  
+</h1>
+<div class="content">
+    <ul> 
+        <li>Supported extentions only</li>
+        <li>Use archive tool such as zip for unsupported file types or raw/unstructured data.</li>
+        <li>Limit file sizes to 64 megabytes each</li>
+    </ul>
+</div>
+
+
+<div class="content">
+  <div class="box">
+    <form method="POST" action="/flup2">
+        <div class="field">
+            <div class="file">
+                <input class="file-input" type="file" name="file" >
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="extension">
+                    .txt Plain text file
+                </label>
+                <label class="radio">
+                    <input type="radio" name="extension">
+                    .doc  Document file 
+                </label>
+                <label class="radio">
+                    <input type="radio" name="extension">
+                    .zip Archive file (zip commpression)
+                </label>
+            </div>
+        </div>
+        <button class="button is-block is-info is-large is-fullwidth">Upload file</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Files avaliable for downloading
+</h1>
+<!--
+<h2> ID: {{scid}} , {{scname}} </h2>
+-->
+<div class="content">
+    <ul> 
+        <!--
+        <li><a href="{{ url_for('datamgmt.dm14') }}">This would display file name </a></li>
+        -->
+        <li><a href="http://sfrdev.enbride.com/some/file1.pdf"> file1.pdf </a></li>
+        <li><a href="http://sfrdev.enbride.com/some/file2.doc"> file2.doc </a></li>
+        <li><a href="http://sfrdev.enbride.com/some/file3.zip"> file3.zip </a></li>
+    </ul>
+
+</div>
+
+{% endblock %}

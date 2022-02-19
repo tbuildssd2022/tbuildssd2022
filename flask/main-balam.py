@@ -7,8 +7,7 @@ import os
 
 main = Blueprint('main', __name__)
 
-'''
-# This should probably be moved to file view & download
+
 def getclientpath(cid,arcid):
     if arcid == 14:
         clientpath = "/opt/balam/clients/{}/datamgmt/14".format(cid)
@@ -19,73 +18,44 @@ def getclientpath(cid,arcid):
     else:
         clientpath = "/opt/balam/clients/{}/datamgmt/99".format(cid)
     return clientpath
-'''
 
-# This is the home page for the data users 
-# This should test for valid login and if so we should present a second
-# version of the page that shows they are loggged in with an account
-# and display the groups that user is a member of, as well as the current
-# session ID. (use this for valdiating )
-# Login button set to logout
-#  ----- extended capabilities ----------
-# Also looking at messages of the day.  
-# Possibly a way to monitor for state changes, explore threading library
-# and cleary identify all the risks of rolling your own threading based app
-# instead of using well developed solutions like an MQTT callback.
 
 @main.route('/')
 def index():
     print(current_user.is_authenticated)
     return render_template('index.html')
 
-# If no valid session and access ID then redirect to login page.  Use
-# Flask-login get_id method instead of writing something new. 
-@main.route('/home')
+# Adding comment
+
+# If no customer ID then redirect to login page
+# Current bug? user you can guess customer ID?
+#@main.route('/customer', defaults={'sessioncid': None})
+#@main.route('/customer/<sessioncid>')
+@main.route('/customer')
 @login_required
-def presenthome():
+def csprofile():
     #print(current_user.is_authenticated)
     #if current_user.is_authenticated:
     sessioncid=current_user.get_id()
     account=User.query.filter_by(id=sessioncid).first()
-    return render_template('home.html', scid=sessioncid,scname=account.clientname )
-    
-# File search and download, 
-# Place holder page for now, just validate for login
-# This will be the main page for interacting with files the user has access to
-# Format will be a list of up to 6 files, radio button selection and three buttons
-# They can select a file for download, (one at a time)
-# They can select a file to be shared with others (one at a time, also used to remove sharing if user is owner)
-# They can select a file to be deleted (one at a time, they must be owner)
-@main.route('/fsd1')
+    return render_template('customer.html', scid=sessioncid,scname=account.clientname )
+    #else:
+    #    return render_template('customer.html')
+
+@main.route('/data-management')
 @login_required
-def presentfileview():
+def buprofile():
     #print(current_user.is_authenticated)
     #if current_user.is_authenticated:
-    #sessioncid=current_user.get_id()
-    #account=User.query.filter_by(id=sessioncid).first()
-    return render_template('fileview.html')
-    #return render_template('fileview.html', scid=sessioncid,scname=account.clientname )
+    sessioncid=current_user.get_id()
+    account=User.query.filter_by(id=sessioncid).first()
+    return render_template('datamgmt.html', scid=sessioncid,scname=account.clientname )
     
 
-# File upload 
-# Place holder page for now, just validate for login
-# Possible IDS monitoring option, insider threat exploring the app once authenticated.
-# Queries for active pages that don't end with a known valid number would generate 404 events
-# Attacker would have no idea which ones were valid and we could also create a honeypot page
-# that can only be accessed via indirect reference.
-# replies with a 200, captures attacker data and triggers an alert, while presenting an old help page
-@main.route('/flup7')
-@login_required
-def presentupload():
-    return render_template('fileup.html')
 
-@main.route('/flup2')
-@login_required
-def proccessupload():
-    return render_template('fileupresp.html')
-
-
-# File Share
+@main.route('/sensor/<sessioncid>')
+def sensorprofile(sessioncid):
+    return render_template('sensor.html')
 
 @main.route('/signup', methods=['POST'])
 def signup():
