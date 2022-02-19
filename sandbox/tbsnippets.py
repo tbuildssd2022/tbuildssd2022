@@ -5,10 +5,12 @@
 # EG.  
 # >>>
 # import tbsnippets
+# >>> tbsnippets.file2mem(path-to-file)
+
 
 # Define all libraries here
 
-import time, datetime, sys, os
+import time, datetime, sys, os, mysql.connector
 
 
 
@@ -21,7 +23,7 @@ def file2mem(filepath):
     start = time.time()
     # Get file on disk size and cap at 16 meg for now
     filesize = os.stat(filepath).st_size
-    if (filesize > (16 * 1000 * 1024) ):
+    if (filesize > (32 * 1000 * 1024) ):
         print("file exceeded current limit\n")
         exit(1)
     # Read file into memory buffer as bytes rather than encoded string
@@ -40,6 +42,14 @@ def file2mem(filepath):
     del filecontent
 
 
+def sbxdbconnect(dbhost,dbuser,dbcred,dbname):
+    dbh = mysql.connector.connect(
+        host = dbhost,
+        user = dbuser,
+        password = dbcred,
+        database = dbname
+    )
+    return dbh
 
 
 
