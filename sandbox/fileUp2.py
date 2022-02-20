@@ -39,9 +39,23 @@ def present_files():
         recordstuple = thiscur.fetchmany(size=10)
         print(recordstuple)
         thisdbh.close()
+        return  '''
+            <!doctype html>
+            <title>List Database Files</title>
+            <h1>Jinga Template parsing next</h1>
+            <p> 'View {} currently stored files SFR database.'.format(len(recordstuple)) 
+            <br><a href="/"> Return to File upload </a> </p>
+        ''' 
     except Exception as err:
         print(err)
-    return   
+        return '''
+            <!doctype html>
+            <title>List Database Files - Error</title>
+            <h1>Jinga Template parsing next</h1>
+            <p> Some kind of database error generated <br>
+            <a href="/"> Return to File upload </a> </p>
+        '''
+    
 
 
 @app.route('/', methods=['GET', 'POST'])
