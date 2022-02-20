@@ -40,11 +40,11 @@ def present_files():
         print(recordstuple)
         thisdbh.close()
         return  '''
-            <!doctype html>
+            "<!doctype html>
             <title>List Database Files</title>
             <h1>Jinga Template parsing next</h1>
-            <p> 'View {} currently stored files SFR database.'.format(len(recordstuple)) 
-            <br><a href="/"> Return to File upload </a> </p>
+            <p> View {} currently stored files SFR database. 
+            <br><a href="/"> Return to File upload </a> </p>".format(len(recordstuple))
         ''' 
     except Exception as err:
         print(err)
