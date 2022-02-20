@@ -30,7 +30,7 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
-        if 'file' not in request.files:
+        if 'upfile' not in request.files:
             flash('No file part')
             return redirect(request.url)
         newfile = request.files['upfile']
@@ -63,8 +63,11 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File to database</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=upfile><br>
-      <input type=text label="Keywords or tags" name=keytag> <br>
+      <input type=file name=upfile>
+      <p>&nbsp</p>
+      <p> Keywords or tags 
+      <input type=text name=keytag> </p>
+      <p>&nbsp</p>
       <input type=submit value=Upload>
     </form>
     '''
