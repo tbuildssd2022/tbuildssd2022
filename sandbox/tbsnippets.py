@@ -46,6 +46,15 @@ def file2memstats(filepath):
 
 # Connect to the database 
 # thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+# insert file metadata and bytes into a database
+# SQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) ''' 
+# get file metadata and bytes from the database for a specific file
+#SQLGET = ''' SELECT filename,filebin from blobsbx WHERE id = '{0}' '''
+# pass the id value as a formatted string
+# cur.execute(SQLGET.format(str(2))) 
+# Get a list of file names and IDs for any file with bytes
+# SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
+
 
 def sbxdbconnect(dbhost,dbuser,dbcred,dbname):
     try:
