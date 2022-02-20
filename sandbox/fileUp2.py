@@ -46,8 +46,12 @@ def upload_file():
             UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
             print(type(upfilebytes)) 
             print(len(upfilebytes))
+            print(upfilename)
+            print(secure_filename(file.filename))
             # Write file to database
-            #thisdbh=
+            #thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+            #thiscur=thisdbh.cursor()
+
 
             #filename = secure_filename(file.filename)
             return redirect(request.url)
