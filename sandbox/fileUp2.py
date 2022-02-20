@@ -63,8 +63,8 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File to database</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=upfile>
-      <input type=text name=keytag>
+      <input type=file name=upfile><br>
+      <input type=text label="Keywords or tags" name=keytag> <br>
       <input type=submit value=Upload>
     </form>
     '''
