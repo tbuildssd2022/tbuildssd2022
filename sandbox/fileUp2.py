@@ -53,6 +53,8 @@ def search_files():
 def present_files():
     search = request.form.get('keytag')
     SQLGETLIST = "SELECT id,filename from blobsbx WHERE filename like '${}'".format(search)
+    print(search)
+    print(SQLGETLIST)
     try:
         thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
         thiscur=thisdbh.cursor()
