@@ -26,6 +26,23 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# List files in the database
+@app.route('/flist', methods=['GET'])
+def present_files():
+    # read files from database    
+    SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
+    try:
+        thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+        thiscur=thisdbh.cursor()
+        result=thiscur.execute(SQLGETLIST)
+        # get top ten records
+        recordstuple = thiscur.fetchmany(size=10)
+        print(recordstuple)
+        thisdbh.close()
+    except Exception as err:
+        print(err)    
+
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -73,6 +90,10 @@ def upload_file():
       <p>&nbsp</p>
       <input type=submit value=Upload>
     </form>
+    <p>&nbsp </p>
+    <p> View currently stored files SFR database. <br>
+    <a href="/flist"> File list </a> </p>
+
     '''
 
 
