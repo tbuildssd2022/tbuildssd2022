@@ -42,7 +42,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             flash('File uploaded' )
             upfilename = file.filename # werkzueg 
-            upfilebytes = file.storage.read()  # assuming this is a byte stream
+            upfilebytes = file.stream.read()  # assuming this is a byte stream
             UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
             print(type(upfilebytes)) 
             # Write file to database
