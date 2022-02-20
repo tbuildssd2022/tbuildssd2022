@@ -38,7 +38,7 @@ def search_files():
       <p> Search for Keyword or tags, ( single term only) 
       <input type=text name=keytag> </p>
       <p>&nbsp</p>
-      <input type=submit value=Upload>
+      <input type=submit value=search>
     </form>
 
     '''
