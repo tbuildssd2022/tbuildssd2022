@@ -104,4 +104,4 @@ def mem2file(filepath,blob):
 # extract the current date and time, then format into MySQL datetime
 # https://dev.mysql.com/doc/refman/8.0/en/datetime.html
 def getcurdate():
-        return datetime.datetime.now().strftime("%Y-%M-%d %H:%m:%S")
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
