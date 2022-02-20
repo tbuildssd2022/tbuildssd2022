@@ -28,9 +28,31 @@ def allowed_file(filename):
 
 # List files in the database
 @app.route('/flist', methods=['GET'])
-def present_files():
+def search_files():
+    return '''
+    <!doctype html>
+    <title>Search existing files</title>
+    <h1>Search for files in database</h1>
+    <form action="flist2" method=post enctype=multipart/form-data>
+      <p>&nbsp</p>
+      <p> Search for Keyword or tags, ( single term only) 
+      <input type=text name=keytag> </p>
+      <p>&nbsp</p>
+      <input type=submit value=Upload>
+    </form>
+
+    '''
+
+
+    
     # read files from database    
-    SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
+    #SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
+   
+  
+@app.route('/flist2', methods=['POST'])
+def present_files():
+    search = request.form.get('keytag')
+    SQLGETLIST = "SELECT id,filename from blobsbx WHERE filename like '${}'".format(search)
     try:
         thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
         thiscur=thisdbh.cursor()
@@ -39,13 +61,15 @@ def present_files():
         recordstuple = thiscur.fetchmany(size=10)
         print(recordstuple)
         thisdbh.close()
-        return  '''
-            "<!doctype html>
-            <title>List Database Files</title>
+        return '''
+            <!doctype html>
+            <title>List Database Files </title>
             <h1>Jinga Template parsing next</h1>
-            <p> View {} currently stored files SFR database. 
-            <br><a href="/"> Return to File upload </a> </p>".format(len(recordstuple))
-        ''' 
+            <p> Some kind of file list generated <br>
+            <a href="/"> Return to File upload </a> </p>
+            '''
+
+
     except Exception as err:
         print(err)
         return '''
@@ -54,8 +78,7 @@ def present_files():
             <h1>Jinga Template parsing next</h1>
             <p> Some kind of database error generated <br>
             <a href="/"> Return to File upload </a> </p>
-        '''
-    
+            '''
 
 
 @app.route('/', methods=['GET', 'POST'])
