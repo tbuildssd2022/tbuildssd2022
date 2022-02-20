@@ -42,20 +42,23 @@ def upload_file():
             return redirect(request.url)
         if newfile and allowed_file(newfile.filename):
             flash('File uploaded' )
-            upfilename = newfile.filename # werkzueg 
+            upfilename = secure_filename(newfile.filename) # werkzueg built in function to deal with escape paths
             upfilebytes = newfile.stream.read()  # assuming this is a byte stream
             UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
             print(type(upfilebytes)) 
             print(len(upfilebytes))
             print(upfilename)
-            print(secure_filename(newfile.filename))
             print(str(keywords))
             # Write file to database
-            #thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
-            #thiscur=thisdbh.cursor()
-
-
-            #filename = secure_filename(file.filename)
+            try:
+                thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+                thiscur=thisdbh.cursor()
+                result=thiscur.execute(UPLOADSQL, (upfilename,upfilebytes))
+                thisdbh.commit()
+                thisdbh.close()
+            except Exception as err:
+                print(err)
+            
             return redirect(request.url)
             #return redirect(url_for('download_file', name=filename))
     return '''
