@@ -40,7 +40,8 @@ def present_files():
         print(recordstuple)
         thisdbh.close()
     except Exception as err:
-        print(err)    
+        print(err)
+    return   
 
 
 @app.route('/', methods=['GET', 'POST'])
