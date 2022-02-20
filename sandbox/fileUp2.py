@@ -33,21 +33,23 @@ def upload_file():
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
-        file = request.files['file']
+        newfile = request.files['upfile']
+        keywords = request.form['keytag']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
-        if file.filename == '':
+        if newfile.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and allowed_file(file.filename):
+        if newfile and allowed_file(newfile.filename):
             flash('File uploaded' )
-            upfilename = file.filename # werkzueg 
-            upfilebytes = file.stream.read()  # assuming this is a byte stream
+            upfilename = newfile.filename # werkzueg 
+            upfilebytes = newfile.stream.read()  # assuming this is a byte stream
             UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
             print(type(upfilebytes)) 
             print(len(upfilebytes))
             print(upfilename)
-            print(secure_filename(file.filename))
+            print(secure_filename(newfile.filename))
+            print(str(keywords))
             # Write file to database
             #thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
             #thiscur=thisdbh.cursor()
@@ -61,7 +63,8 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File to database</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
+      <input type=file name=upfile>
+      <input type=text name=keytag>
       <input type=submit value=Upload>
     </form>
     '''
