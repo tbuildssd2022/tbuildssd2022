@@ -40,11 +40,11 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            print(type(file))
-            flash('File uploaded, object is {}'.format(type(file)))
+            flash('File uploaded' )
             upfilename = file.filename # werkzueg 
-            upfilebytes = file  # assuming this is a byte stream
-            UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) ''' 
+            upfilebytes = file.storage.read()  # assuming this is a byte stream
+            UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
+            print(type(upfilebytes)) 
             # Write file to database
             #thisdbh=
 
