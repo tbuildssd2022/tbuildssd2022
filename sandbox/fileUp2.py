@@ -45,6 +45,7 @@ def upload_file():
             upfilebytes = file.stream.read()  # assuming this is a byte stream
             UPLOADSQL = ''' INSERT INTO blobsbx (filename,filebin) VALUES (%s,%s) '''
             print(type(upfilebytes)) 
+            print(len(upfilebytes))
             # Write file to database
             #thisdbh=
 
