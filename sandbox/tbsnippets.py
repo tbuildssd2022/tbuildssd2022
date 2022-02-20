@@ -55,6 +55,8 @@ def file2memstats(filepath):
 # Get a list of file names and IDs for any file with bytes
 # SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
 
+#  use host based restriction on SQL server as secondary control.  Must come from 10.100.200.0/24 only
+# https://mysle.....
 
 def sbxdbconnect(dbhost,dbuser,dbcred,dbname):
     try:
@@ -97,3 +99,9 @@ def mem2file(filepath,blob):
             # Clean up memory object too
     del blob
     return
+
+
+# extract the current date and time, then format into MySQL datetime
+# https://dev.mysql.com/doc/refman/8.0/en/datetime.html
+def getcurdate():
+        return datetime.datetime.now().strftime("%Y-%M-%d %H:%m:%S")
