@@ -52,7 +52,7 @@ def search_files():
 @app.route('/flist2', methods=['POST'])
 def present_files():
     search = request.form.get('keytag')
-    SQLGETLIST = "SELECT id,filename from blobsbx WHERE filename like '${}'".format(search)
+    SQLGETLIST = "SELECT id,filename from blobsbx WHERE filename like '{}'".format(search)
     print(search)
     print(SQLGETLIST)
     try:
