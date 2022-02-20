@@ -11,6 +11,7 @@
 # Define all libraries here
 
 import time, datetime, sys, os, mysql.connector
+from mysql.connector import errorcode
 
 
 
@@ -47,13 +48,17 @@ def file2memstats(filepath):
 # thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
 
 def sbxdbconnect(dbhost,dbuser,dbcred,dbname):
-    dbh = mysql.connector.connect(
-        host = dbhost,
-        user = dbuser,
-        password = dbcred,
-        database = dbname
-    )
-    return dbh
+    try:
+        dbh = mysql.connector.connect(
+            host = dbhost,
+            user = dbuser,
+            password = dbcred,
+            database = dbname
+        )
+        return dbh
+    except mysql.connector.Error as err:
+        print(err)
+        return None
 
 
 
@@ -72,3 +77,14 @@ def file2mem(filepath):
 
     return filecontent
 
+
+def mem2file(filepath,blob):
+    try:
+        with open(filepath,"wb") as wfh:
+            wfh.write(blob)
+            wfh.close()
+    except Exception as err:
+        print(err)
+            # Clean up memory object too
+    del blob
+    return
