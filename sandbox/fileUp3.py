@@ -52,7 +52,8 @@ def search_files():
 @app.route('/flist2', methods=['POST'])
 def present_files():
     search = request.form.get('keytag')
-    SQLGETLIST = "SELECT BIN_TO_UUID(uuid_bin) uuid_bin,filename,keywords_tags from storedfiles WHERE filename like '%{}%'".format(search)
+    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_bin from storedfiles WHERE filename like '%{}%'".format(search)
+    #SQLGETLIST = "SELECT filename,keywords_tags from storedfiles WHERE filename like '%{}%'".format(search)
     print(search)
     print(SQLGETLIST)
     try:
@@ -112,7 +113,7 @@ def upload_file():
                 print(str(keywords))
             # Required fields + keywords. 
             UPLOADSQL = ''' INSERT INTO storedfiles(uuid_bin,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
-            VALUESTUPLE = ('UUID_TO_BIN(UUID())',filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
+            VALUESTUPLE = ('UUID()',filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
             
             # Write file to database
             try:
