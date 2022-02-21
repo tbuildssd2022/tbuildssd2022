@@ -1,4 +1,5 @@
 #!/bin/env python3
+from crypt import methods
 import os
 from flask import Flask, flash, request, redirect, url_for
 from flask import send_from_directory
@@ -38,25 +39,26 @@ def search_files():
       <p> Search for Keyword or tags, ( single term only) 
       <input type=text name=keytag> </p>
       <p>&nbsp</p>
+      <p> Search for filename or partial filename , ( single term only) 
+      <input type=text name=filename> </p>
+      <p>&nbsp</p>
       <input type=submit value=search>
     </form>
-
     '''
 
-
-    
-    # read files from database    
-    #SQLGETLIST = ''' SELECT id,filename from blobsbx WHERE filebin IS NOT NULL  '''
-   
   
 @app.route('/flist2', methods=['POST'])
 def present_files():
-    search = request.form.get('keytag')
-    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE filename like '%{}%'".format(search)
+    searchkey = request.form.get('keytag')
+    searchfname = request.form.get('filename')
+    print(len(searchkey))
+    print(len(searchfname))
+    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE filename like '%{}%'".format(searchfname)
+    SQLGETLIST2 = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE keywords_tags like '%{}%'".format(searchfname)
     #SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_bin from storedfiles WHERE filename like '%{}%'".format(search)
     #SQLGETLIST = "SELECT filename,keywords_tags from storedfiles WHERE filename like '%{}%'".format(search)
-    print(search)
     print(SQLGETLIST)
+    print(SQLGETLIST2)
     try:
         thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
         thiscur=thisdbh.cursor()
@@ -72,8 +74,6 @@ def present_files():
             <p> Some kind of file list generated <br>
             <a href="/"> Return to File upload </a> </p>
             '''
-
-
     except Exception as err:
         print(err)
         return '''
@@ -83,6 +83,19 @@ def present_files():
             <p> Some kind of database error generated <br>
             <a href="/"> Return to File upload </a> </p>
             '''
+            
+@app.route('/fdl',methods=['GET','POST'])
+def download_file():
+    if request.method == 'GET':
+        return '''
+         <!doctype html>
+            <title>Download database Files - Error</title>
+            <h1> Only post requests supported</h1>
+            <p> You also need the uuid_hex value for the file <br>
+            <a href="/"> Return to File upload </a> </p>
+        '''
+
+
 
 
 @app.route('/', methods=['GET', 'POST'])
