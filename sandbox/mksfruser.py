@@ -36,8 +36,8 @@ def main():
             updateuserpassword(pwd,shpwd)
         
 
-        answer=raw_input("continue creating users? (y/n):")
-        if answer[:1].lower() == y:
+        answer=input("continue creating users? (y/n):")
+        if answer[:1].lower() == 'y':
             quit=True
 
 
