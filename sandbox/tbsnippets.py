@@ -10,7 +10,7 @@
 
 # Define all libraries here
 
-import time, datetime, sys, os, mysql.connector
+import time, datetime, sys, os, mysql.connector, uuid
 from mysql.connector import errorcode
 
 
@@ -105,3 +105,15 @@ def mem2file(filepath,blob):
 # https://dev.mysql.com/doc/refman/8.0/en/datetime.html
 def getcurdate():
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# Generate UUID on the MVC node, load into database as a hex value
+# This is a consistent 16 byte value that can be converted back to a string for presenation.
+# Stored as a string in mysql which could affect ordering in some scenarios
+#  Using uuid4 to generate UUID that is system MAC agnostic https://docs.python.org/3/library/uuid.html
+def getnewuuid():
+    hexuuid = uuid.uuid4().hex
+    return hexuuid
+
+# Convert the hex number into a human readable string if needed for presentation
+def getuuidstring(hexuuid):
+    return str(uuid.UUID(hexuuid))

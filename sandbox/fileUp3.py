@@ -52,7 +52,8 @@ def search_files():
 @app.route('/flist2', methods=['POST'])
 def present_files():
     search = request.form.get('keytag')
-    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_bin from storedfiles WHERE filename like '%{}%'".format(search)
+    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE filename like '%{}%'".format(search)
+    #SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_bin from storedfiles WHERE filename like '%{}%'".format(search)
     #SQLGETLIST = "SELECT filename,keywords_tags from storedfiles WHERE filename like '%{}%'".format(search)
     print(search)
     print(SQLGETLIST)
@@ -106,14 +107,15 @@ def upload_file():
             filesize = len(filedata) # An array of bytes easily counted at insert,  useful meta data going forward
             filetype = filename.rsplit('.', 1)[1].lower() # Force to lowercase for simplified searching
             dtcreate = tbsnippets.getcurdate()
+            fileuuid = tbsnippets.getnewuuid()
             
             # Define a searchable value for system maintenance 
             if keywords is None:
                 keywords='no_keywords'
                 print(str(keywords))
             # Required fields + keywords. 
-            UPLOADSQL = ''' INSERT INTO storedfiles(uuid_bin,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
-            VALUESTUPLE = ('UUID()',filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
+            UPLOADSQL = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
+            VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
             
             # Write file to database
             try:
