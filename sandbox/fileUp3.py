@@ -83,9 +83,9 @@ def present_files():
             <p> Some kind of database error generated <br>
             <a href="/"> Return to File upload </a> </p>
             '''
-            
-@app.route('/fdl',methods=['GET','POST'])
-def download_file():
+
+@app.route('/fdl', methods=['GET','POST'])
+def download_file2():
     if request.method == 'GET':
         return '''
          <!doctype html>
