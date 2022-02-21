@@ -1,11 +1,11 @@
 #!/bin/env python3
 from crypt import methods
-import mimetypes
-import os
+import mimetypes, os, io, tbsnippets
+
 from flask import Flask, flash, request, redirect, url_for, send_file
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
-import tbsnippets
+
 
 UPLOAD_FOLDER = '/var/tmp/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf','doc','docx','png', 'jpg', 'jpeg', 'gif','zip','gz','tar'}
@@ -142,13 +142,13 @@ def download_file2():
             print(recordstuple[1])
             print(recordstuple[2])
             print(len(recordstuple[3]))
-            fileblob=recordstuple[3]
+            fileblob=io.BytesIO(recordstuple[3])  # Convert the byte array into something send-file can read
             filename=recordstuple[0]
             filetype=recordstuple[1]   # This should be sent to a function that creates the correct mime type
             thisdbh.close()
             # Need to process the first three data elements to define the response header? ( depends on send_file)
             # hard coding as text/pain for now
-            return send_file(fileblob, as_attachment = True, attachment_filename=filename, mimetype = 'text/plain')
+            return send_file(fileblob, as_attachment = True, download_name=filename, mimetype = 'text/plain')
 
 
         except Exception as err:
