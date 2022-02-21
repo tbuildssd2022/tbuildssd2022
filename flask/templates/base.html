@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Balam Security Client Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <title>Secure File Respository</title>
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 
 <body>
@@ -18,23 +18,20 @@
 
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
+                            <a href="{{ url_for('main.presenthome') }}" class="navbar-item">
                                 Home
                             </a>
-                            <a href="{{ url_for('main.csprofile') }}" class="navbar-item">
-                                Network Monitoring
+                            <a href="{{ url_for('main.presentfileview') }}" class="navbar-item">
+                                File Search & Dowload
                             </a>
-                            <a href="{{ url_for('main.buprofile') }}" class="navbar-item">
-                                Backup & Restoration
+                            <a href="{{ url_for('main.presentupload') }}" class="navbar-item">
+                                File Upload
                             </a>
                             <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
+                                File Sharing
                             </a>
                             <a href="{{ url_for('auth.register') }}" class="navbar-item">
-                                Register
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
+                                User Details
                             </a>
                         </div>
                     </div>

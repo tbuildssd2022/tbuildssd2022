@@ -20,21 +20,27 @@ auth = Blueprint('auth', __name__)
 def login_post():
     accessid = flask.request.form.get('accessid')
     passwd = flask.request.form.get('passwd')
-    account=User.query.filter_by(aid=accessid).first()
-    if not account or not check_password_hash(account.pwd, passwd):
-        flash('Account login failed, unknown account or invalid password. Check login details and try again.')
-        return redirect(url_for('auth.login'))
-    else:
-        login_user(account)
-        #next = flask.request.args.get('next')
-        #if not is_safe_url(next):
-        #    return flask.abort(400)
-        thiscid=account.id
-        # if valid creds then direct to profile.
-        print(current_user.is_authenticated)
-        return redirect(url_for('main.csprofile', sessioncid = thiscid))
+    print(accessid)
+    print(passwd)
+    return redirect(url_for('main.presenthome'))
+    # figure out the correct query here, may need to pull UID from access ID first then check password
+    #account=User.query.filter_by(aid=accessid).first()
+    #if not account or not check_password_hash(account.pwd, passwd):
+    #    flash('Account login failed, unknown account or invalid password. Check login details and try again.')
+    #    return redirect(url_for('auth.login'))
+    #else:
+    #    login_user(account)
+    #    #next = flask.request.args.get('next')
+    #    #if not is_safe_url(next):
+    #    #    return flask.abort(400)
+    #    thiscid=account.id
+    #    # if valid creds then direct to profile.
+    #    print(current_user.is_authenticated)
+    #    return redirect(url_for('main.presenthome'))
    
 
+# This should be checking for authentication status and if not redirect to the mail page. 
+# It should already be protected by login required decoration but this would catch forceful browseing
 @auth.route('/login')
 def login():
     if current_user.is_authenticated:
@@ -42,15 +48,17 @@ def login():
         account=User.query.filter_by(id=sessioncid).first()
         msg='already authenticated as {}'.format(account.clientname)
         flash(msg)
-        return render_template('index.html')
+        return render_template('home.html')
     else:
-        return render_template('login.html')
+        return render_template('index.html')
 
 
 @auth.route('/fileupload')
 def register():
     return render_template('upload.html')
 
+# Utilize Flask builtin user management to allow authenticated users to properly close their sessions
+# OWASP session management requirement to prevent possible session hijacking attempts
 @auth.route('/logout')
 @login_required
 def logout():
