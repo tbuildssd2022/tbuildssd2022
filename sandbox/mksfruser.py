@@ -4,12 +4,13 @@ from werkzeug.security import generate_password_hash
 import getpass
 import tbsnippets
 
-quit=False
+
 
 
 def updateuserpassword(pwd,shpwd):
     print("This is the current password: {}".format(pwd))
     print("This is the pbkdf2 hash value: {}".format(shpwd[20:]))
+    # create generation SQL
     return
 
 
@@ -17,6 +18,7 @@ def updateuserpassword(pwd,shpwd):
 
 
 def main():
+    quit=False
     while(not quit):
         print("Creating new user account for SFR")
         #  Do all the user collection
@@ -32,7 +34,7 @@ def main():
         else:
             shpwd=generate_password_hash(pwd, method='pbkdf2:sha256',salt_length=16)
             updateuserpassword(pwd,shpwd)
-        # create generation SQL
+        
 
         answer=raw_input("continue creating users? (y/n):")
         if answer[:1].lower() == y:
