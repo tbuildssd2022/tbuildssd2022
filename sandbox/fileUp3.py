@@ -53,12 +53,27 @@ def present_files():
     searchfname = request.form.get('filename')
     print(len(searchkey))
     print(len(searchfname))
-    SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE filename like '%{}%'".format(searchfname)
-    SQLGETLIST2 = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE keywords_tags like '%{}%'".format(searchfname)
+    SQLGETLIST1 = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE filename like '%{}%'".format(searchfname)
+    SQLGETLIST2 = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_hex from storedfiles WHERE keywords_tags like '%{}%'".format(searchkey)
     #SQLGETLIST = "select filename,keywords_tags,filetype,filesize,filecreate,fileowner,uuid_bin from storedfiles WHERE filename like '%{}%'".format(search)
     #SQLGETLIST = "SELECT filename,keywords_tags from storedfiles WHERE filename like '%{}%'".format(search)
-    print(SQLGETLIST)
+    print(SQLGETLIST1)
     print(SQLGETLIST2)
+    if (len(searchfname) > 0) and (len(searchkey)== 0):
+        SQLGETLIST = SQLGETLIST1
+    elif (len(searchfname) == 0) and (len(searchkey) > 0 ):
+        SQLGETLIST = SQLGETLIST2
+    else:
+        return'''
+        <!doctype html>
+            <title>List Database Files -error </title>
+            <h1>That didn't quite work out Jinga Template parsing next</h1>
+            <p> You need to include either a partial file name or partial keyword to return a file list <br>
+            <a href="/"> Return to File upload </a> </p>
+        '''
+        
+
+    
     try:
         thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
         thiscur=thisdbh.cursor()
