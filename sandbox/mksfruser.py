@@ -14,7 +14,7 @@ def updateuserpassword(pwd,shpwd):
     return
 
 def createdatauser(ufn,usn,udn,aid,ua):
-    newusersql= ''' INSERT into datauser(userforname,usersurname,userdisplayname,useraccessid,useragency) VALUES (%s,%s,%s,%s,%s) '''
+    newusersql= ''' INSERT into datauser(userforename,usersurname,userdisplayname,useraccessid,useragency) VALUES (%s,%s,%s,%s,%s) '''
     valuestuple= (ufn,usn,udn,aid,ua) 
     print(valuestuple)
     try:
@@ -40,13 +40,13 @@ def main():
         print("Creating new user account for SFR")
         print("-----------------------------------\n")
         print("Collecting User information first:")
-        userforename=input("User's legal forename (first, formal)? :")
-        usersurname=input("User's legal surname (last)? :")
-        userdisplayname=input("Name user commonly goes by, first or first last:")
+        userforename=input("User's legal forename (first, formal)?: ")
+        usersurname=input("User's legal surname (last)?: ")
+        userdisplayname=input("Name user commonly goes by, first or first last: ")
         print("create user's access id in the following format:\n 2 character code for space agency \n 3 digits,first inital,2 digits, last inital")
-        useraccessid=input("Access ID for user, AAdddIddi")  # 10 character string high entropy
+        useraccessid=input("Access ID for user, AAdddIddi: ")  # 10 character string high entropy
         print("Space agency user is affiliated with, Canada,Eurpope,Japan,Russia,USA ")
-        useragency=input("Space agency affiliation")
+        useragency=input("Space agency affiliation: ")
         # insert into DB
         nduresult=createdatauser(userforename,usersurname,userdisplayname,useraccessid,useragency)
         if nduresult is not None:
