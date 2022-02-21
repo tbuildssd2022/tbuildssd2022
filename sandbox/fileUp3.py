@@ -93,7 +93,8 @@ def upload_file():
             flash('No file part')
             return redirect(request.url)
         newfile = request.files['upfile']
-        keywords = request.form.get('keytag',None)  # Test for missing value since this is an optional field
+        #keywords = request.form.get('keytag',None)  # Test for missing value since this is an optional field
+        keywords = request.form['keytag']
         fileowner = request.form['uid']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
@@ -110,9 +111,9 @@ def upload_file():
             fileuuid = tbsnippets.getnewuuid()
             
             # Define a searchable value for system maintenance 
-            if keywords is None:
-                keywords='no_keywords'
-                print(str(keywords))
+            #if keywords is None:
+            #    keywords='no_keywords'
+            #    print(str(keywords))
             # Required fields + keywords. 
             UPLOADSQL = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
             VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
