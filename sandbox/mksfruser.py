@@ -17,7 +17,7 @@ def newuserauthnz(pwd,shpwd,uid):
     #print("This is the pbkdf2 hash value: {}".format(shpwd[20:]))
     # create generation SQL
     regdate=tbsnippets.getcurdate()
-    newusercred = ''' INSERT into userauthnz(userid,userpassword,userlocked,forcepwdchange,activestatus,userregistration) \
+    newusercred = ''' INSERT into userauthnz(userid,userpasswd,userlocked,forcepwdchange,activestatus,userregistration) \
         VALUES(%s,%s,%s,%s,%s,%s)'''
     valuestuple=(int(uid),shpwd,0,0,1,regdate)
     print(valuestuple)
