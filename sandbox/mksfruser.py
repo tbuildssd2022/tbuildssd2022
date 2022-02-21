@@ -13,6 +13,22 @@ def updateuserpassword(pwd,shpwd):
     # create generation SQL
     return
 
+def createdatauser(ufn,usn,udn,aid,ua):
+    newusersql= ''' INSERT into datauser(userforname,usersurname,userdisplayname,useraccessid,useragency) VALUES (%s,%s,%s,%s,%s) '''
+    valuestuple= (ufn,usn,udn,aid,ua) 
+    print(valuestuple)
+    try:
+            thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+            thiscur=thisdbh.cursor()
+            result=thiscur.execute(newusersql, valuestuple)
+            thisdbh.commit()
+            thisdbh.close()
+            return result
+    except Exception as err:
+            print(err)
+            return None
+
+
 
 
 
@@ -20,9 +36,21 @@ def updateuserpassword(pwd,shpwd):
 def main():
     quit=False
     while(not quit):
+        #  Do all the intial user information collection
         print("Creating new user account for SFR")
-        #  Do all the user collection
+        print("-----------------------------------\n")
+        print("Collecting User information first:")
+        userforename=input("User's legal forename (first, formal)? :")
+        usersurname=input("User's legal surname (last)? :")
+        userdisplayname=input("Name user commonly goes by, first or first last:")
+        print("create user's access id in the following format:\n 2 character code for space agency \n 3 digits,first inital,2 digits, last inital")
+        useraccessid=input("Access ID for user, AAdddIddi")  # 10 character string high entropy
+        print("Space agency user is affiliated with, Canada,Eurpope,Japan,Russia,USA ")
+        useragency=input("Space agency affiliation")
         # insert into DB
+        nduresult=createdatauser(userforename,usersurname,userdisplayname,useraccessid,useragency)
+        if nduresult is not None:
+            print(dir(nduresult))
         # get the numeric user identifier
         # prompt for password
 
