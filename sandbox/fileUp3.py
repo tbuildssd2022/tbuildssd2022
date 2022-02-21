@@ -67,13 +67,12 @@ def present_files():
         return'''
         <!doctype html>
             <title>List Database Files -error </title>
-            <h1>That didn't quite work out Jinga Template parsing next</h1>
+            <h1>That didn't quite work :-( </h1>
             <p> You need to include either a partial file name or partial keyword to return a file list <br>
             <a href="/"> Return to File upload </a> </p>
         '''
         
-
-    
+    # Run the search for either partial filename or partial keyword
     try:
         thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
         thiscur=thisdbh.cursor()
@@ -99,7 +98,24 @@ def present_files():
             <a href="/"> Return to File upload </a> </p>
             '''
 
-@app.route('/fdl', methods=['GET','POST'])
+# Select a file to download from the database
+@app.route('/fdl1', methods=['GET'])
+def select_file_download():
+    return '''
+    <!doctype html>
+    <title>Download existing files</title>
+    <h1>Download a file from database</h1>
+    <form action="fdl7" method=post enctype=multipart/form-data>
+      <p>&nbsp</p>
+      <p> File UUID, ( single file ) 
+      <input type=text name=fileid> </p>
+      <p>&nbsp</p>
+      <input type=submit value=download>
+    </form>
+    '''
+
+
+@app.route('/fdl7', methods=['GET','POST'])
 def download_file2():
     if request.method == 'GET':
         return '''
@@ -109,7 +125,41 @@ def download_file2():
             <p> You also need the uuid_hex value for the file <br>
             <a href="/"> Return to File upload </a> </p>
         '''
+    if request.method == 'POST':
+        # We need to test this to make sure it's a valid UUID hex value
+        uuid_hex = request.form['fileid']
+        SQLFILEDOWNLOAD= "SELECT filename,filetype,filesize,filedata from storedfiles WHERE uuid_hex='{}'".format(uuid_hex)
 
+        # Run the search for either partial filename or partial keyword
+        try:
+            thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
+            thiscur=thisdbh.cursor()
+            result=thiscur.execute(SQLFILEDOWNLOAD)
+            # get file meta data needed for download and the file data stored as bytes in the database
+            recordstuple = thiscur.fetchone()
+            print(recordstuple[0])
+            print(recordstuple[1])
+            print(recordstuple[2])
+            print(len(recordstuple[3]))
+            thisdbh.close()
+
+            return '''
+                <!doctype html>
+                <title>Download file from database </title>
+                <h1>Looks promising</h1>
+                <p> validation before using send_file <br>
+                <a href="/"> Return to File upload </a> </p>
+            '''
+        except Exception as err:
+            print(err)
+            return '''
+                <!doctype html>
+                <title>Download Database Files - Error</title>
+                <h1>Check the database connection?</h1>
+                <p> Some kind of database error generated <br>
+                <a href="/"> Return to File upload </a> </p>
+            '''
+    
 
 
 
