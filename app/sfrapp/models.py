@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     #
 class DataUser(UserMixin, db.Model):
     __tablename__ = 'datauser'
+    userid = db.Column(db.Integer, primary_key=True)
     userforname = db.Column(db.String(45))
     usersurname = db.Column(db.String(45))
     userdisplayname = db.Column(db.String(90))
