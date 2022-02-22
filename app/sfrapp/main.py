@@ -160,6 +160,9 @@ def login2():
     # password check is done against a second table  ( Move this to module)
     if accessid and formpasswd:
         thisduserobj=getdatauser(accessid)
+        print(thisduserobj)
+        print(thisduserobj.userid)
+        print(type(thisduserobj.userid))
         #uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
         if isinstance(thisduserobj.userid,int):
             thisauthzobj=getauthnz(thisduserobj.userid)
