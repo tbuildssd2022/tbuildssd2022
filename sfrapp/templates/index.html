@@ -2,7 +2,8 @@
 
 {% block content %}
 <div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
+    <h3 class="title">Secure File Repository Login</h3>
+    <h2> Warning. By logging into this application you are consenting to the acceptable use policy defined by the Internation Space Station</h2>
     <div class="box">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -14,13 +15,13 @@
         <form method="POST" action="/login">
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Registered Email" autofocus="">
+                    <input class="input is-large" type="text" name="accessid" placeholder="ISS access ID (EG. EU123i45j)" autofocus="">
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="password" name="passwd" placeholder="Account Password">
+                    <input class="input is-large" type="password" name="passwd" placeholder="access ID Password">
                 </div>
             </div>
             
