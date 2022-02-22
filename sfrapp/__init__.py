@@ -75,9 +75,9 @@ def create_app():
         # client ID is the primary key of the user database
         return User.query.get(int(user_id))
 
-    # auth components
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
+    ## auth components
+    #from .auth import auth as auth_blueprint
+    #app.register_blueprint(auth_blueprint)
 
     # blueprint for non-auth views code
     from .main import main as main_blueprint

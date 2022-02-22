@@ -18,8 +18,8 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    accessid = sfrapp.request.form.get('accessid')
-    passwd = sfrapp.request.form.get('passwd')
+    accessid = flask.request.form.get('accessid')
+    passwd = flask.request.form.get('passwd')
     print(accessid)
     print(passwd)
     return redirect(url_for('main.presenthome'))
