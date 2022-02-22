@@ -10,7 +10,7 @@
  
 #######################################################################################################################
 from crypt import methods
-from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
+from sfrapp import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user
 from werkzeug.security import generate_password_hash
 from . import db
@@ -95,15 +95,15 @@ def proccessupload():
 ########################################  Updates #########################################################
 
 # File Share
-@main.route('/flup1', methods=['GET'])
+@main.route('/fshr1', methods=['GET'])
 #@login_required
 def presentfileshare():
     return render_template('fileshare.html')
 
 
-@main.route('/flup4', methods=['POST'])
+@main.route('/fshr4', methods=['POST'])
 #@login_required
-def presentupload():
+def processfileshare():
     return render_template('fileshareresp.html')
 
 
