@@ -162,15 +162,17 @@ def login2():
     # Extract the UID from the datauser table for the accessid provided. 
     # password check is done against a second table  ( Move this to module)
     if accessid and formpasswd:
+        # Move all this to a seperate module so we can valdiate all three things, pwdcheck should be last
+        pwdchk=False # ensure authz check comes back true before proceeding
         thisduserobj=getdatauser(accessid)
-        #print(thisduserobj)
-        #print(thisduserobj.userid)
-        #print(type(thisduserobj.userid))
         if isinstance(thisduserobj.userid,int):
             thisauthzobj=getauthnz(thisduserobj.userid)
         if thisauthzobj is not None:
             pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
-            print(pwdchk)
+        if pwdchk:
+            print("Setup login manager for this user")
+        else:
+            print("passwordcheck failed")
             
 
             #userauth=User.query.filter(User.userid==uid.userid).first()
