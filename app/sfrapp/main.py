@@ -142,8 +142,11 @@ def updateuser():
 def getdatauser(aid):
     duserobj= DataUser.query.filter(DataUser.useraccessid==aid).first()
     return duserobj
+    
 def getauthnz(uidint):
     uauthznobj=User.query.filter(User.userid==uidint).first()
+    return uauthznobj
+
 def verify_passwd(pwdhash,pwdstr):
     return check_password_hash(pwdhash,pwdstr)
 
@@ -160,10 +163,9 @@ def login2():
     # password check is done against a second table  ( Move this to module)
     if accessid and formpasswd:
         thisduserobj=getdatauser(accessid)
-        print(thisduserobj)
-        print(thisduserobj.userid)
-        print(type(thisduserobj.userid))
-        #uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
+        #print(thisduserobj)
+        #print(thisduserobj.userid)
+        #print(type(thisduserobj.userid))
         if isinstance(thisduserobj.userid,int):
             thisauthzobj=getauthnz(thisduserobj.userid)
         if thisauthzobj is not None:
