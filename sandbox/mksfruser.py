@@ -1,4 +1,13 @@
 #!/bin/env python3
+# Author(s): Doug Leece
+# Version history: Feb 21/2022 - Initial creation
+# 
+# Notes: One of two command line interfaces built to support the creation, updating and deleting of datauser accounts
+# Assumption is the administrators will be connecting to a support server via SSH and this server will have host based
+# access to the application database. Current limitation is a hardcoded credential set for datbase connections, migrate 
+# to an environment variable method if time permits. 
+# 
+#######################################################################################################################
 
 from werkzeug.security import generate_password_hash
 import getpass
@@ -84,7 +93,7 @@ def main():
         userdisplayname=input("Name user commonly goes by, first or first last: ")
         print("create user's access id in the following format:\n 2 character code for space agency \n 3 digits,first inital,2 digits, last inital")
         useraccessid=input("Access ID for user, AAdddIddi: ")  # 10 character string high entropy
-        print("Space agency user is affiliated with, Canada,Eurpope,Japan,Russia,USA ")
+        print("Space agency user is affiliated with, Canada,Europe,Japan,Russia,USA ")
         useragency=input("Space agency affiliation: ")
         # insert into DB
         nduresult=createdatauser(userforename,usersurname,userdisplayname,useraccessid,useragency)

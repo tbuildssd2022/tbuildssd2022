@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  File Share Inital page 
+</h1>
+<h2> some dynamic subtitle </h2>
+<div class="content">
+    <p> This would be the file details : <br>
+    filename, first six keywords, file date
+    </p>
+    
+</div>
+
+<div class="content">
+  <form method="POST" action="/fshr4">
+  <p> This would be the user's group membership list  checkbox</p>
+  <ul> 
+      <li>Group 1,  details of group</li>
+      <li>Group 12,  details of group</li>
+      <li>Group 6,  details of group</li>
+      <li>Group 5,  details of group</li>
+      <li>Group 14,  details of group</li>
+
+  </ul>
+  <p> Select the groups you wish to share the files ( checkboxes above) then click the update button below </p>
+  <button class="button is-block is-info is-large is-fullwidth">Update</button>
+  </form>
+</div>
+
+{% endblock %}

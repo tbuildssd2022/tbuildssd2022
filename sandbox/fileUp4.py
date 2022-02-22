@@ -1,4 +1,13 @@
 #!/bin/env python3
+# Author(s): Doug Leece
+# Version history: Feb 19/2022 - Initial creation
+# 
+# Notes: Development version needed to work out file transfer requirements. 
+# Extended the example pattern provided by Flask maintainers:
+# https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
+# 
+#######################################################################################################################
+
 from crypt import methods
 import mimetypes, os, io, tbsnippets
 

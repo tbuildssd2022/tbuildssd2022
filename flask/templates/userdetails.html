@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  User Details
+</h1>
+<h2> some dynamic subtitle </h2>
+<div class="content">
+    <p> This would be the user's PII </p>
+    <ul> 
+        <li>First, Last</li>
+        <li>Space Agency affiliation</li>
+        <li>Date account created</li>
+    </ul>
+
+</div>
+
+<div class="content">
+  <p> This would be the user's group membership list</p>
+  <ul> 
+      <li>Group 1,  details of group</li>
+      <li>Group 12,  details of group</li>
+      <li>Group 6,  details of group</li>
+      <li>Group 5,  details of group</li>
+      <li>Group 14,  details of group</li>
+
+  </ul>
+
+</div>
+<div class="box">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="notification is-warning">
+      {{ messages[0] }}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <p> User Change password form</p>
+  <form method="POST" action="/ud2">
+      <div class="field">
+          <div class="control">
+              <input class="input is-large" type="text" name="accessid" placeholder="Access ID" autofocus="">
+          </div>
+      </div>
+
+      <div class="field">
+          <div class="control">
+              <input class="input is-large" type="password" name="pwd" placeholder="Access ID Password">
+          </div>
+          <div class="control">
+            <input class="input is-large" type="password" name="pwd2" placeholder="Access ID Password">
+        </div>
+      </div>
+      
+      <button class="button is-block is-info is-large is-fullwidth">Login</button>
+  </form>
+</div>
+
+
+{% endblock %}
