@@ -57,8 +57,10 @@ def newdburi(connlist):
     pwd=connlist[2]
     host=connlist[3]
     dbinst=connlist[0]
-    #connection string
-    dburi="mysql://{}:{}@{}:3306/{}".format(user,pwd,host,dbinst)
+    #Create the database connection string while leaving the passwords external to the code.
+    #dburi="mysql://{}:{}@{}:3306/{}".format(user,pwd,host,dbinst)
+    # SQLAlchemy is requires the driver to be defined as well as the database type
+    dburi="mysql+mysqlconnector://{}:{}@{}:3306/{}".format(user,pwd,host,dbinst)
     return dburi
 
 
