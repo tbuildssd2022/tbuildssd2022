@@ -24,7 +24,8 @@ main = Blueprint('main', __name__)
 # Inital page for unathenticated users, presents login section and message updates about the operating environment
 @main.route('/')
 def index():
-    print(current_user.is_authenticated)
+    print("inside index function")
+    #print(current_user.is_authenticated)
     return render_template('index.html')
 
 # This is the home page for the data users 
@@ -45,6 +46,7 @@ def index():
 @main.route('/home')
 #@login_required
 def presenthome():
+    print("inside present home")
     #print(current_user.is_authenticated)
     #if current_user.is_authenticated:
     #sessioncid=current_user.get_id()
@@ -64,6 +66,7 @@ def presenthome():
 @main.route('/fsd1')
 #@login_required
 def presentfileview():
+    print("inside present fileview")
     return render_template('fileview.html')
     
 
@@ -78,6 +81,7 @@ def presentfileview():
 @main.route('/flup7')
 #@login_required
 def presentupload():
+    print("inside present upload")
     return render_template('fileup.html')
 
 # Response page 
@@ -98,6 +102,7 @@ def proccessupload():
 @main.route('/fshr1', methods=['GET'])
 #@login_required
 def presentfileshare():
+    print("inside present fileshare")
     return render_template('fileshare.html')
 
 
@@ -115,6 +120,7 @@ def processfileshare():
 
 @main.route('/ud2', methods=['GET'])
 def showuser():
+    print("inside show user")
     # get accessid from the session,
     # get uid for the user based on accessid ( need a common function, maybe hooked on all page loads?)
     # get groups list from datauser table, issue second query to groups table to get group details
@@ -132,35 +138,3 @@ def updateuser():
     # Temp placeholder before the database integration gets built out
     return render_template('userdetails.html')
 
-''' This is the remainder of the change password code'''
-    # Confirm access id from session matches the 
-    # retrieve the user 
-    #uid= User.query.filter_by(accessid=thisaccessid).first()
-
-    #if account:
-    #    flash('Sorry, the email address {} appears to be in use'.format(email))
-    #    return redirect(url_for('auth.register'))
-    #account= User.query.filter_by(id=clientid).first()
-    #if not account:
-    #    msg=Markup('Sorry, the account identifier does not appear to preregistered, double check you have input the 5 digit code correctly.<br/> If you are still encountering issues please contact Balam customer support: <br/> 1-888-BALAM27 (1-888-225-2627)')
-    #    flash(msg)
-    #    return redirect(url_for('auth.register'))
-    #    #return '<h1> Sorry, the account identifier does not appear to preregistered, double check you have input the 6 digit code correctly</h1><h2>If you are still encountering issues please contact Balam customer support at 1-888-BALAM27 (1-888-225-2627)</h2>'
-    #if account.email:
-    #    msg=Markup('Sorry, the account identifier {} is currently associated with the email {}'.format(account.id, account.email))
-    #    flash(msg)
-    #    return redirect(url_for('auth.register'))
-    #    #return '<h1> Sorry, the account identifier {} is currently associated with the email {}</h1>'.format(account.id, account.email)
-    #else:
-    #    # Do the SQL update here
-    #    pwdstr = generate_password_hash(password)
-    #    account.email= email
-    #    account.pwd = pwdstr 
-    #    db.session.commit()
-    #    #User.query.filter_by(id=clientid).update(dict(email=email,pwd=pwdstr))
-    #    return render_template('signup.html',id=clientid,email=email,clientname=account.clientname)
-    #    #return '<h1> Input cid: {}, email: {}, pwd: {} for company {}'.format(clientid,email,password,account.clientname)
-
-
-
-#
