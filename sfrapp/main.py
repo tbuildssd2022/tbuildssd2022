@@ -5,7 +5,7 @@
 #                               modified data model, built user admin tool etc.
 #
 # Notes: Main.py is the primary script used for routing the requests to the different URLs into the correct application
-# log functions, (control). Where possible, the presentation of the results and input forms will be done through HTML
+# log functions, (views?). Where possible, the presentation of the results and input forms will be done through HTML
 # templates supported by cascading style sheets.
  
 #######################################################################################################################

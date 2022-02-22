@@ -2,9 +2,9 @@ from flask_login import UserMixin
 from . import db
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'usercredential'
+    __tablename__ = 'userauthnz'
     userid = db.Column(db.Integer, primary_key=True)
-    userpasswd = db.Column(db.String(45))
+    userpasswd = db.Column(db.String(60))
     userlocked = db.Column(db.Integer)
     activestatus = db.Column(db.Integer)
     forcepwdchange = db.Column(db.Integer)
@@ -15,6 +15,5 @@ class User(UserMixin, db.Model):
     #useragency = db.Column(db.String(45))
     #authgroups = db.Column(db.String(60))
     #
-    # Need to grab pwd from otehr table?  does this work?
-    #pwd = db.Column(db.String(60))
+   
     

@@ -16,14 +16,14 @@ load_dotenv(path.join(basedir,'.env'))
 
 def getconnectiondata():
     condatalist=[]
-    nidsdb=environ.get('dbinstance')
+    sfrdb=environ.get('dbinstance')
     username=environ.get('dbuser')
     cred=environ.get('dbcred')
     host=environ.get('dbhost')
-    if not nidsdb:
+    if not sfrdb:
         print("Missing database connection info: database instance name")
     else:
-        condatalist.append(nidsdb)
+        condatalist.append(sfrdb)
     if not username:
         print("Missing database connection info: database user name")
     else:
@@ -85,7 +85,7 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     # blueprint for data access code
-    from .datamgmt import datamgmt as datamgmt_blueprint
+    from ..sandbox.datamgmt import datamgmt as datamgmt_blueprint
     app.register_blueprint(datamgmt_blueprint)
 
     # initialized app
