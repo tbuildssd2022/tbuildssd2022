@@ -13,7 +13,6 @@ db = SQLAlchemy()
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir,'.env'))
 
-
 def getconnectiondata():
     condatalist=[]
     sfrdb=environ.get('dbinstance')
