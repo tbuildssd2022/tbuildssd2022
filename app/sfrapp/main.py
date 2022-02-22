@@ -147,12 +147,20 @@ def login2():
     print(accessid)
     print(passwd)
     # Extract the UID from the datauser table for the accessid provided. 
-    # password check is done against a second table  ( Move this to function)
+    # password check is done against a second table  ( Move this to module)
     if accessid and passwd:
         uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
-        print(uid)
-        print(type(uid.userid))
-        print(uid.userid)
+        if isinstance(uid.userid,int):
+            userauth=User.query.filter(User.userid==uid.userid).first()
+            if userauth is not None:
+                print(userauth.userpasswd)
+                print(userauth.activestatus)
+                print(userauth.userlocked)
+
+        
+        #print(uid)
+        #print(type(uid.userid))
+        #print(uid.userid)
     #if current_user.is_authenticated:
     #   sessioncid=current_user.get_id()
     #    account=User.query.filter_by(id=sessioncid).first()
