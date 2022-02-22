@@ -79,13 +79,13 @@ def create_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    # blueprint for non-auth code
+    # blueprint for non-auth views code
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    # blueprint for data access code
-    from ..sandbox.datamgmt import datamgmt as datamgmt_blueprint
-    app.register_blueprint(datamgmt_blueprint)
+    ## blueprint for data access code
+    #from ..sandbox.datamgmt import datamgmt as datamgmt_blueprint
+    #app.register_blueprint(datamgmt_blueprint)
 
     # initialized app
     return app
