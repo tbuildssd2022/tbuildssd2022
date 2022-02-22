@@ -169,7 +169,7 @@ def login2():
         if isinstance(thisduserobj.userid,int):
             thisauthzobj=getauthnz(thisduserobj.userid)
         if thisauthzobj is not None:
-            pwdchk=verify_passwd(thisduserobj.userpasswd, formpasswd)
+            pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
             print(pwdchk)
             
 
