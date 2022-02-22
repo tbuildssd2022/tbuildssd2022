@@ -151,6 +151,7 @@ def login2():
     if accessid and passwd:
         uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
     print(uid)
+    print(type(uid))
     #if current_user.is_authenticated:
     #   sessioncid=current_user.get_id()
     #    account=User.query.filter_by(id=sessioncid).first()
