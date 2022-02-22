@@ -4,7 +4,7 @@ from . import db
 class User(UserMixin, db.Model):
     __tablename__ = 'userauthnz'
     userid = db.Column(db.Integer, primary_key=True)
-    userpasswd = db.Column(db.String(60))
+    userpasswd = db.Column(db.String(102))
     userlocked = db.Column(db.Integer)
     activestatus = db.Column(db.Integer)
     forcepwdchange = db.Column(db.Integer)

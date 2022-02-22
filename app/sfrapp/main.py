@@ -12,7 +12,7 @@
 from crypt import methods
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from . models import DataUser, User
 import os
@@ -139,23 +139,40 @@ def updateuser():
     return render_template('userdetails.html')
 
 #############################################   testing ####################################
+def getdatauser(aid):
+    duserobj= DataUser.query.filter(DataUser.useraccessid==aid).first()
+    return duserobj
+def getauthnz(uidint):
+    uauthznobj=User.query.filter(User.userid==uidint).first()
+def verify_passwd(pwdhash,pwdstr):
+    return check_password_hash(pwdhash,pwdstr)
+
+
+
 @main.route('/login2', methods=['POST'] )
 def login2():
     print("inside login 2")
     accessid = request.form.get('accessid')
-    passwd = request.form.get('passwd')
+    formpasswd = request.form.get('passwd')
     print(accessid)
     print(passwd)
     # Extract the UID from the datauser table for the accessid provided. 
     # password check is done against a second table  ( Move this to module)
-    if accessid and passwd:
-        uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
-        if isinstance(uid.userid,int):
-            userauth=User.query.filter(User.userid==uid.userid).first()
-            if userauth is not None:
-                print(userauth.userpasswd)
-                print(userauth.activestatus)
-                print(userauth.userlocked)
+    if accessid and formpasswd:
+        thisduserobj=getdatauser(accessid)
+        #uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
+        if isinstance(thisduserobj.userid,int):
+            thisauthzobj=getauthnz(thisduserobj.userid)
+        if thisauthzobj is not None:
+            pwdchk=verify_passwd(thisduserobj.userpasswd, formpasswd)
+            print(pwdchk)
+            
+
+            #userauth=User.query.filter(User.userid==uid.userid).first()
+            #if userauth is not None:
+            #    print(userauth.userpasswd)
+            #    print(userauth.activestatus)
+            #    print(userauth.userlocked)
 
         
         #print(uid)
