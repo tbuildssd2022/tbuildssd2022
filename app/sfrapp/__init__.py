@@ -1,3 +1,12 @@
+#!/bin/env python3
+# Author(s): Doug Leece
+# Version history:  Feb 21/2022 - Updates to factory file 
+#                   
+#
+# Notes: Initializes the flash application context
+# https://hackersandslackers.com/flask-application-factory/
+ 
+#######################################################################################################################
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
@@ -6,7 +15,7 @@ from os import environ, path
 from flask_login import LoginManager
 from datetime import timedelta
 
-# initialize the dabase object 
+# initialize the dabase object  so it is globally accessable
 db = SQLAlchemy()
 
 # Load the env file
@@ -54,7 +63,8 @@ def newdburi(connlist):
 
 
 def create_app():
-    #pull some env vars needed to make database connection
+    #Retrieves environment variables to make database connections,
+    # avoids the need to store credentials in python scripts.
     connlist=getconnectiondata()
     dburi=newdburi(connlist)
 
@@ -62,11 +72,11 @@ def create_app():
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_DATABASE_URI']=dburi
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=180)
+    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=900)
 
-    # Initialize SQLAlchemy plugin
+    # Initialize SQLAlchemy plugin so is it globally accessable
     db.init_app(app)
-    # login manager  setup
+    # Initialize Flask_login LoginManager
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)

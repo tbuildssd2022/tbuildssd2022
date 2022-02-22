@@ -1,3 +1,12 @@
+#!/bin/env python3
+# Author(s): Doug Leece
+# Version history:  Feb 18/2022 - Config file to avoid hardcoding settings in main file.  Make application more portable
+#                   
+#
+# Notes: Initializes the flash application context
+# https://hackersandslackers.com/flask-application-factory/
+ 
+#######################################################################################################################
 from flask.app import Flask
 from os import environ, path
 from dotenv import load_dotenv
@@ -10,5 +19,3 @@ TESTING=True
 DEBUG=True
 FLASK_ENV='development'
 SECRET_KEY=environ.get('SECRET_KEY')
-#FLASK_APP=environ.get('APP_DIR')
-#SERVER_NAME=environ.get('SERVER_URL')

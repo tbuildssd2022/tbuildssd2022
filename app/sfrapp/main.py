@@ -14,7 +14,7 @@ from flask import Blueprint,render_template, redirect,url_for, request, flash, M
 from flask_login import  login_required, current_user
 from werkzeug.security import generate_password_hash
 from . import db
-from . models import User
+from . models import DataUser, User
 import os
 
 main = Blueprint('main', __name__)
@@ -146,6 +146,11 @@ def login2():
     passwd = request.form.get('passwd')
     print(accessid)
     print(passwd)
+    # Extract the UID from the datauser table for the accessid provided. 
+    # password check is done against a second table  ( Move this to function)
+    if accessid and passwd:
+        uid= DataUser.query.filter(DataUser.useraccessid==accessid).first()
+    print(uid)
     #if current_user.is_authenticated:
     #   sessioncid=current_user.get_id()
     #    account=User.query.filter_by(id=sessioncid).first()
