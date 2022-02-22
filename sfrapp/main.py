@@ -10,7 +10,7 @@
  
 #######################################################################################################################
 from crypt import methods
-from sfrapp import Blueprint,render_template, redirect,url_for, request, flash, Markup
+from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user
 from werkzeug.security import generate_password_hash
 from . import db

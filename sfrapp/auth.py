@@ -18,8 +18,8 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    accessid = flask.request.form.get('accessid')
-    passwd = flask.request.form.get('passwd')
+    accessid = sfrapp.request.form.get('accessid')
+    passwd = sfrapp.request.form.get('passwd')
     print(accessid)
     print(passwd)
     return redirect(url_for('main.presenthome'))
@@ -52,10 +52,6 @@ def login():
     else:
         return render_template('index.html')
 
-
-@auth.route('/fileupload')
-def register():
-    return render_template('upload.html')
 
 # Utilize Flask builtin user management to allow authenticated users to properly close their sessions
 # OWASP session management requirement to prevent possible session hijacking attempts

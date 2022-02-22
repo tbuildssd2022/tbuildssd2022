@@ -1,8 +1,8 @@
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user
 from werkzeug.security import generate_password_hash
-from . import db
-from . models import User
+from ..sfrapp import db
+from ..sfrapp.models import User
 # directory listing functions
 import os,time
 
