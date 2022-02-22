@@ -1,6 +1,6 @@
 import flask
 #import flask_login
-from flask import Blueprint, render_template, redirect, url_for,flash
+from flask import Blueprint, render_template, redirect, url_for,flash, request
 from flask_login import login_user,current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -16,13 +16,13 @@ from urllib.parse import urlparse, urljoin
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['POST'])
-def login_post():
-    accessid = flask.request.form.get('accessid')
-    passwd = flask.request.form.get('passwd')
-    print(accessid)
-    print(passwd)
-    return render_template('home.html')
+#@auth.route('/login', methods=['POST'])
+#def login_post():
+#    accessid = request.form.get('accessid')
+#    passwd = request.form.get('passwd')
+#    print(accessid)
+#    print(passwd)
+#    return render_template('home.html')
     #return redirect(url_for('main.presenthome'))
     # figure out the correct query here, may need to pull UID from access ID first then check password
     #account=User.query.filter_by(aid=accessid).first()
