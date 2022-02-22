@@ -139,9 +139,13 @@ def updateuser():
     return render_template('userdetails.html')
 
 #############################################   testing ####################################
-@main.route('/login2')
+@main.route('/login2', methods=['POST'] )
 def login2():
     print("inside login 2")
+    accessid = request.form.get('accessid')
+    passwd = request.form.get('passwd')
+    print(accessid)
+    print(passwd)
     #if current_user.is_authenticated:
     #   sessioncid=current_user.get_id()
     #    account=User.query.filter_by(id=sessioncid).first()
