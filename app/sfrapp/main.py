@@ -155,7 +155,7 @@ def login2():
     accessid = request.form.get('accessid')
     formpasswd = request.form.get('passwd')
     print(accessid)
-    print(passwd)
+    print(formpasswd)
     # Extract the UID from the datauser table for the accessid provided. 
     # password check is done against a second table  ( Move this to module)
     if accessid and formpasswd:
