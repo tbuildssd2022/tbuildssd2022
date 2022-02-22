@@ -16,14 +16,14 @@ from urllib.parse import urlparse, urljoin
 
 auth = Blueprint('auth', __name__)
 
-#@auth.route('/login', methods=['POST'])
-#def login_post():
-#    accessid = request.form.get('accessid')
-#    passwd = request.form.get('passwd')
-#    print(accessid)
-#    print(passwd)
-#    return render_template('home.html')
-    #return redirect(url_for('main.presenthome'))
+@auth.route('/login', methods=['POST'])
+def login_post():
+    accessid = request.form.get('accessid')
+    passwd = request.form.get('passwd')
+    print(accessid)
+    print(passwd)
+    #return render_template('home.html')
+    return redirect(url_for('main.presenthome'))
     # figure out the correct query here, may need to pull UID from access ID first then check password
     #account=User.query.filter_by(aid=accessid).first()
     #if not account or not check_password_hash(account.pwd, passwd):

@@ -138,3 +138,15 @@ def updateuser():
     # Temp placeholder before the database integration gets built out
     return render_template('userdetails.html')
 
+#############################################   testing ####################################
+@main.route('/login2')
+def login2():
+    print("inside login 2")
+    #if current_user.is_authenticated:
+    #   sessioncid=current_user.get_id()
+    #    account=User.query.filter_by(id=sessioncid).first()
+    #    msg='already authenticated as {}'.format(account.clientname)
+    #    flash(msg)
+    return render_template('home.html')
+    #else:
+    #    return render_template('index.html')
