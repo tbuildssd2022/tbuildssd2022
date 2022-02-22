@@ -22,7 +22,8 @@ def login_post():
     passwd = flask.request.form.get('passwd')
     print(accessid)
     print(passwd)
-    return redirect(url_for('main.presenthome'))
+    return render_template('home.html')
+    #return redirect(url_for('main.presenthome'))
     # figure out the correct query here, may need to pull UID from access ID first then check password
     #account=User.query.filter_by(aid=accessid).first()
     #if not account or not check_password_hash(account.pwd, passwd):
