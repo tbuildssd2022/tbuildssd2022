@@ -64,31 +64,31 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=180)
 
+    # Initialize SQLAlchemy plugin
     db.init_app(app)
     # login manager  setup
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     from .models import User
+    from .models import DataUser
     @login_manager.user_loader
     def load_user(user_id):
         # client ID is the primary key of the user database
         return User.query.get(int(user_id))
 
-    ## auth components
-    #from .auth import auth as auth_blueprint
-    #app.register_blueprint(auth_blueprint)
+    with app.app_context():
+        ## auth components
+        from .auth import auth as auth_blueprint
+        app.register_blueprint(auth_blueprint)
 
-    # blueprint for non-auth views code
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+        # blueprint for non-auth views code
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
 
-    ## blueprint for data access code
-    #from ..sandbox.datamgmt import datamgmt as datamgmt_blueprint
-    #app.register_blueprint(datamgmt_blueprint)
 
-    # initialized app
-    return app
+        # initialized app
+        return app
 
 
 

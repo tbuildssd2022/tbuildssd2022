@@ -9,11 +9,14 @@ class User(UserMixin, db.Model):
     activestatus = db.Column(db.Integer)
     forcepwdchange = db.Column(db.Integer)
     #
-    #userforname = db.Column(db.String(45))
-    #usersurname = db.Column(db.String(45))
-    #userdisplayname = db.Column(db.String(90))
-    #useragency = db.Column(db.String(45))
-    #authgroups = db.Column(db.String(60))
+class DataUser(UserMixin, db.Model):
+    __tablename__ = 'datauser'
+    userforname = db.Column(db.String(45))
+    usersurname = db.Column(db.String(45))
+    userdisplayname = db.Column(db.String(90))
+    useragency = db.Column(db.String(45))
+    useraccessid = db.Column(db.String(12))
+    authgroups = db.Column(db.String(60))
     #
    
     
