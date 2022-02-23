@@ -2,6 +2,7 @@ from crypt import methods
 import flask
 #import flask_login
 from flask import Blueprint, render_template, redirect, url_for,flash, request
+
 from flask_login import login_user,current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -94,9 +95,8 @@ def logout():
     if current_user.is_authenticated:
         authnzid=current_user.get_id()
         duserobj=getdatauid(authnzid)
-        msg='already authenticated {}'.format(duserobj.userdisplayname)
+        msg='Logging out the following user access id {}, '.format(duserobj.useraccessid)
         flash(msg)
-        print("logging out user")
         logout_user()
         return redirect(url_for('main.index'))
     else:
