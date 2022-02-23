@@ -32,9 +32,8 @@
         </div>
         <div class="column">
           <p>Second column Warning message would go here: </p>
-          <p> Auth user test result?</p>
-          {% if current_user.is_authenticcated %}
-            {{current_user.id}}
+          
+         
           {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 <div class="notification is-info">
@@ -44,7 +43,11 @@
             {% endwith %}
         </div>
         <div class="column">
-          Third column  Mostly a spacer
+          <p>Third column  Mostly a spacer</p>
+          <p> Auth user test result?</p>
+          {% if current_user.is_authenticcated %}
+            {{current_user.id}}
+           {% endif %}
         </div>
       </div>
 
