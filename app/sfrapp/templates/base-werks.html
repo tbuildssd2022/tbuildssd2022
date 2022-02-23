@@ -11,8 +11,7 @@
 
 <body>
     <section class="hero is-primary is-fullheight">
-        <!-- ignore <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  height="45">  image for now-->
-            
+
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
@@ -38,6 +37,13 @@
                     </div>
                 </div>
             </nav>
+        </div>
+        
+        <div class="hero-body">
+            <div class="container has-text-centered">
+               {% block content %}
+               {% endblock %}
+            </div>
         </div>
     </section>
 </body>
