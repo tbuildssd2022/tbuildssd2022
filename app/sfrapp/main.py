@@ -144,7 +144,7 @@ def getdatauser(aid):
     return duserobj
     
 def getauthnz(uidint):
-    uauthznobj=User.query.filter(User.userid==uidint).first()
+    uauthznobj=User.query.filter(User.id==uidint).first()
     return uauthznobj
 
 def verify_passwd(pwdhash,pwdstr):
