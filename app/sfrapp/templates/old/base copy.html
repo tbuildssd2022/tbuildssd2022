@@ -11,9 +11,12 @@
 
 <body>
     <section class="hero is-primary is-fullheight">
+        <div class="columns">
+            <div class="column is-one-fith">
+                <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  height="90">
+            </div> <!-- End image column-->
         
-        <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  height="45">
-
+        <div class="column is-four-fifths">
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
@@ -40,6 +43,8 @@
                 </div>
             </nav>
         </div>
+    </div> <!-- End nav column-->
+    </div> <!-- End Columns-->
     </section>
 </body>
 
