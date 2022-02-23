@@ -1,19 +1,23 @@
-from crypt import methods
+#!/bin/env python3
+# Author(s): Doug Leece
+# Version history:  Feb 22/2022 - Migrated login functions back into second view to seperate authentication from presentation
+#                   and business logic
+#                   Feb 23/2022 - Added logout function and Datauser object demonstration
+#
+# Notes: auth.py is the primary script used for user authentication. werkzeug built in functions are used for password
+# validation, flask login method login_user is used to register each successfully authenticated user, allowing the seemless
+# use of the login_required function on all protected pages to prevent unauthorized access. Two user objects are used,
+# standard Flask User tracks authentication and account authorization elements for each user, Datauser tracks personal
+# details like the user's name, space agency affiliation and file acccess group membership. This class could be easily
+# extended in the future if more personalization is required without affecting authentication and account authorization.
+#######################################################################################################################
+#from crypt import methods  - test to see if this breaks
 import flask
-#import flask_login
 from flask import Blueprint, render_template, redirect, url_for,flash, request
-
 from flask_login import login_user,current_user, logout_user, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from . import db
 from . models import User,DataUser
-# Need this for the uncontrolled redirects ( unsupported but check it out)
-from urllib.parse import urlparse, urljoin
-#def is_safe_url(target):
-#    ref_url = urlparse(request.host_url)
-#    test_url = urlparse(urljoin(request.host_url, target))
-#    return test_url.scheme in ('http', 'https') and \
-#           ref_url.netloc == test_url.netloc
 
 
 auth = Blueprint('auth', __name__)
@@ -38,6 +42,13 @@ def verify_passwd(pwdhash,pwdstr):
 
 #########################################################################################################
 
+# This validates the access ID and password, failure redirects the user back to the main login page.
+# The login is a two step process, access ID, which the user knows (& therefore could be compromised) is used
+# to retrieve the user id, which is a numeric value the user doesn't ever know. This second user object is used
+# to authenticate passwords but can also be used to lock the account and disable the account or force a password change.
+# From a security monitoring perspective look for large numbers of HTTP 302 events from the same IP within a short time.
+# This is indiciative of a credential stuffing, password spraying or brute force attacks. Since this is a post request the
+# credentials used are not known so the three attacks are indistinguiable, hence the focus on rate and shared source.
 
 @auth.route('/login', methods=['POST'])
 def login_post():
@@ -68,9 +79,9 @@ def login_post():
             return redirect(url_for('main.index'))
 
    
+# This checks for authentication status and redirects the user to the app home page while presenting their display name.
+# If not authenticated it redirects to the main index page which presents a login prompt. 
 
-# This should be checking for authentication status and if not redirect to the main index page. 
-# It should already be protected by login required decoration but this would catch forceful browseing
 @auth.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
@@ -79,7 +90,7 @@ def login():
         print(authnzid)
         print(type(authnzid))
         #account=User.query.filter_by(id=sessioncid).first()
-        msg='already authenticated {}'.format(duserobj.userdisplayname)
+        msg='already authenticated as {}'.format(duserobj.userdisplayname)
         flash(msg)
         return redirect(url_for('main.presenthome'))
     else:
@@ -89,17 +100,19 @@ def login():
 
 # Utilize Flask builtin user management to allow authenticated users to properly close their sessions
 # OWASP session management requirement to prevent possible session hijacking attempts
+# Using the login required decorator ensures the logout_user method will only be applied to 
+# authenticated users. Modifying the message demonstrates the use of objects, this is a datauser object
+# which is instantiated to track all personal information about the user, not the default flask user object
+# which was extended to track advanced authentication and authorization measures.
 @auth.route('/logout')
 @login_required
 def logout():
     if current_user.is_authenticated:
         authnzid=current_user.get_id()
         duserobj=getdatauid(authnzid)
-        msg='Logging out the following user access id {}, '.format(duserobj.useraccessid)
+        msg='Logging out the following user access id: {} '.format(duserobj.useraccessid)
         flash(msg)
-        logout_user()
+        logout_user() 
         return redirect(url_for('main.index'))
     else:
-        return redirect(url_for('main.index'))
-    #return render_template('index.html')
-    #return 'Logout'
+        return redirect(url_for('main.index'))  
