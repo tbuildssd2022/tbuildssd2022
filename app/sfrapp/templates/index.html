@@ -3,38 +3,39 @@
 {% block content %}
 <div class="container">
     <div class="columns">
-    <div class="column is-one-third">
-        <h3 class="title">Secure File Repository Login</h3>
-            <div class="box">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="notification is-warning">
-            {{ messages[0] }}
-            </div>
-            {% endif %}
-            {% endwith %}
-        <form method="POST" action="/login2">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="text" name="accessid" placeholder="ISS access ID (EG. EU123i45j)" autofocus="">
+        <div class="column is-one-third">
+            <h3 class="title">Secure File Repository Login</h3>
+                <div class="box">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="notification is-warning">
+                {{ messages[0] }}
                 </div>
-            </div>
+                {% endif %}
+                {% endwith %}
+                <form method="POST" action="/login2">
+                    <div class="field">
+                        <div class="control">
+                        <input class="input is-large" type="text" name="accessid" placeholder="ISS access ID (EG. EU123i45j)" autofocus="">
+                        </div>
+                    </div>
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="passwd" placeholder="access ID Password">
-                </div>
-            </div>
+                    <div class="field">
+                        <div class="control">
+                        <input class="input is-large" type="password" name="passwd" placeholder="access ID Password">
+                        </div>
+                    </div>
             
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
-        </form>
-        <h2> Warning. By logging into this application you are consenting to the acceptable use policy defined by the Internation Space Station</h2>
-    </div>
-    <div class="column is-half" >
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, quasi placeat ea, similique blanditiis dolor dolores, aliquam perferendis porro repellendus voluptates assumenda voluptate delectus saepe! Recusandae animi corrupti corporis quidem!
-        </p>
-    </div>
-    <div> Auto fill the remainder   1/3 + 1/2 = sliver?</div>
+                        <button class="button is-block is-info is-large is-fullwidth">Login</button>
+                </form>
+                </div> <!-- End of box form-->
+            <h2> Warning. By logging into this application you are consenting to the acceptable use policy defined by the Internation Space Station</h2>
+        </div> <!-- End of 1/3 column-->
+        <div class="column is-half" >
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, quasi placeat ea, similique blanditiis dolor dolores, aliquam perferendis porro repellendus voluptates assumenda voluptate delectus saepe! Recusandae animi corrupti corporis quidem!
+            </p>
+        </div> <!-- end of 1/2-->
+        <div> Auto fill the remainder   1/3 + 1/2 = sliver?</div>
     </div> <!-- end columns-->
 </div> <!-- end container-->
 
