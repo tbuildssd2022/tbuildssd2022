@@ -8,19 +8,13 @@
     <title>Secure File Respository</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css')}}" />
 </head>
-
 <body>
     <section class="hero is-primary is-fullheight">
-        <!-- <div class="columns"> -->
-            <div class="column is-one-fith">
-                <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  height="45">
-        <!-- </div> <!-- End image column--> -->
-        
-        <div class="column is-four-fifths">
+        <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  height="30"> 
+            
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
-
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
                             <a href="{{ url_for('main.presenthome') }}" class="navbar-item">
@@ -43,8 +37,16 @@
                 </div>
             </nav>
         </div>
-    </div> <!-- End nav column-->
-    </div> <!-- End Columns-->
+    
+        <!--  need this for dynamic pages?-->
+        <div class="hero-body">
+            <div class="container has-text-centered">
+               {% block content %}
+               {% endblock %}
+            </div>
+        </div>
+
+    
     </section>
 </body>
 
