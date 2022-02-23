@@ -23,6 +23,10 @@ auth = Blueprint('auth', __name__)
 def getdatauser(aid):
     duserobj= DataUser.query.filter(DataUser.useraccessid==aid).first()
     return duserobj
+
+def getdatauid(id):
+    duserobj= DataUser.query.filter(DataUser.userid==id).first()
+    return duserobj
     
 def getauthnz(uidint):
     uauthznobj=User.query.filter(User.id==uidint).first()
@@ -62,34 +66,19 @@ def login_post():
             print("passwordcheck failed")
             return redirect(url_for('main.index'))
 
-    #return render_template('home.html')
-    #return redirect(url_for('main.presenthome'))
-    # figure out the correct query here, may need to pull UID from access ID first then check password
-    #account=User.query.filter_by(aid=accessid).first()
-    #if not account or not check_password_hash(account.pwd, passwd):
-    #    flash('Account login failed, unknown account or invalid password. Check login details and try again.')
-    #    return redirect(url_for('auth.login'))
-    #else:
-    #    login_user(account)
-    #    #next = flask.request.args.get('next')
-    #    #if not is_safe_url(next):
-    #    #    return flask.abort(400)
-    #    thiscid=account.id
-    #    # if valid creds then direct to profile.
-    #    print(current_user.is_authenticated)
-    #    return redirect(url_for('main.presenthome'))
    
 
-# This should be checking for authentication status and if not redirect to the mail page. 
+# This should be checking for authentication status and if not redirect to the main index page. 
 # It should already be protected by login required decoration but this would catch forceful browseing
 @auth.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
         authnzid=current_user.get_id()
+        duserobj=getdatauid(authnzid)
         print(authnzid)
         print(type(authnzid))
         #account=User.query.filter_by(id=sessioncid).first()
-        msg='already authenticated' #.format(authnzid.clientname)
+        msg='already authenticated {}'.format(duserobj.userdisplayname)
         flash(msg)
         return redirect(url_for('main.presenthome'))
     else:
@@ -102,6 +91,15 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        authnzid=current_user.get_id()
+        duserobj=getdatauid(authnzid)
+        msg='already authenticated {}'.format(duserobj.userdisplayname)
+        flash(msg)
+        print("logging out user")
+        logout_user()
+        return redirect(url_for('main.index'))
+    else:
+        return redirect(url_for('main.index'))
+    #return render_template('index.html')
     #return 'Logout'
