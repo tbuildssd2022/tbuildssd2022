@@ -45,9 +45,11 @@ def login_post():
 @auth.route('/login')
 def login():
     if current_user.is_authenticated:
-        sessioncid=current_user.get_id()
-        account=User.query.filter_by(id=sessioncid).first()
-        msg='already authenticated as {}'.format(account.clientname)
+        authnzid=current_user.get_id()
+        print(authnzid)
+        print(type(authnzid))
+        #account=User.query.filter_by(id=sessioncid).first()
+        msg='already authenticated' #.format(authnzid.clientname)
         flash(msg)
         return render_template('home.html')
     else:
