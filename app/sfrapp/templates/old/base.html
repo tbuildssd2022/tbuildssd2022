@@ -11,13 +11,7 @@
 
 <body>
     <section class="hero is-primary is-fullheight">
-        <div class="columns">
-            <div class="column is-one-fith">
-                <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"
 
-            </div> <!-- End image column-->
-        
-        <div class="column is-four-fifths">
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
@@ -44,8 +38,13 @@
                 </div>
             </nav>
         </div>
-    </div> <!-- End nav column-->
-    </div> <!-- End Columns-->
+
+        <div class="hero-body">
+            <div class="container has-text-centered">
+               {% block content %}
+               {% endblock %}
+            </div>
+        </div>
     </section>
 </body>
 
