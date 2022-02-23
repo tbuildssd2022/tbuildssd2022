@@ -11,7 +11,7 @@
 #######################################################################################################################
 from crypt import methods
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
-from flask_login import  login_required, current_user
+from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from . models import DataUser, User
@@ -171,6 +171,7 @@ def login2():
             pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
         if pwdchk:
             print("Setup login manager for this user")
+            login_user(thisauthzobj)
         else:
             print("passwordcheck failed")
             

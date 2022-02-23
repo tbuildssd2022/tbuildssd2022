@@ -89,9 +89,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
-    @login_manager.datauser_loader
-    def load_datauser(access_id):
-        return DataUser.query.get(access_id)
+    
 
     with app.app_context():
         ## auth components
