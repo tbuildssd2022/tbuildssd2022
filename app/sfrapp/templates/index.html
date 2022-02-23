@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container">
 <div class="column is-3">
     <h3 class="title">Secure File Repository Login</h3>
-    <h2> Warning. By logging into this application you are consenting to the acceptable use policy defined by the Internation Space Station</h2>
+    
     <div class="box">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -28,5 +29,7 @@
             <button class="button is-block is-info is-large is-fullwidth">Login</button>
         </form>
     </div>
+    <h2> Warning. By logging into this application you are consenting to the acceptable use policy defined by the Internation Space Station</h2>
 </div>
+</section>
 {% endblock %}
