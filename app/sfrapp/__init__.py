@@ -84,10 +84,14 @@ def create_app():
     login_manager.init_app(app)
     from .models import User
     from .models import DataUser
+    # User ID is the primary key of the authnz database, ( password hash & account status)
+    # foreign key from datauser.Datauser has group ids, names etc.
     @login_manager.user_loader
     def load_user(user_id):
-        # client ID is the primary key of the user database
         return User.query.get(int(user_id))
+    @login_manager.datauser_loader
+    def load_datauser(access_id):
+        return DataUser.query.get(access_id)
 
     with app.app_context():
         ## auth components
