@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="columns" >
+        <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
+    </div>
+    <div class="columns">
+        <div class="column is-two-thirds">
+            <h2 class="title">Secure File Repository Search </h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Tempora adipisci corporis illum saepe sequi neque natus fuga distinctio cum aperiam, ad consequatur asperiores consectetur voluptates at ut illo.</p>
+            <p> Note, only files shared with the following groups {grouplist} or files assigned to {aid} ownernship will be displayed</p>
+                <form method="POST" action="/fsd1">
+                    <div class="field"> 
+                        <div class="label">File Name</div>
+                        <div class="control">
+                        <input class="input is-normal" type="text" name="filename" placeholder="Partial or complete filename" autofocus="">
+                        </div>
+                    <!-- </div> <div class="field"> -->
+                        <div class="label">Keyword or Meta Data Tag</div>
+                        <div class="control">
+                        <input class="input is-normal" type="text" name="keyword-tag" placeholder="Partial or complete keyword" autofocus="">
+                        </div>
+                    <!-- </div>  <div class="field"> -->
+                        <div class="control">
+                            <div class="select" >
+                                <select>
+                                <option>Archive File: TAR</option>
+                                <option>Archive File: ZIP</option>
+                                <option>Document File: PDF</option>
+                                <option>Document File: DOCX</option>
+                                <option>Image File: JPEG</option>
+                                <option>Image File: SVD</option>
+                                <option>Spreadsheet: XLSX</option>
+                                <option>Text/Data File: TXT</option>
+                                <option>Text/Data File: CSV</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                        
+                        <button class="button is-block is-info is-large is-fullwidth">search for files</button>
+                </form>
+                </div> <!-- End of box form-->
+            <h2> &nbsp </h2>
+        </div> <!-- End of 2/3 column-->
+        <div class="column is-one-third" >
+            <p> &nbsp</p>
+        </div> <!-- end of 1/3-->
+        <!--<div class="column"> <p> &nbsp</p></div>  auto column filler -->
+    </div> <!-- end columns-->
+</div> <!-- end container-->
+{% endblock %}

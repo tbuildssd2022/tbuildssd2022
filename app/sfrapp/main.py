@@ -10,6 +10,7 @@
  
 #######################################################################################################################
 #from crypt import methods
+from crypt import methods
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -65,7 +66,7 @@ def presenthome():
         print(thisdatauser.userdisplayname)
         print(thisdatauser.useraccessid)
         print(thisdatauser.authgroups)
-    # Use Jinga templates to prensent the authenticated user's personal data 
+    # Use Jinja2 templates to prensent the authenticated user's personal data 
     # from server side database extraction, reducing user input injection points
     return render_template('home2.html', displayname=dname, grouplist=azglist )
 
@@ -79,12 +80,30 @@ def presenthome():
 # They can select a file for download, (one at a time)
 # They can select a file to be shared with others (one at a time, also used to remove sharing if user is owner)
 # They can select a file to be deleted (one at a time, they must be owner)
-@main.route('/fsd1')
+@main.route('/fsd1', methods=['GET'])
 @login_required
 def presentfileview():
     print("inside present fileview")
-    return render_template('fileview.html')
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        azglist=thisdatauser.authgroups
+        duaid=thisdatauser.accessid
+        # To-Do  module function for retrieving group lists
+    return render_template('filesearch.html',grouplist=azglist, aid=duaid )
     
+@main.route('/fsd1', methods=['POST'])
+@login_required
+def presentfileview2():
+    print("inside present fileview2 ")
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        azglist=thisdatauser.authgroups
+    return render_template('fileview.html')
+
 
 # File upload 
 # Place holder page for now, just validate for login
