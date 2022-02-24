@@ -90,6 +90,8 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
     
+    # Import custom modules
+    import tbutility
 
     with app.app_context():
         ## auth components
