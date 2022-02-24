@@ -18,7 +18,7 @@ from . import db
 from . models import DataUser, User
 import os
 # Custom module imports
-import tbutility 
+import tbutility
 
 main = Blueprint('main', __name__)
 
