@@ -12,6 +12,7 @@
 # extended in the future if more personalization is required without affecting authentication and account authorization.
 #######################################################################################################################
 #from crypt import methods  - test to see if this breaks
+from crypt import methods
 import flask
 from flask import Blueprint, render_template, redirect, url_for,flash, request
 from flask_login import login_user,current_user, logout_user, login_required
@@ -104,7 +105,7 @@ def login():
 # authenticated users. Modifying the message demonstrates the use of objects, this is a datauser object
 # which is instantiated to track all personal information about the user, not the default flask user object
 # which was extended to track advanced authentication and authorization measures.
-@auth.route('/logout')
+@auth.route('/logout', methods=['GET','POST'])
 @login_required
 def logout():
     if current_user.is_authenticated:
