@@ -25,7 +25,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     print("inside index function")
-    #print(current_user.is_authenticated)
+    print(current_user.is_authenticated)
     return render_template('index.html')
 
 # This is the home page for the data users 
@@ -44,13 +44,16 @@ def index():
 # If no valid session and access ID then redirect to login page.  Use
 # Flask-login get_id method instead of writing something new. 
 @main.route('/home')
-#@login_required
+@login_required
 def presenthome():
-    print("inside present home")
-    #print(current_user.is_authenticated)
-    #if current_user.is_authenticated:
-    #sessioncid=current_user.get_id()
-    #account=User.query.filter_by(id=sessioncid).first()
+    print("inside presenthome")
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        print(thisdatauser.userdisplayname)
+        print(thisdatauser.useraccessid)
+        print(thisdatauser.authgroups)
     return render_template('home.html')
 
 
