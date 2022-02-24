@@ -17,6 +17,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from . models import DataUser, User
 import os
+# Import custom module classes and functions
+from . tbutility import getauthzfg
 
 
 
@@ -104,8 +106,8 @@ def presentfileview2():
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
         azglist=thisdatauser.authgroups
-        #duserfilegroups=getauthzfg(azglist)
-        #print(duserfilegroups)
+        duserfilegroups=getauthzfg(azglist)
+        print(duserfilegroups)
     return render_template('fileview.html')
 
 
