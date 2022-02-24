@@ -89,7 +89,7 @@ def presentfileview():
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
         azglist=thisdatauser.authgroups
-        duaid=thisdatauser.accessid
+        duaid=thisdatauser.useraccessid
         # To-Do  module function for retrieving group lists
     return render_template('filesearch.html',grouplist=azglist, aid=duaid )
     
