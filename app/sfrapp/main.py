@@ -9,7 +9,7 @@
 # templates supported by cascading style sheets.
  
 #######################################################################################################################
-from crypt import methods
+#from crypt import methods
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -41,8 +41,16 @@ def index():
 # instead of using well developed solutions like an MQTT callback.
 
 
-# If no valid session and access ID then redirect to login page.  Use
-# Flask-login get_id method instead of writing something new. 
+# If no valid session and access ID then redirect to login page.
+# Flask provides a method called login_required that protects access to
+# any routes that include the @login_required decoration. This resolves 
+# much of the OWASP broken authentication challenge through the use of a
+# reliable framework instead of developing our own solution. 
+# 
+# Flask-login get_id method returns the authenticated user's numeric ID
+# which can then be used to extract attributes from the Datauser class 
+# such as group membership since this is an authorization requirement.
+
 @main.route('/home')
 @login_required
 def presenthome():
@@ -51,10 +59,15 @@ def presenthome():
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
+        dname=thisdatauser.userdisplayname
+        azglist=thisdatauser.authgroups
+        # Debuging, comment out for production
         print(thisdatauser.userdisplayname)
         print(thisdatauser.useraccessid)
         print(thisdatauser.authgroups)
-    return render_template('home.html')
+    # Use Jinga templates to prensent the authenticated user's personal data 
+    # from server side database extraction, reducing user input injection points
+    return render_template('home2.html', displayname=dname, grouplist=azglist )
 
 
  #################################### File Transfers ##################################################   
@@ -67,7 +80,7 @@ def presenthome():
 # They can select a file to be shared with others (one at a time, also used to remove sharing if user is owner)
 # They can select a file to be deleted (one at a time, they must be owner)
 @main.route('/fsd1')
-#@login_required
+@login_required
 def presentfileview():
     print("inside present fileview")
     return render_template('fileview.html')
@@ -82,14 +95,14 @@ def presentfileview():
 # replies with a 200, captures attacker data and triggers an alert, while presenting an old help page
 # 
 @main.route('/flup7')
-#@login_required
+@login_required
 def presentupload():
     print("inside present upload")
     return render_template('fileup.html')
 
 # Response page 
 @main.route('/flup2')
-#@login_required
+@login_required
 def proccessupload():
     # Runs file validator module 
     # (Haroun notes)
@@ -103,14 +116,14 @@ def proccessupload():
 
 # File Share
 @main.route('/fshr1', methods=['GET'])
-#@login_required
+@login_required
 def presentfileshare():
     print("inside present fileshare")
     return render_template('fileshare.html')
 
 
 @main.route('/fshr4', methods=['POST'])
-#@login_required
+@login_required
 def processfileshare():
     return render_template('fileshareresp.html')
 
@@ -122,6 +135,7 @@ def processfileshare():
 # password.  
 
 @main.route('/ud2', methods=['GET'])
+@login_required
 def showuser():
     print("inside show user")
     # get accessid from the session,
@@ -131,6 +145,7 @@ def showuser():
 
 
 @main.route('/ud4', methods=['POST'])
+@login_required
 def updateuser():
     thisaccessid = request.form.get('aid')
     # confirm the user provided original password and accessid submitted matches aid in session 
@@ -140,6 +155,9 @@ def updateuser():
     print(newpassword)
     # Temp placeholder before the database integration gets built out
     return render_template('userdetails.html')
+
+
+
 
 #############################################   testing ####################################
 def getdatauser(aid):
