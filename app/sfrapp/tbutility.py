@@ -136,9 +136,19 @@ def newresultsdict(resultlist):
                 keytagdisplay = result[2][:12] + " ..."
             else:
                 keytagdisplay = result[2]
-            print("This is the key: {}, filename: {}, keytag: {}, creation date: {} ".format(result[0],result[1],keytagdisplay,filedate))
+            # Convert integer to human friendly file size
+            if result[5] < 1000:
+                fsize = "{} bytes".format(str(result[5]))
+            if result[5] < 1000000:
+                fsize = "{} kilobytes".format(str(float(result[5]/999.9)))
+            if result[5] < 1000000000:
+                fsize = "{} megabytes".format(str(float(result[5]/999999.9)))
+            # converted data placed into a single string for dictionary
+            keydata="{} {} {} {} {}".format(result[1].strip(),keytagdisplay,filedate,result[3],fsize)
+            print("key: {}, Value: keydata ".format(result[0]))
+            filemetadict[result[0]]=keydata
     else:
         print("<empty> HTML stuff")        
 
-    return
+    return filemetadict
 

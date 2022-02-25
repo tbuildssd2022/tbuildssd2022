@@ -116,11 +116,11 @@ def presentfileview2():
         resultslist=getauthzfiles(dbcondata,authzfilessql)
         if resultslist is not None:
             # New function to turn the tuples into a dictionary
-            newresultsdict(resultslist)
+            authzdict=newresultsdict(resultslist)
         
 
 
-    return render_template('fileview.html',filelist=authzfilessql)
+    return render_template('fileview.html',filelist=authzdict)
 
 
 # File upload 
