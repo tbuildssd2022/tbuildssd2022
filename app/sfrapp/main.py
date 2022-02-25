@@ -111,11 +111,12 @@ def presentfileview2():
         #print(duserfilegroups)
         # Generate the SQL based on userid and group
         authzfilessql=getauthzfilesql(uid,duserfilegroups,"txt")
-        #print(authzfiles)
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
-        print(dbcondata)
-        filelist=getauthzfiles(dbcondata,authzfilessql)
+        resultslist=getauthzfiles(dbcondata,authzfilessql)
+        if resultslist is not None:
+            # New function to turn the tuples into a dictionary
+            print(resultslist) 
         
 
 

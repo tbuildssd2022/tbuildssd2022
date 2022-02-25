@@ -110,16 +110,18 @@ def getauthzfiles(dbconlist,appsql):
         thiscur=dbhandle.cursor()
         thiscur.execute(appsql)
         # get first 15 records
-        recordstuple = thiscur.fetchmany(size=15)
-        print(recordstuple)
+        tuplelist = thiscur.fetchmany(size=15)
+        print(tuplelist)
         dbhandle.close()
     except Exception as err:
         print(err)
         return None
     # Presuming database query is successful
-    print(type(recordstuple))
-    #if isinstance(recordstuple,tuple):
-    #    print("process tuple")
+    if isinstance(tuplelist,list):
+        print("process list")
+        return tuplelist
+    else:
+        return None
 
 
     return
