@@ -105,15 +105,20 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 
 
 def getauthzfiles(dbconlist,appsql):
-    dbhandle=dbconnectalt(dbconlist)
-    thiscur=dbhandle.cursor()
-    result=thiscur.execute(appsql)
-    # get first 15 records
-    recordstuple = thiscur.fetchmany(size=15)
-    print(type(result))
-    print(recordstuple)
-    dbhandle.close()
-    return
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        thiscur.execute(appsql)
+        # get first 15 records
+        recordstuple = thiscur.fetchmany(size=15)
+        print(recordstuple)
+        dbhandle.close()
+    except Exception as err:
+        print(err)
+        return None
+    # Presuming database query is successful
+    if isinstance(tuple,recordstuple):
+        print("process tuple")
 
 
     return
