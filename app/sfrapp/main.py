@@ -110,7 +110,7 @@ def presentfileview2():
         duserfilegroups=getauthzfg(azglist)
         #print(duserfilegroups)
         # Generate the SQL based on userid and group
-        authzfilessql=getauthzfilessql(uid,duserfilegroups,"txt")
+        authzfilessql=getauthzfilesql(uid,duserfilegroups,"txt")
         #print(authzfiles)
         # Create database connection, then process SQL generated above
         dbcon = getconnectiondata()
@@ -118,7 +118,7 @@ def presentfileview2():
             thisdbh = newdburi(dbcon)
             if thisdbh is not None:
                 print("try the SQL")
-                getauthzfilessql(thisdbh,authzfilessql)
+                getauthzfiles(thisdbh,authzfilessql)
         except Exception as err:
             print(err)
 
