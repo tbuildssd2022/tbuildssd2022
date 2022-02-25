@@ -112,7 +112,7 @@ def presentfileview2():
         authzfiles=getauthzfiles(uid,duserfilegroups,"txt")
         print(authzfiles)
 
-    return render_template('fileview.html')
+    return render_template('fileview.html',filelist=authzfiles)
 
 
 # File upload 
