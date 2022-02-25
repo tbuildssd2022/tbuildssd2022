@@ -19,7 +19,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfiles
+from . tbutility import getauthzfg, getauthzfilessql, getauthzfiles
 
 
 
@@ -110,19 +110,20 @@ def presentfileview2():
         duserfilegroups=getauthzfg(azglist)
         #print(duserfilegroups)
         # Generate the SQL based on userid and group
-        authzfiles=getauthzfiles(uid,duserfilegroups,"txt")
+        authzfilessql=getauthzfilessql(uid,duserfilegroups,"txt")
         #print(authzfiles)
-        # Get A database connection 
+        # Create database connection, then process SQL generated above
         dbcon = getconnectiondata()
         try:
             thisdbh = newdburi(dbcon)
             if thisdbh is not None:
                 print("try the SQL")
+                getauthzfilessql(thisdbh,authzfilessql)
         except Exception as err:
             print(err)
 
 
-    return render_template('fileview.html',filelist=authzfiles)
+    return render_template('fileview.html',filelist=authzfilessql)
 
 
 # File upload 

@@ -42,7 +42,7 @@ def getauthzfg(glstr):
 # than retrieving a larger record set and attempting to filter within the application.
 #
 # Function is simplified using optional arguments for search to create three different SQL statements
-def getauthzfiles(uid,authgroups,ftype,fname=None,fkeytag=None):
+def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     # Define file meta-data to be selected from the database 
     sqlselect = "select uuid_hex,filename,keywords_tags,filetype,filecreate,filesize from storedfiles where" 
     # Generate the or conditions needed for the authgroup syntax in the where clause
@@ -82,3 +82,24 @@ def getauthzfiles(uid,authgroups,ftype,fname=None,fkeytag=None):
     fullsql=sqlselect + sqlwhere
     return fullsql
 
+
+
+###################  SQL database connections & queries ####################################
+# 
+#  Alternative connection to SQLAlchemy needed for file queries that reqquire customized 
+#  SQL or only portions of the record row retrieved.  Eg, do not move all possible files 
+#  into an object since that will exceed memory limits
+#
+#  This function utilizes a database connection made using functions built into init.py
+def getauthzfiles(dbhandle,appsql):
+    thiscur=dbhandle.cursor()
+    result=thiscur.execute(appsql)
+    # get first 15 records
+    recordstuple = thiscur.fetchmany(size=15)
+    print(type(result))
+    print(recordstuple)
+    dbhandle.close()
+    return
+
+
+    return
