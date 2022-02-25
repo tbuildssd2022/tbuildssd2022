@@ -9,39 +9,13 @@
 
 <!-- This is actually a form element, not sure how we display the remaining fields at this ping-->
 <div class="content">
-  <p>  Raw SQL out : {{ filelist}}</p>
+  <p>  Raw SQL out : {{ azfiledict}}</p>
   <p> Select the file you wish to work with</p>
+  <p> File name &nbsp &nbsp Keywords/Tags &nbsp &nbsp Creation Date &nbsp &nbsp File Type &nbsp &nbsp File Size</p>
   <div class="control">
-    <label class="radio">
-      <input type="radio" name="fileselection"> File1, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File2, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File3, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File4, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File5, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File6, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File7, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File8, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File9, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
-    <label class="radio">
-      <input type="radio" name="fileselection"> File10, up to 3 keywords, 2022-02-21 10:11:12, 18 mb, .txt
-    </label>
+    {% for fileuuid, metadata in azfiledict.items() %}
+      <input type="radio" name="fileselection" value={{ fileuuid }}> {{metadata}} <label class="radio">
+    {% endfor %}
   </div>
     
 

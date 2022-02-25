@@ -138,9 +138,9 @@ def newresultsdict(resultlist):
                 keytagdisplay = result[2]
             # Convert integer to human friendly file size
             if result[5] > 1000000:
-                fsize = "{} megabytes".format(str(float(result[5]/999999.9)))                
+                fsize = "{} megabytes".format(str(round(float(result[5]/999999.9),2)))                
             elif result[5] > 1000 and result[5] < 1000000:
-                fsize = "{} kilobytes".format(str(float(result[5]/999.9)))
+                fsize = "{} kilobytes".format(str(round(float(result[5]/999.9),2)))
             else:
                 fsize = "{} bytes".format(str(result[5]))
             # converted data placed into a single string for dictionary

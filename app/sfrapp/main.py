@@ -120,7 +120,7 @@ def presentfileview2():
         
 
 
-    return render_template('fileview.html',filelist=authzdict)
+    return render_template('fileview.html',azfiledict=authzdict)
 
 
 # File upload 
