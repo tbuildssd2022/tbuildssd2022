@@ -65,13 +65,14 @@ def newdburi(connlist):
     dburi="mysql+mysqlconnector://{}:{}@{}:3306/{}".format(user,pwd,host,dbinst)
     return dburi
 
-def dbconnectalt(dbhost,dbuser,dbcred,dbname):
+# Alternate connection driver to mysql, SQL
+def dbconnectalt(conlist):
     try:
         dbh = mysql.connector.connect(
-            host = dbhost,
-            user = dbuser,
-            password = dbcred,
-            database = dbname
+            host = conlist[3],
+            user = conlist[1],
+            password = conlist[2],
+            database = conlist[1]
         )
         return dbh
     except Exception as err:

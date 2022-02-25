@@ -104,8 +104,8 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 #        print(err)
 
 
-def getauthzfiles(dbcondata,appsql):
-    dbhandle=dbconnectalt(dbcondata)
+def getauthzfiles(dbconlist,appsql):
+    dbhandle=dbconnectalt(dbconlist)
     thiscur=dbhandle.cursor()
     result=thiscur.execute(appsql)
     # get first 15 records
