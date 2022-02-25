@@ -117,8 +117,9 @@ def getauthzfiles(dbconlist,appsql):
         print(err)
         return None
     # Presuming database query is successful
-    if isinstance(recordstuple,tuple):
-        print("process tuple")
+    print(type(recordstuple))
+    #if isinstance(recordstuple,tuple):
+    #    print("process tuple")
 
 
     return
