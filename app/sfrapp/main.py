@@ -173,10 +173,11 @@ def getdownload():
     if current_user.is_authenticated:
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid)
-        azglist=thisdatauser.authgroups
+        print(dir(thisdatauser))
+        #azglist=thisdatauser.authgroups
     #Need a second check to confirm user ID is permitted to access this file
     #Prevents insecure direct object reference attempts by authenticated users
-        print("Checking if UID {} , in these groups {} can access this file {} ".format(uid,fileuuid,azglist))
+        print("Checking if UID {} , can access this file {} ".format(uid,fileuuid))
         return render_template('filedownload.html')
     else:
         return render_template('index.html')
