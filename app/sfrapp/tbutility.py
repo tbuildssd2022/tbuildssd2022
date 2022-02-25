@@ -137,12 +137,12 @@ def newresultsdict(resultlist):
             else:
                 keytagdisplay = result[2]
             # Convert integer to human friendly file size
-            if result[5] < 1000:
-                fsize = "{} bytes".format(str(result[5]))
-            if result[5] < 1000000:
+            if result[5] > 1000000:
+                fsize = "{} megabytes".format(str(float(result[5]/999999.9)))                
+            elif result[5] > 1000 and result[5] < 1000000:
                 fsize = "{} kilobytes".format(str(float(result[5]/999.9)))
-            if result[5] < 1000000000:
-                fsize = "{} megabytes".format(str(float(result[5]/999999.9)))
+            else:
+                fsize = "{} bytes".format(str(result[5]))
             # converted data placed into a single string for dictionary
             keydata="{} {} {} {} {}".format(result[1].strip(),keytagdisplay,filedate,result[3],fsize)
             print("key: {}, Value: keydata ".format(result[0]))
