@@ -19,7 +19,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilessql, getauthzfiles
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles
 
 
 
