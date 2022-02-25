@@ -19,7 +19,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict
 
 
 
@@ -116,7 +116,7 @@ def presentfileview2():
         resultslist=getauthzfiles(dbcondata,authzfilessql)
         if resultslist is not None:
             # New function to turn the tuples into a dictionary
-            print(resultslist) 
+            newresultsdict(resultslist)
         
 
 

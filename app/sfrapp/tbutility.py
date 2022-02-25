@@ -124,4 +124,15 @@ def getauthzfiles(dbconlist,appsql):
         return None
 
 
+
+############################  Database output processing ##################
+#
+def newresultsdict(resultlist):
+    if len(resultlist) > 0:
+        for result in resultlist:
+            print("This is the key: {}, this is the data {}".format(result[0],result[1]))
+    else:
+        print("<empty> HTML stuff")        
+
     return
+
