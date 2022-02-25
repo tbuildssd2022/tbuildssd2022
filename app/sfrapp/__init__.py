@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 from os import environ, path
 from flask_login import LoginManager
 from datetime import timedelta
+import mysql.connector
+from mysql.connector import errorcode
 
 # initialize the dabase object  so it is globally accessable
 db = SQLAlchemy()
@@ -63,6 +65,18 @@ def newdburi(connlist):
     dburi="mysql+mysqlconnector://{}:{}@{}:3306/{}".format(user,pwd,host,dbinst)
     return dburi
 
+def dbconnectalt(dbhost,dbuser,dbcred,dbname):
+    try:
+        dbh = mysql.connector.connect(
+            host = dbhost,
+            user = dbuser,
+            password = dbcred,
+            database = dbname
+        )
+        return dbh
+    except Exception as err:
+        print(err)
+        return None
 
 def create_app():
     #Retrieves environment variables to make database connections,

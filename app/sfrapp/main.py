@@ -113,14 +113,9 @@ def presentfileview2():
         authzfilessql=getauthzfilesql(uid,duserfilegroups,"txt")
         #print(authzfiles)
         # Create database connection, then process SQL generated above
-        dbcon = getconnectiondata()
-        try:
-            thisdbh = newdburi(dbcon)
-            if thisdbh is not None:
-                print("try the SQL")
-                getauthzfiles(thisdbh,authzfilessql)
-        except Exception as err:
-            print(err)
+        dbcondata = getconnectiondata()
+        filelist=getauthzfiles(dbcondata,authzfilessql)
+        
 
 
     return render_template('fileview.html',filelist=authzfilessql)

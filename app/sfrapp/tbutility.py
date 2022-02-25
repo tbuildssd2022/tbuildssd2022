@@ -14,7 +14,7 @@
 
 import time, datetime, sys, os, mysql.connector, uuid
 from mysql.connector import errorcode
-from . import db
+from . import db, dbconnectalt
 from . models import DataUser, User
 
 ########################################## User and Datauser Object parsing ###########################################
@@ -90,8 +90,22 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 #  SQL or only portions of the record row retrieved.  Eg, do not move all possible files 
 #  into an object since that will exceed memory limits
 #
-#  This function utilizes a database connection made using functions built into init.py
-def getauthzfiles(dbhandle,appsql):
+#  This function utilizes a database credential method for connection functions created in init.py
+#def dbconnectalt(dbhost,dbuser,dbcred,dbname):
+#    try:
+#        dbh = mysql.connector.connect(
+#            host = dbhost,
+#            user = dbuser,
+#            password = dbcred,
+#            database = dbname
+#        )
+#        return dbh
+#    except Exception as err:
+#        print(err)
+
+
+def getauthzfiles(dbcondata,appsql):
+    dbhandle=dbconnectalt(dbcondata)
     thiscur=dbhandle.cursor()
     result=thiscur.execute(appsql)
     # get first 15 records
