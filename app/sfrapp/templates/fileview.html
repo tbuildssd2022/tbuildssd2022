@@ -11,17 +11,22 @@
 <div class="content">
   <p>  Raw SQL out : {{ azfiledict}}</p>
   <p> Select the file you wish to work with</p>
-  <p> File name &nbsp &nbsp Keywords/Tags &nbsp &nbsp Creation Date &nbsp &nbsp File Type &nbsp &nbsp File Size</p>
+  <form method="POST" action="/fsd5">
   <div class="control">
+    <p> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
     {% for fileuuid, metadata in azfiledict.items() %}
-      <input type="radio" name="fileselection" value={{ fileuuid }}> {{metadata}} <label class="radio">
+      <input type="radio" name="fileselection" value="{{ fileuuid }}""> {{metadata}} <label class="radio">
     {% endfor %}
-  </div>
+    <p>&nbsp;</p>
+    <p> this should have three radio buttons here to route the request </p>
+    <button class="button is-block is-info is-large is-fullwidth">proceed</button>
+    </form>
+  </div> <!-- end control-->
     
 
 </div>
 <div class="content">
-  <p> this should have three buttons here,  forms behind collect data from that is selected above </p>
+ 
 
 
 </div>

@@ -165,6 +165,26 @@ def processfileshare():
     return render_template('fileshareresp.html')
 
 
+######################################### File Download ########################################################
+@main.route('/fsd5',methods=['POST'])
+@login_required
+def getdownload():
+    fileuuid=request.form.get('fileuuid')
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        azgroups=DataUser.query.filter_by(userid=uid).authgroups
+    #Need a second check to confirm user ID is permitted to access this file
+    #Prevents insecure direct object reference attempts by authenticated users
+        print("Checking if UID {} , in these groups {} can access this file {} ".format(uid,fileuuid,azgroups))
+        return render_template('filedownload.html')
+    else:
+        return render_template('index.html')
+
+# This route should never be taken,  post in the only method expected. 
+# Forceful browsing/scanning or insecure direct object reference attempts by unauthenticated users
+@main.route('/fsd5',methods=['GET'])
+def presentdlredirect():
+    return render_template('index.html')
 
 
 # These routes enable users to see what personally identifiable information about the authenticated user
