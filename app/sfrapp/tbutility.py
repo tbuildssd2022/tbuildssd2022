@@ -128,9 +128,11 @@ def getauthzfiles(dbconlist,appsql):
 ############################  Database output processing ##################
 #
 def newresultsdict(resultlist):
+    filemetadict = dict()
     if len(resultlist) > 0:
         for result in resultlist:
-            print("This is the key: {}, this is the data {}".format(result[0],result[1]))
+            filedate=result[4].strftime("%Y-%m-%d %H:%M:%S")
+            print("This is the key: {}, this is the filename {}: this is the creation date {}, ".format(result[0],result[1],filedate))
     else:
         print("<empty> HTML stuff")        
 
