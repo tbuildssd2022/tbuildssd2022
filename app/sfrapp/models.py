@@ -30,9 +30,11 @@ class StoredFiles(db.Model):
     fileowner = db.Column(db.Integer)
     authgroups = db.Column(db.String(60))
     filecreate = db.Column(db.Date)
+    filesize = db.Column(db.Integer)
     keywords_tags = db.Column(db.String(255))
-    allowupdates = db.Column(db.Boolean)
-    fileversion = db.Column(db.Integer())
+    # Schema extension needed for file versioning or multi-user update options
+    #allowupdates = db.Column(db.Boolean)
+    #fileversion = db.Column(db.Integer())
 
 
 

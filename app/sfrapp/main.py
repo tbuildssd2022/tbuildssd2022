@@ -14,7 +14,8 @@ from crypt import methods
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from os import environ, path
+from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
@@ -107,10 +108,19 @@ def presentfileview2():
     if thisdatauser:
         azglist=thisdatauser.authgroups
         duserfilegroups=getauthzfg(azglist)
-        print(duserfilegroups)
+        #print(duserfilegroups)
         # Generate the SQL based on userid and group
         authzfiles=getauthzfiles(uid,duserfilegroups,"txt")
-        print(authzfiles)
+        #print(authzfiles)
+        # Get A database connection 
+        dbcon = getconnectiondata()
+        try:
+            thisdbh = newdburi(dbcon)
+            if thisdbh is not None:
+                print("try the SQL")
+        except Exception as err:
+            print(err)
+
 
     return render_template('fileview.html',filelist=authzfiles)
 
