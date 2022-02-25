@@ -69,10 +69,10 @@ def newdburi(connlist):
 def dbconnectalt(conlist):
     try:
         dbh = mysql.connector.connect(
-            host = conlist[3],
+            database = conlist[0],
             user = conlist[1],
             password = conlist[2],
-            database = conlist[1]
+            host = conlist[3],
         )
         return dbh
     except Exception as err:

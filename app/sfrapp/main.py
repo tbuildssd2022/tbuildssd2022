@@ -114,6 +114,7 @@ def presentfileview2():
         #print(authzfiles)
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
+        print(dbcondata)
         filelist=getauthzfiles(dbcondata,authzfilessql)
         
 
