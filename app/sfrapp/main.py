@@ -169,15 +169,14 @@ def processfileshare():
 @main.route('/fsd5',methods=['POST'])
 @login_required
 def getdownload():
-    fileuuid=request.form.get('fileuuid')
+    fileuuid=request.form.get('fileselection')
     if current_user.is_authenticated:
         uid=current_user.get_id()
-        thisdatauser=DataUser.query.filter_by(userid=uid)
-        print(dir(thisdatauser))
-        #azglist=thisdatauser.authgroups
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+        azglist=thisdatauser.authgroups
     #Need a second check to confirm user ID is permitted to access this file
     #Prevents insecure direct object reference attempts by authenticated users
-        print("Checking if UID {} , can access this file {} ".format(uid,fileuuid))
+        print("Checking if UID {} , in these groups {},  can access this file {} ".format(uid,azglist,fileuuid))
         return render_template('filedownload.html')
     else:
         return render_template('index.html')
