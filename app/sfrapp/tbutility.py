@@ -49,11 +49,12 @@ def getauthzfiles(uid,authgroups,ftype,fname=None,fkeytag=None):
     agsql="("
     grpcnt=len(authgroups) 
     for i in range(grpcnt):
-        if i < (grpcnt -2):
+        if i < (grpcnt -1):
             ag="authgroups={} or ".format(authgroups[i])
             agsql = agsql + ag
         else:
             ag="authgroups={}".format(authgroups[i])
+            agsql = agsql + ag
     agsql = agsql + " ))"
     # Allow search filtering by filetype
     if ftype=="any":
