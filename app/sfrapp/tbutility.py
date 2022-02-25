@@ -133,7 +133,7 @@ def newresultsdict(resultlist):
         for result in resultlist:
             filedate=result[4].strftime("%Y-%m-%d %H:%M:%S")
             if len(result[2]) > 15:
-                keytagdisplay = result[:12] + "..."
+                keytagdisplay = result[2][:12] + " ..."
             else:
                 keytagdisplay = result[2]
             print("This is the key: {}, filename: {}, keytag: {}, creation date: {} ".format(result[0],result[1],keytagdisplay,filedate))
