@@ -49,7 +49,7 @@ def getauthzfiles(uid,authgroups,ftype,fname=None,fkeytag=None):
     agsql="("
     grpcnt=len(authgroups) 
     for i in range(grpcnt):
-        if i < (grpcnt -1):
+        if i < (grpcnt -2):
             ag="authgroups={} or ".format(authgroups[i])
             agsql = agsql + ag
         else:
