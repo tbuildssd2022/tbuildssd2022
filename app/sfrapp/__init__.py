@@ -91,7 +91,7 @@ def create_app():
         return User.query.get(int(user_id))
     
     # Import custom module functions
-    from .tbutility import getauthzfg
+    from .tbutility import getauthzfg,getauthzfiles
 
     with app.app_context():
         ## auth components

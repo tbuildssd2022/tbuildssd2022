@@ -33,4 +33,51 @@ def getauthzfg(glstr):
 
 ########################################## SQL statement creation ######################################################
 # 
-# 
+#
+#  
+# this function generates the SQL statement needed to retrieve a list of files that the user
+# either owns or have been shared with a group the user is a member of, that also meets the 
+# file search criteria. Although the function appears somewhat complex it forces the majority
+# of the search effort back onto the database which is optimized for such things rather 
+# than retrieving a larger record set and attempting to filter within the application.
+#
+# Function is simplified using optional arguments for search to create three different SQL statements
+def getauthzfiles(uid,authgroups,ftype,fname=None,fkeytag=None):
+    # Define file meta-data to be selected from the database 
+    sqlselect = "select uuid_hex,filename,keywords_tags,filetype,filecreate,filesize from storedfiles where" 
+    # Generate the or conditions needed for the authgroup syntax in the where clause
+    agsql="("
+    grpcnt=len(authgroups) 
+    for i in range(grpcnt):
+        if i < (grpcnt -1):
+            ag="authgroups={} or ".format(authgroups[i])
+            agsql = agsql + ag
+        else:
+            ag="authgroups={}".format(authgroups[i])
+    agsql = agsql + " ))"
+    # Allow search filtering by filetype
+    if ftype=="any":
+        ftsql=" filetype is not null "
+    else:
+        ftsql=" filetype='{}' ".format(ftype)
+    
+    # start of SQL where clause
+    sqlwhere=ftsql + "and (fileowner={} or ".format(uid)
+    sqlwhere=sqlwhere + agsql
+    
+    # Adjust SQL where to include optional file name and/or keyword arguments
+    #if (fname is None) and (fkeytag is None):
+    #    sqlwhere = sqlwhere
+    if (fname is not None) and (fkeytag is None):
+        sqlwhere= "and (filename like '%{}%'}".format(fname) 
+    if (fname is None) and (fkeytag is not None):
+        sqlwhere= "and (keywords_tags like '%{}%'}".format(fkeytag)
+    # Future feature, search could include boolean logic between Keywords and file names
+    # EG filename includes "sunspots" and keywords must contain "January" or not contain "Summer"
+    if (fname is not None) and (fkeytag is not None):
+        sqlwhere= "and (filename like '%{}%' or keywords_tags like '%{}%'}".format(fname,fkeytag)
+    
+    # Combine the parts to create the 
+    fullsql=sqlselect + sqlwhere
+    return fullsql
+

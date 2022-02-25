@@ -18,7 +18,7 @@ from . import db
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
-from . tbutility import getauthzfg
+from . tbutility import getauthzfg, getauthzfiles
 
 
 
@@ -108,6 +108,10 @@ def presentfileview2():
         azglist=thisdatauser.authgroups
         duserfilegroups=getauthzfg(azglist)
         print(duserfilegroups)
+        # Generate the SQL based on userid and group
+        authzfiles=getauthzfiles(uid,duserfilegroups,"txt")
+        print(authzfiles)
+
     return render_template('fileview.html')
 
 
