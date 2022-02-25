@@ -172,7 +172,7 @@ def getdownload():
     fileuuid=request.form.get('fileuuid')
     if current_user.is_authenticated:
         uid=current_user.get_id()
-        azgroups=DataUser.query.filter_by(userid=uid).authgroups
+        azgroups=(DataUser.query.filter_by(userid=uid)).authgroups
     #Need a second check to confirm user ID is permitted to access this file
     #Prevents insecure direct object reference attempts by authenticated users
         print("Checking if UID {} , in these groups {} can access this file {} ".format(uid,fileuuid,azgroups))
