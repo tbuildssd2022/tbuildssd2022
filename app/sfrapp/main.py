@@ -184,7 +184,7 @@ def getdownload():
     # Assuming this comes back OK we need to now make the SQL to grab the file
         dbcondata = getconnectiondata()
         thisfilereq=getfiledata(dbcondata,thissql)
-        print(len(thisfilereq))
+        print(type(thisfilereq))
         if thisfilereq is not None:
             print(len(thisfilereq))
             filetype=thisfilereq[0] 
