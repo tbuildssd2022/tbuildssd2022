@@ -183,7 +183,9 @@ def getdownload():
         thisfilereq=getfiledata(dbcondata,thissql)
         if thisfilereq is not None:
             fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
+            print(len(fileblob))
             filename=thisfilereq[1]
+            print(filename)
             filetype=thisfilereq[0]   
             # The filetype is used to determine the correct mimetype for the http response 
             sendfilestring=newsendstring(filetype)
