@@ -20,9 +20,9 @@ from flask_login import login_user,current_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from . import db
 from . models import User,DataUser
-
+# Import custom module classes and functions
 from . tbutility import testuserstrps
-from app.sfrapp import tbutility
+#from app.sfrapp import tbutility
 
 auth = Blueprint('auth', __name__)
 
