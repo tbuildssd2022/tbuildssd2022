@@ -11,6 +11,7 @@
 
 <body>
     <section class="hero is-primary is-fullheight">
+    <div class="container">
         <div class="columns">
             <div class="column is-one-third">
                 <img src="{{ url_for('static',filename='img/earth-view.jpg')}}"  width="177" height="120">
@@ -19,7 +20,7 @@
         <div class="column is-half" >
         <div class="hero-head">
             <nav class="navbar">
-                <div class="container">
+                
 
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
@@ -40,10 +41,10 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                
             </nav>
         </div>
-        <div class="column"> &nbsp</div>
+        <div class="column"> &nbsp;</div>
     </div> <!-- End nav column-->
     </div> <!-- End Columns-->
     <div class="hero-body">
@@ -52,6 +53,7 @@
            {% endblock %}
         </div>
     </div>
+    </div> <!-- End container -->
     </section>
 </body>
 
