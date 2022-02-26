@@ -17,10 +17,10 @@ from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
 from . import db, getconnectiondata,newdburi
-from . models import DataUser, User
+from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails
 
 
 
@@ -160,7 +160,15 @@ def proccessupload():
 @main.route('/fshr1', methods=['GET'])
 @login_required
 def presentfileshare():
-    print("inside present fileshare")
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        thisaid=thisdatauser.useraccessid
+        azglist=thisdatauser.authgroups
+        usergroupdict=getgroupdetails(azglist)
+        print(usergroupdict)
+
     return render_template('fileshare.html')
 
 

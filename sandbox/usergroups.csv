@@ -1,0 +1,13 @@
+﻿03 ,NA_Open ,"North American shared research, no-GDPR restrictions ",1 
+04 ,EU_Open ,"European & International shared research, potential regulatory constraints ",1 
+05 ,EU_Commerical ,Commercial users affiliated with the European space agency ,2 
+06 ,US_Commercial ,Commercial users affiliated with the US space agency ,2 
+08 ,AP_Open ,"Asia Pacific & International shared research, potential regulatory constraints ",1 
+09 ,JP_Commercial ,Commercial users affiliated with the Japanese space agency ,2 
+11 ,US_Priv ,Restricted to US Space Agency members only ,3 
+12 ,RU_Priv ,Restricted to Russian Space Agency members only ,3 
+14 ,EU_Priv ,Restricted to European Space Agency members only ,3 
+15 ,JP_Priv ,Restricted to Japan Space Agency members only ,3 
+19 ,CA_Priv ,Restricted to Canadian Space Agency members only ,3 
+18 ,Inl_Open ,"International Open research, no regulatory or IP restrications ",1 
+60 ,EU_climate ,Climate data for Europe and Asia ,1 
