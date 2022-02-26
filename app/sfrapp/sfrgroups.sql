@@ -7,6 +7,6 @@ insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('11','US_
 insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('12','RU_Priv','Restricted to Russian Space Agency members only',3) ;
 insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('14','EU_Priv','Restricted to European Space Agency members only',3) ;
 insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('15','JP_Priv','Restricted to Japanese Space Agency members only',3) ;
-insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('19','RU_Priv','Restricted to Canadian Space Agency members only',3) ;
+insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('19','CA_Priv','Restricted to Canadian Space Agency members only',3) ;
 insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('18','Inl_Open','International Open research, no regulatory or IP restrications',1) ;
 insert into datagroups (groupid,groupname,groupdesc,grouptype) values ('60','EU_Climate','Climate data for Europe and Asia',1) ;

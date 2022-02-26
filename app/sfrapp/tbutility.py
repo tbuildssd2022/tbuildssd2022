@@ -187,10 +187,6 @@ def testfileownership(dbconlist,ownersql):
 def getgroupdetails(azglist):
     # Parse the string into two digit list values
     azglist=getauthzfg(azglist)
-    print("firstgroup: {}".format(azglist[0]))
-    #grouprecord=DataGroup.query.filter_by(groupid='14').first()
-    #print(type(grouprecord))
-    #print(dir(grouprecord))
     azgroupdetails=dict()
     for azg in azglist:
         print(azg)
@@ -202,9 +198,8 @@ def getgroupdetails(azglist):
             tmplist.append(grouprecord.groupdesc)
             tmplist.append(grouprecord.grouptype)
             azgroupdetails[azg]=tmplist
-    print(azgroupdetails)
     # creates a dictionary with a list for key data
-    return #azgroupdetails
+    return azgroupdetails
 
 
 

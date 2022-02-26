@@ -89,7 +89,7 @@ def create_app():
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_DATABASE_URI']=dburi
     # Leave at false unless debugging
-    app.config['SQLALCHEMY_ECHO']=True
+    app.config['SQLALCHEMY_ECHO']=False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=900)
 
