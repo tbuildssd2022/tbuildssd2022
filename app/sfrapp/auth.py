@@ -58,8 +58,6 @@ def verify_passwd(pwdhash,pwdstr):
 def login_post():
     accessid = request.form.get('accessid')
     formpasswd = request.form.get('passwd')
-    print(type(accessid))
-    print(type(formpasswd))
     # Form validation on the accessid field for length.
     if isinstance(accessid,str) and len(accessid) > 0 and len(formpasswd) > 0:
         unametest=testuserstrps(accessid)
@@ -87,7 +85,8 @@ def login_post():
             print("Suspicious Username, write to IDS: {}".format(unametest[2]) )
             return redirect(url_for('main.index'))
     else:
-        print("failed test 1")
+        print("failed test 1,")
+        flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
         return redirect(url_for('main.index'))
 
    
