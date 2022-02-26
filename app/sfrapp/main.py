@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups
 
 
 
@@ -166,10 +166,15 @@ def presentfileshare():
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
         azglist=thisdatauser.authgroups
+        # Parse the string into two digit list values
+        azglist=getauthzfg(azglist)
         usergroupdict=getgroupdetails(azglist)
-        print(usergroupdict)
+        # confirm user belongs to at least one group
+        if len(usergroupdict) > 0:
+            #print(usergroupdict)
+            newsharedgroups(usergroupdict)
 
-    return render_template('fileshare.html')
+    return render_template('fileshare.html',prezgroups=newsharedgroups)
 
 
 @main.route('/fshr4', methods=['POST'])

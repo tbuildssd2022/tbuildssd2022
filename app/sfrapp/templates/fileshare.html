@@ -15,14 +15,13 @@
 <div class="content">
   <form method="POST" action="/fshr4">
   <p> This would be the user's group membership list  checkbox</p>
+   
   <ul> 
-      <li>Group 1,  details of group</li>
-      <li>Group 12,  details of group</li>
-      <li>Group 6,  details of group</li>
-      <li>Group 5,  details of group</li>
-      <li>Group 14,  details of group</li>
-
+    {% for group prezgroups%}
+      <li>{{ group }} </li>
+    {% endfor% }
   </ul>
+    
   <p> Select the groups you wish to share the files ( checkboxes above) then click the update button below </p>
   <button class="button is-block is-info is-large is-fullwidth">Update</button>
   </form>

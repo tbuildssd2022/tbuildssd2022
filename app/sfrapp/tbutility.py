@@ -185,15 +185,12 @@ def testfileownership(dbconlist,ownersql):
 # The records are put into a dictionary so they can be used to advise the user about 
 # which groups they may want to grant access to a file they own.
 def getgroupdetails(azglist):
-    # Parse the string into two digit list values
-    azglist=getauthzfg(azglist)
     azgroupdetails=dict()
     for azg in azglist:
         print(azg)
         tmplist=[]
         grouprecord=DataGroup.query.filter_by(groupid=azg).first()
         if grouprecord is not None:
-            print(type(grouprecord))
             tmplist.append(grouprecord.groupname)
             tmplist.append(grouprecord.groupdesc)
             tmplist.append(grouprecord.grouptype)
@@ -262,6 +259,24 @@ def getmimetype(filetype):
     # once the mime type has been established return string
     return truemime
 
+
+# This function converts the dictionary into a list for presentation
+def newsharedgroups(shrgrpdict):
+    presgrouplist=[]
+    shrgrpitems=shrgrpdict.items()
+    for item in shrgrpitems:
+        tmplist=[]
+        tmplist.append(item[0])
+        tmplist.append(item[1][0])
+        if len(tmplist.append(item[1][1])) > 20:
+            tmplist.append(item[1][1][:17] + "...")
+        presgrouplist.append(tmplist)
+    return presgrouplist
+
+
+
+
+    return
 
 
 
