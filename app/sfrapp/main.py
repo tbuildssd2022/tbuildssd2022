@@ -19,7 +19,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import os
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql
 
 
 
@@ -176,8 +176,11 @@ def getdownload():
         azglist=thisdatauser.authgroups
     #Need a second check to confirm user ID is permitted to access this file
     #Prevents insecure direct object reference attempts by authenticated users
-        print("Checking if UID {} , in these groups {},  can access this file {} ".format(uid,azglist,fileuuid))
-        return render_template('filedownload.html')
+        print("Checking if UID {} , in these groups {}, can access this file {} ".format(uid,azglist,fileuuid))
+        thissql=getfiledatasql(uid,azglist,fileuuid)
+    # Assuming this comes back OK we need to now make the SQL to grab the file
+        
+        return render_template('filedownload.html',tempprint=thissql)
     else:
         return render_template('index.html')
 
