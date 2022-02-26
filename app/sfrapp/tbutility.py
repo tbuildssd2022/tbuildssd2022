@@ -187,7 +187,7 @@ def getgroupdetails(azglist):
     # Parse the string into two digit list values
     azglist=getauthzfg(azglist)
     print("firstgroup: {}".format(azglist[0]))
-    grouprecord=DataGroup.query.filter_by(groupid=azglist[0]).first()
+    grouprecord=DataGroup.query.filter_by(groupid='14').first()
     print(type(grouprecord))
     print(dir(grouprecord))
     ##azgroupdetails=dict()
