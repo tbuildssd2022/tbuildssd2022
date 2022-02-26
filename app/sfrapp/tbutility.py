@@ -187,19 +187,19 @@ def getgroupdetails(azglist):
     # Parse the string into two digit list values
     azglist=getauthzfg(azglist)
     print("firstgroup: {}".format(azglist[0]))
-    grouprecord=DataGroup.query.filter_by(groupid='14').first()
-    print(type(grouprecord))
-    print(dir(grouprecord))
-    ##azgroupdetails=dict()
-    #for azg in azglist:
-    #    tmplist=[]
-    #    grouprecord=DataGroup.query.filter_by(groupid=azg).first()
-    #    tmplist.append(grouprecord.groupname)
-    #    tmplist.append(grouprecord.groupdesc)
-    #    tmplist.append(grouprecord.grouptype)
-    #    azgroupdetails[azg]=tmplist
+    #grouprecord=DataGroup.query.filter_by(groupid='14').first()
+    #print(type(grouprecord))
+    #print(dir(grouprecord))
+    azgroupdetails=dict()
+    for azg in azglist:
+        tmplist=[]
+        grouprecord=DataGroup.query.filter_by(groupid=azg).first()
+        tmplist.append(grouprecord.groupname)
+        tmplist.append(grouprecord.groupdesc)
+        tmplist.append(grouprecord.grouptype)
+        azgroupdetails[azg]=tmplist
     # creates a dictionary with a list for key data
-    return #azgroupdetails
+    return azgroupdetails
 
 
 
