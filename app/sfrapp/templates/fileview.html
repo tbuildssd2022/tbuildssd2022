@@ -5,18 +5,20 @@
 <div class="columns" >
   <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
 </div>
-<div class="columns">
+<div class="columns is-multiline">
   <div class="column is-two-thirds">
     <h2 class="title">
-      Files avaliable for downloading
+      Files avaliable for authorized access:
     </h2>
 
     <h3> Some kind of subtitle with dynamics? </h3>
 
-    <!-- This is actually a form element, not sure how we display the remaining fields at this point-->
+    <h2 class="title">
+      Files avaliable for authorized access:
+    </h2>
     <div class="content">
       <!-- Debug SQL <p>  Raw SQL out : {{ azfiledict}}</p> -->
-      <p> Select the file you wish to work with</p>
+      <p > Select the file you wish to work with</p>
       <form method="POST" action="/fsd5">
       <div class="control">
         <p> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
@@ -30,13 +32,10 @@
     </div> <!-- end control-->
   </div> <!-- end two thirds column-->
 
-  <!--
-  <div class="column is-one-third">
-    <h3> Remaining section</h3>
-    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus hic, nostrum sapiente vel distinctio velit dolorem quae? Quia error sunt reiciendis praesentium aspernatur, laboriosam qui corporis voluptate dicta ipsam beatae.</p>
-
-  </div>
- -->
+  <div class="column">
+    <p> auto fill   should be on right now</p>
+    <p>&nbsp;</p>
+  </div> <!-- End autofill column-->
 </div> <!-- end columns div-->
 <!-- Everything below here should be in base.html  -->
 {% endblock %}
