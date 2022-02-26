@@ -73,11 +73,11 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     #    sqlwhere = sqlwhere
     if (len(fname) > 0) and (len(fkeytag) == 0):
         sqlwhere=sqlwhere + " and (filename like '%{}%')".format(fname) 
-    if (fname is None) and (fkeytag is not None):
+    if (len(fname) == 0) and (len(fkeytag) > 0):
         sqlwhere=sqlwhere +  " and (keywords_tags like '%{}%')".format(fkeytag)
     # Future feature, search could include boolean logic between Keywords and file names
     # EG filename includes "sunspots" and keywords must contain "January" or not contain "Summer"
-    if (fname is not None) and (fkeytag is not None):
+    if (len(fname) > 0) and (len(fkeytag) > 0):
         sqlwhere=sqlwhere + " and (filename like '%{}%' or keywords_tags like '%{}%')".format(fname,fkeytag)
     
     # Combine the parts to create the 
