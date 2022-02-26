@@ -106,7 +106,7 @@ def create_app():
         return User.query.get(int(user_id))
     
     # Import custom module functions
-    from .tbutility import getauthzfg,getauthzfiles,getauthzfilesql, newresultsdict,getfiledatasql,newsendstring
+    from .tbutility import getauthzfg,getauthzfiles,getauthzfilesql, newresultsdict,getfiledatasql,getmimetype,getfiledata
 
     with app.app_context():
         ## auth components

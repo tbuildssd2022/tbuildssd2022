@@ -203,7 +203,7 @@ def newresultsdict(resultlist):
 # The remaining response string can then be created to simiplify the response code on download.
 # presumes the preceeding database responses for the binary byte stream and the file name are 
 # refered to as fileblob and filename
-def newsendstring(filetype):
+def getmimetype(filetype):
     if filetype.lower()=="tar":
         truemime='application/xtar'
     elif filetype.lower()=="zip":
@@ -228,7 +228,6 @@ def newsendstring(filetype):
         truemime='text/csv'
     else:
         truemime='text/plain'
+    # once the mime type has been established return string
     return truemime
-    # once the mime type has been established format as a string and return
-    #sendfilestring="fileblob, as_attachment=True, download_name=filename, mimetype={}".format(truemime)
-    #return sendfilestring
+    

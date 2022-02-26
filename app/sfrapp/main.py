@@ -19,7 +19,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import io,sys
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, newsendstring
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype
 
 
 
@@ -108,18 +108,16 @@ def presentfileview2():
     if thisdatauser:
         azglist=thisdatauser.authgroups
         duserfilegroups=getauthzfg(azglist)
-        #print(duserfilegroups)
-        # Generate the SQL based on userid and group
-        authzfilessql=getauthzfilesql(uid,duserfilegroups,"txt")
+        # Generate the SQL based on userid and group for authorization
+        # modify function call based on search fields being populated
+        sftype=request.form.get('selectedfiletype')
+        authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype)
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
         resultslist=getauthzfiles(dbcondata,authzfilessql)
         if resultslist is not None:
             # New function to turn the tuples into a dictionary
             authzdict=newresultsdict(resultslist)
-        
-
-
     return render_template('fileview.html',azfiledict=authzdict)
 
 
@@ -185,14 +183,10 @@ def getdownload():
             print(len(thisfilereq))
             filetype=thisfilereq[0] 
             filename=thisfilereq[1]
-            print(filename)
-            print(len(thisfilereq[2]))
             fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
             # The filetype is used to determine the correct mimetype for the http response 
-            newmime=newsendstring(filetype)
+            newmime=getmimetype(filetype)
             return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
-            #return send_file(sendfilestring)
-            #return render_template('filedownload.html',tempprint=sendfilestring)
         else:
             # Collect SQL used for troubleshooting
             render_template('filedownloadfailure.html',tempprint=thissql)
