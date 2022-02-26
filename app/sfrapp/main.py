@@ -113,10 +113,12 @@ def presentfileview2():
         # modify function call based on search fields being populated
         sftype=request.form.get('selectedfiletype')
         sfname=request.form.get('filename')
-        if sfname is None: 
-            authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype)
-        if sfname is not None:
+        if sfname is not None and len(sfname) > 0: 
             authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname)
+        else:
+            authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype)
+        #if sfname is not None:
+        #    authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname)
 
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
