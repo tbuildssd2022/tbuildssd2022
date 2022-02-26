@@ -43,6 +43,8 @@ def getauthzfg(glstr):
 #
 # Function is simplified using optional arguments for search to create three different SQL statements
 def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
+    print("fname: {}".format(fname))
+    print("fkeytag: {}".format(fkeytag))
     # Define file meta-data to be selected from the database 
     sqlselect = "select uuid_hex,filename,keywords_tags,filetype,filecreate,filesize from storedfiles where" 
     # Generate the or conditions needed for the authgroup syntax in the where clause

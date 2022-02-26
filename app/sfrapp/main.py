@@ -122,8 +122,7 @@ def presentfileview2():
 
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
-        resultslist=getauthzfiles(dbcondata,authzfilessql)
-        print(len(resultslist))
+        resultslist=getauthzfiles(dbcondata,authzfilessql) 
         if resultslist is not None and len(resultslist) > 0:
             # New function to turn the tuples into a dictionary
             authzdict=newresultsdict(resultslist)
