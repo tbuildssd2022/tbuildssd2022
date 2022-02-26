@@ -112,7 +112,11 @@ def presentfileview2():
         # Generate the SQL based on userid and group for authorization
         # modify function call based on search fields being populated
         sftype=request.form.get('selectedfiletype')
+        sfname=request.form.get('filename')
         authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype)
+        if sfname is not None:
+            authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname)
+
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
         resultslist=getauthzfiles(dbcondata,authzfilessql)
@@ -188,17 +192,12 @@ def getdownload():
         if thisfilereq is None:
             return render_template('filedownloadfailure.html',tempprint=thissql)
         else:
-        #if thisfilereq is not None:
-            print(len(thisfilereq))
             filetype=thisfilereq[0] 
             filename=thisfilereq[1]
             fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
             # The filetype is used to determine the correct mimetype for the http response 
             newmime=getmimetype(filetype)
             return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
-        #else:
-        #    # Collect SQL used for troubleshooting
-        #    render_template('filedownloadfailure.html',tempprint=thissql)
     # Redirect unauthenticated users
     else:
         return render_template('index.html')
