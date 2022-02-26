@@ -18,7 +18,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
 from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
-import io,sys
+import io
 # Import custom module classes and functions
 from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype
 
@@ -125,9 +125,6 @@ def presentfileview2():
         else:
             authzdict = dict()
             authzdict['00000000000000000000000000000000']="No available files were indentified for this search: {} ".format(sftype)
-        print(sftype)
-        print(sfname)
-        print(skeytag)
     return render_template('fileview2.html',azfiledict=authzdict,aid=thisaid,grouplist=azglist,searchfname=sfname,searchkeytag=skeytag,searchtype=sftype)
 
 
@@ -178,27 +175,34 @@ def processfileshare():
 @login_required
 def getdownload():
     fileuuid=request.form.get('fileselection')
+    selaction=request.form.get('actionrequest')
+    print(selaction)
     if current_user.is_authenticated:
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
         azglist=thisdatauser.authgroups
-    #Need a second check to confirm user ID is permitted to access this file
-    #Prevents insecure direct object reference attempts by authenticated users
-        print("Checking if UID {} , in these groups {}, can access this file {} ".format(uid,azglist,fileuuid))
-        thissql=getfiledatasql(uid,azglist,fileuuid)
-    # Assuming this comes back OK we need to now make the SQL to grab the file
-        dbcondata = getconnectiondata()
-        thisfilereq=getfiledata(dbcondata,thissql)
-        print(type(thisfilereq))
-        if thisfilereq is None:
-            return render_template('filedownloadfailure.html',tempprint=thissql)
+        # Determine the user's requested action and develop the correct query
+        if selaction=="sharefile" or selaction=="deletefile":
+            print("Check file ownership, if not owner redirect back with flash message")
         else:
-            filetype=thisfilereq[0] 
-            filename=thisfilereq[1]
-            fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
-            # The filetype is used to determine the correct mimetype for the http response 
-            newmime=getmimetype(filetype)
-            return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
+            # Download file is expected to be the most common action
+            #Rerun Need a second check to confirm user ID is permitted to access this file
+            #Prevents insecure direct object reference attempts by authenticated users
+            print("Checking if UID {} , in these groups {}, can access this file {} ".format(uid,azglist,fileuuid))
+            thissql=getfiledatasql(uid,azglist,fileuuid)
+            # Assuming this comes back OK we need to now make the SQL to grab the file
+            dbcondata = getconnectiondata()
+            thisfilereq=getfiledata(dbcondata,thissql)
+            #print(type(thisfilereq))
+            if thisfilereq is None:
+                return render_template('filedownloadfailure.html',tempprint=thissql)
+            else:
+                filetype=thisfilereq[0] 
+                filename=thisfilereq[1]
+                fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
+                # The filetype is used to determine the correct mimetype for the http response 
+                newmime=getmimetype(filetype)
+                return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
     # Redirect unauthenticated users
     else:
         return render_template('index.html')

@@ -6,29 +6,31 @@
         <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
     </div>
     <div class="columns">
-        <div class="column is-two-thirds">
+        <div class="column is-two-thirds" >
             <h2 class="title">Secure File Repository Search Results</h2>
-            <p> The following files were located based on the following file name, keyword and file type search conditions:</p>
-            <p> filename: {{searchfname}}, keywords or tagging: {{searchkeytag}}, file type: {{searchftype}}</p>
-            <p > Select the file you wish to work with, then choose download, sharing or delete options</p>
-            <p> Note, only files shared with the following groups {{grouplist}} will be avaliable for downloading. 
+            
+            <p class="has-text-justified"> The following files were located based on the following file name, keyword and file type search conditions:</p>
+            <p> filename: {{searchfname}}, keywords or tagging: {{searchkeytag}}, file type: {{searchtype}}</p>
+            <p class="has-text-justified"> Select the file you wish to work with, then choose download, sharing or delete options</p>
+            <p class="has-text-justified"> Note, only files shared with the following groups {{grouplist}} will be avaliable for downloading. 
                 Additionally, only files assigned to or created by the account {{aid}} will be avaliable for sharing</p>
-                
+               
             <h3 class="title">Files available for authorized access:</h3>
             <form method="POST" action="/fsd5">
                 <p> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
+                <div class = "field">
                 <div class="control">
-            
                   {% for fileuuid, metadata in azfiledict.items() %}
-                    <input type="radio" name="fileselection" value="{{ fileuuid }}"> <label class="radio">{{metadata}} </label><br>
+                  <label class="radio"><input type="radio" name="fileselection" value="{{ fileuuid }}"> {{metadata}} </label><br>
                   {% endfor %}
                 </div> <!-- End file radio buttons-->
+                </div>
                 <div class="control" >
                   <p>&nbsp;</p>
                   <p> this should have three radio buttons here to route the request </p>
-                  <input type="radio" name="actionrequest" value="download"> <label class="radio">Download file</label>
-                  <input type="radio" name="actionrequest" value="sharefile"> <label class="radio">Share file</label>
-                  <input type="radio" name="actionrequest" value="deletefile"> <label class="radio">Delete file</label>
+                  <label class="radio"></label><input type="radio" name="actionrequest" value="download"> Download file</label>
+                  <label class="radio"></label><input type="radio" name="actionrequest" value="sharefile"> Share file</label>
+                  <label class="radio"></label><input type="radio" name="actionrequest" value="deletefile"> Delete file</label>
                 </div>
                 
                   <button class="button is-block is-info is-large is-fullwidth">proceed</button>
