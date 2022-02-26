@@ -231,3 +231,63 @@ def updateuser():
     print(newpassword)
     # Temp placeholder before the database integration gets built out
     return render_template('userdetails.html')
+
+
+
+
+#############################################   testing ####################################
+def getdatauser(aid):
+    duserobj= DataUser.query.filter(DataUser.useraccessid==aid).first()
+    return duserobj
+    
+def getauthnz(uidint):
+    uauthznobj=User.query.filter(User.id==uidint).first()
+    return uauthznobj
+
+def verify_passwd(pwdhash,pwdstr):
+    return check_password_hash(pwdhash,pwdstr)
+
+
+
+@main.route('/login2', methods=['POST'] )
+def login2():
+    print("inside login 2")
+    accessid = request.form.get('accessid')
+    formpasswd = request.form.get('passwd')
+    print(accessid)
+    print(formpasswd)
+    # Extract the UID from the datauser table for the accessid provided. 
+    # password check is done against a second table  ( Move this to module)
+    if accessid and formpasswd:
+        # Move all this to a seperate module so we can valdiate all three things, pwdcheck should be last
+        pwdchk=False # ensure authz check comes back true before proceeding
+        thisduserobj=getdatauser(accessid)
+        if isinstance(thisduserobj.userid,int):
+            thisauthzobj=getauthnz(thisduserobj.userid)
+        if thisauthzobj is not None:
+            pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
+        if pwdchk:
+            print("Setup login manager for this user")
+            login_user(thisauthzobj)
+        else:
+            print("passwordcheck failed")
+            
+
+            #userauth=User.query.filter(User.userid==uid.userid).first()
+            #if userauth is not None:
+            #    print(userauth.userpasswd)
+            #    print(userauth.activestatus)
+            #    print(userauth.userlocked)
+
+        
+        #print(uid)
+        #print(type(uid.userid))
+        #print(uid.userid)
+    #if current_user.is_authenticated:
+    #   sessioncid=current_user.get_id()
+    #    account=User.query.filter_by(id=sessioncid).first()
+    #    msg='already authenticated as {}'.format(account.clientname)
+    #    flash(msg)
+    return render_template('home.html')
+    #else:
+    #    return render_template('index.html')
