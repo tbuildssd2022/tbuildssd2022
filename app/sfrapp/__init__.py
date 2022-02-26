@@ -91,6 +91,10 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=900)
 
+    # secret key initialization from env file
+    app.config['SECRET_KEY']=environ.get('SECRET_KEY')
+
+
     # Initialize SQLAlchemy plugin so is it globally accessable
     db.init_app(app)
     # Initialize Flask_login LoginManager
