@@ -17,9 +17,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
 from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
-import os
+import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql,getfiledata
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, newsendstring
 
 
 
@@ -182,9 +182,16 @@ def getdownload():
         dbcondata = getconnectiondata()
         thisfilereq=getfiledata(dbcondata,thissql)
         if thisfilereq is not None:
-            # This should be the file type which we can then generate a response object
-            print(thisfilereq[0])
-        return render_template('filedownload.html',tempprint=thissql)
+            fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
+            filename=thisfilereq[1]
+            filetype=thisfilereq[0]   
+            # The filetype is used to determine the correct mimetype for the http response 
+            newsendstring(filetype)
+            return render_template('filedownload.html',tempprint=newsendstring)
+        else:
+            # Collect SQL used for troubleshooting
+            render_template('filedownloadfailure.html',tempprint=thissql)
+    # Redirect unauthenticated users
     else:
         return render_template('index.html')
 

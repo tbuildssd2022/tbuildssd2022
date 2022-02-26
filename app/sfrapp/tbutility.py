@@ -86,7 +86,7 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 # It also creates multiple where clause conditions to confirm the authenticated user is authorized to access
 # this specific file. This prevents indirect object reference brute force attacks.
 def getfiledatasql(uid,authgroups,fileuuid):
-    sqlselect = "select filetype,filedata from storedfiles "
+    sqlselect = "select filetype,filename,filedata from storedfiles "
     sqlwhere = "where uuid_hex='{}' and ( fileowner={} or ".format(fileuuid,uid)
     # convert string value into a list
     authgroups=getauthzfg(authgroups)
@@ -199,3 +199,35 @@ def newresultsdict(resultlist):
 
     return filemetadict
 
+# This function creates a sepcific mime type based on the file extension passed to the function.
+# The remaining response string can then be created to simiplify the response code on download.
+# presumes the preceeding database responses for the binary byte stream and the file name are 
+# refered to as fileblob and filename
+def newsendstring(filetype):
+    if filetype.lower()=="tar":
+        truemime='application/xtar'
+    elif filetype.lower()=="zip":
+        truemime='application/zip'
+    elif filetype.lower()=="pdf":
+        truemime='application/pdf'
+    elif filetype.lower()=="docx":
+        truemime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    elif filetype.lower()=="jpg":
+        truemime='image/jpeg'    
+    elif filetype.lower()=="jpeg":
+        truemime='image/jpeg'
+    elif filetype.lower()=="png":
+        truemime='image/png'
+    elif filetype.lower()=="svg":
+        truemime='image/svg+xml'
+    elif filetype.lower()=="xls":
+        truemime='application/vnd.ms-excel'
+    elif filetype.lower()=="xlsx":
+        truemime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    elif filetype.lower()=="csv":
+        truemime='text/csv'
+    else:
+        truemime='text/plain'
+    # once the mime type has been established format as a string and return
+    sendfilestring="fileblob, as_attachment=True, download_name=filename, mimetype={}".format(truemime)
+    return sendfilestring
