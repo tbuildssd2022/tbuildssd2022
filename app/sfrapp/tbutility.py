@@ -184,8 +184,10 @@ def testfileownership(dbconlist,ownersql):
 # The records are put into a dictionary so they can be used to advise the user about 
 # which groups they may want to grant access to a file they own.
 def getgroupdetails(azglist):
+    # Parse the string into two digit list values
+    azglist=getauthzfg(azglist)
     print("firstgroup: {}".format(azglist[0]))
-    grouprecord=DataGroup.query.filter_by(groupid=azg).first()
+    grouprecord=DataGroup.query.filter_by(groupid=azglist[0]).first()
     print(type(grouprecord))
     print(dir(grouprecord))
     ##azgroupdetails=dict()
