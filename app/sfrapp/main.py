@@ -181,15 +181,19 @@ def getdownload():
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
         azglist=thisdatauser.authgroups
+        aid=thisdatauser.useraccessid
         # Determine the user's requested action and develop the correct query
+        # The first requirement is to determine if the authenticated user is the 
+        # current owner of the file requested, otherwise generate an error message
         if selaction=="sharefile" or selaction=="deletefile":
             tfosql=testfileownersql(fileuuid)
             dbcondata = getconnectiondata()
-            thisresult=testfileownership(dbcondata,tfosql)
-            print(thisresult)
-            
-            print("Check file ownership, if not owner redirect back with flash message")
-            return redirect(request.referrer)
+            tforesult=testfileownership(dbcondata,tfosql)
+            if int(tforesult[0]) != uid:
+                print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
+                return redirect(request.referrer)
+            else:
+                return redirect(url_for('main.presentfileshare'))
         else:
             # Download file is expected to be the most common action
             #Rerun Need a second check to confirm user ID is permitted to access this file
