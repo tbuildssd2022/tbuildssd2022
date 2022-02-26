@@ -65,6 +65,8 @@ def login_post():
             thisduserobj=getdatauser(accessid)
             # Catches invalid user
             if thisduserobj is None:
+                print("Failed test 3, invalid user")
+                flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
             # Check password
             pwdchk=False # ensure authz check comes back true before proceeding
@@ -73,7 +75,7 @@ def login_post():
             if thisauthzobj is not None:
                 pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
             else:
-                print("Failed test 3, invalid user")
+                print("Failed test 5, database corruption")
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
             if pwdchk:
