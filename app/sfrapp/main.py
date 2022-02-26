@@ -189,7 +189,7 @@ def getdownload():
             tfosql=testfileownersql(fileuuid)
             dbcondata = getconnectiondata()
             tforesult=testfileownership(dbcondata,tfosql)
-            if int(tforesult[0]) != uid:
+            if int(tforesult[0]) != int(uid):
                 print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
                 return redirect(request.referrer)
             else:
