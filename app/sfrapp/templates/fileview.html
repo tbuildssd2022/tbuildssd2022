@@ -4,40 +4,38 @@
 
 <div class="columns" >
   <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
-<!--</div> -->
+</div>
 <div class="columns">
   <div class="column is-two-thirds">
-<h1 class="title">
-  Files avaliable for downloading
-</h1>
+    <h2 class="title">
+      Files avaliable for downloading
+    </h2>
 
-<h2> Some kind of subtitle with dynamics? </h2>
+    <h3> Some kind of subtitle with dynamics? </h3>
 
-<!-- This is actually a form element, not sure how we display the remaining fields at this ping-->
-<div class="content">
-  <p>  Raw SQL out : {{ azfiledict}}</p>
-  <p> Select the file you wish to work with</p>
-  <form method="POST" action="/fsd5">
-  <div class="control">
-    <p> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
-    {% for fileuuid, metadata in azfiledict.items() %}
-      <input type="radio" name="fileselection" value="{{ fileuuid }}""> {{metadata}} <label class="radio">
-    {% endfor %}
-    <p>&nbsp;</p>
-    <p> this should have three radio buttons here to route the request </p>
-    <button class="button is-block is-info is-large is-fullwidth">proceed</button>
-    </form>
-  </div> <!-- end control-->
-    
+    <!-- This is actually a form element, not sure how we display the remaining fields at this point-->
+    <div class="content">
+      <!-- Debug SQL <p>  Raw SQL out : {{ azfiledict}}</p> -->
+      <p> Select the file you wish to work with</p>
+      <form method="POST" action="/fsd5">
+      <div class="control">
+        <p> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
+        {% for fileuuid, metadata in azfiledict.items() %}
+          <input type="radio" name="fileselection" value="{{ fileuuid }}""> {{metadata}} <label class="radio">
+        {% endfor %}
+        <p>&nbsp;</p>
+        <p> this should have three radio buttons here to route the request </p>
+        <button class="button is-block is-info is-large is-fullwidth">proceed</button>
+        </form>
+    </div> <!-- end control-->
+  </div> <!-- end two thirds column-->
 
-</div>
-<div class="content">
+  <div class="column is-one-third">
+    <h3> Remaining section</h3>
+    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus hic, nostrum sapiente vel distinctio velit dolorem quae? Quia error sunt reiciendis praesentium aspernatur, laboriosam qui corporis voluptate dicta ipsam beatae.</p>
+
+  </div>
  
-
-
-</div>
-</div> <!-- end two thirds column-->
 </div> <!-- end columns div-->
-
-
+<!-- Everything below here should be in base.html  -->
 {% endblock %}
