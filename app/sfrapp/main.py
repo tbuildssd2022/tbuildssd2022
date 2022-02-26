@@ -125,6 +125,9 @@ def presentfileview2():
         else:
             authzdict = dict()
             authzdict['00000000000000000000000000000000']="No available files were indentified for this search: {} ".format(sftype)
+        print(sftype)
+        print(sfname)
+        print(skeytag)
     return render_template('fileview2.html',azfiledict=authzdict,aid=thisaid,grouplist=azglist,searchfname=sfname,searchkeytag=skeytag,searchtype=sftype)
 
 
