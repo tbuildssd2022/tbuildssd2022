@@ -12,6 +12,7 @@
 # extended in the future if more personalization is required without affecting authentication and account authorization.
 #######################################################################################################################
 #from crypt import methods  - test to see if this breaks
+from ast import Str
 from crypt import methods
 import flask
 from flask import Blueprint, render_template, redirect, url_for,flash, request
@@ -20,6 +21,8 @@ from werkzeug.security import check_password_hash
 from . import db
 from . models import User,DataUser
 
+from . tbutility import testuserstrps
+from app.sfrapp import tbutility
 
 auth = Blueprint('auth', __name__)
 
@@ -57,26 +60,31 @@ def login_post():
     formpasswd = request.form.get('passwd')
     print(type(accessid))
     print(type(formpasswd))
-    # Need form validation on the accessid field.
-    if accessid and formpasswd:
-        thisduserobj=getdatauser(accessid)
-        # Catches invalid user
-        if thisduserobj is None:
-            return redirect(url_for('main.index'))
-        # Check password
-        pwdchk=False # ensure authz check comes back true before proceeding
-        if isinstance(thisduserobj.userid,int):
-            thisauthzobj=getauthnz(thisduserobj.userid)
-        if thisauthzobj is not None:
-            pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
+    # Form validation on the accessid field for length.
+    if isinstance(accessid,Str) and len(accessid) > 0 and len(formpasswd) > 0:
+        unametest=testuserstrps(accessid)
+        if unametest[0]:
+            thisduserobj=getdatauser(accessid)
+            # Catches invalid user
+            if thisduserobj is None:
+                return redirect(url_for('main.index'))
+            # Check password
+            pwdchk=False # ensure authz check comes back true before proceeding
+            if isinstance(thisduserobj.userid,int):
+                thisauthzobj=getauthnz(thisduserobj.userid)
+            if thisauthzobj is not None:
+                pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
+            else:
+                return redirect(url_for('main.index'))
+            if pwdchk:
+                print("Setup login manager for this user")
+                login_user(thisauthzobj)
+                return redirect(url_for('main.presenthome'))        
+            else:
+                print("passwordcheck failed")
+                return redirect(url_for('main.index'))
         else:
-            return redirect(url_for('main.index'))
-        if pwdchk:
-            print("Setup login manager for this user")
-            login_user(thisauthzobj)
-            return redirect(url_for('main.presenthome'))        
-        else:
-            print("passwordcheck failed")
+            print("Suspicious Username, write to IDS")
             return redirect(url_for('main.index'))
     else:
         return redirect(url_for('main.index'))
@@ -98,7 +106,7 @@ def login():
         return redirect(url_for('main.presenthome'))
     else:
         return redirect(url_for('main.index'))
-        #return render_template('index.html')
+
 
 
 # Utilize Flask builtin user management to allow authenticated users to properly close their sessions

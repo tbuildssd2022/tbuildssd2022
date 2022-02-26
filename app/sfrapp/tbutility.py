@@ -12,7 +12,7 @@
  
 #######################################################################################################################
 
-import time, datetime, sys, os, mysql.connector, uuid
+import time, datetime, sys, os, mysql.connector, uuid, string
 from mysql.connector import errorcode
 from . import db, dbconnectalt
 from . models import DataUser, User
@@ -230,4 +230,28 @@ def getmimetype(filetype):
         truemime='text/plain'
     # once the mime type has been established return string
     return truemime
+
+
+
+
+#################################################  Input field validation ######################################
+
+# This input check removes leading and trailing whitespace which could be benign
+# If characters outside allowed list are found, the function replaces the string with "invalid_input", 
+# function returns a list [bool,str]
+def testuserstrps(ustr):
+    strpustr=ustr.strip()
+    # allow alphanumeric mixed case only
+    allowlist=string.ascii_letters + string.digits
+    for char in strpustr:
+        if char not in allowlist:
+            # exit immediately, return input for security monitoring but nullify the content
+            defang="- - " + ustr + "- - "
+            return [False,"invalid_input",defang]
+    # return true only if for loop test comes back negative
+    return [True,strpustr]
+
+
     
+
+
