@@ -183,7 +183,7 @@ def getdownload():
         thisfilereq=getfiledata(dbcondata,thissql)
         if thisfilereq is not None:
             # This should be the file type which we can then generate a response object
-            print(thisfilereq[0][0])
+            print(thisfilereq[0])
         return render_template('filedownload.html',tempprint=thissql)
     else:
         return render_template('index.html')

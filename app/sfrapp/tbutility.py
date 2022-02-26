@@ -156,15 +156,17 @@ def getfiledata(dbconlist,filesql):
         thiscur=dbhandle.cursor()
         thiscur.execute(filesql)
         # get filetype and blob
-        tuplelist = thiscur.fetchone()
-        print(type(tuplelist))
+        resulttuple = thiscur.fetchone()
+        #print(type(resulttuple))
         dbhandle.close()
     except Exception as err:
         print(err)
         return None
-    if isinstance(tuplelist,list):
-        print("process list")
-        return tuplelist
+    if isinstance(resulttuple,tuple):
+        # test if empty
+        print("filetype: {}".format(resulttuple[0]))
+        print(len(resulttuple[1]))
+        return resulttuple
     else:
         return None
 
