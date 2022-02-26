@@ -228,6 +228,7 @@ def newsendstring(filetype):
         truemime='text/csv'
     else:
         truemime='text/plain'
+    return truemime
     # once the mime type has been established format as a string and return
-    sendfilestring="fileblob, as_attachment=True, download_name=filename, mimetype={}".format(truemime)
-    return sendfilestring
+    #sendfilestring="fileblob, as_attachment=True, download_name=filename, mimetype={}".format(truemime)
+    #return sendfilestring

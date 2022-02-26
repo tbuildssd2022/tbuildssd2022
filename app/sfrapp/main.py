@@ -186,11 +186,12 @@ def getdownload():
             filetype=thisfilereq[0] 
             filename=thisfilereq[1]
             print(filename)
+            print(len(thisfilereq[2]))
             fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
-            print(sys.getsizeof(fileblob))
             # The filetype is used to determine the correct mimetype for the http response 
-            sendfilestring=newsendstring(filetype)
-            return send_file(sendfilestring)
+            newmime=newsendstring(filetype)
+            return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
+            #return send_file(sendfilestring)
             #return render_template('filedownload.html',tempprint=sendfilestring)
         else:
             # Collect SQL used for troubleshooting
