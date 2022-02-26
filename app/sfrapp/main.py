@@ -32,6 +32,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     print("inside index function")
+    print(SECRET_KEY)
     print(current_user.is_authenticated)
     return render_template('index.html')
 
