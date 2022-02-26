@@ -182,11 +182,12 @@ def getdownload():
         dbcondata = getconnectiondata()
         thisfilereq=getfiledata(dbcondata,thissql)
         if thisfilereq is not None:
-            fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
-            print(sys.getsizeof(fileblob))
+            print(len(thisfilereq))
+            filetype=thisfilereq[0] 
             filename=thisfilereq[1]
             print(filename)
-            filetype=thisfilereq[0]   
+            fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
+            print(sys.getsizeof(fileblob))
             # The filetype is used to determine the correct mimetype for the http response 
             sendfilestring=newsendstring(filetype)
             return render_template('filedownload.html',tempprint=sendfilestring)
