@@ -88,6 +88,8 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 def getfiledatasql(uid,authgroups,fileuuid):
     sqlselect = "select uuid_hex,filetype,filesize from storedfiles "
     sqlwhere = "where uuid_hex='{}' and ( fileowner={} or ".format(fileuuid,uid)
+    # convert string value into a list
+    authgroups=getauthzfg(authgroups)
     # Generate the or conditions needed for the authgroup syntax in the where clause
     agsql="("
     grpcnt=len(authgroups) 
