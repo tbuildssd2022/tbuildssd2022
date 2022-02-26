@@ -82,11 +82,11 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     fullsql=sqlselect + sqlwhere
     return fullsql
 
-# This function generates the SQL needed to retrieve the binalry large object data and set the mime type
+# This function generates the SQL needed to retrieve the binary large object data and set the mime type
 # It also creates multiple where clause conditions to confirm the authenticated user is authorized to access
 # this specific file. This prevents indirect object reference brute force attacks.
 def getfiledatasql(uid,authgroups,fileuuid):
-    sqlselect = "select uuid_hex,filetype,filesize from storedfiles "
+    sqlselect = "select filetype,filedate from storedfiles "
     sqlwhere = "where uuid_hex='{}' and ( fileowner={} or ".format(fileuuid,uid)
     # convert string value into a list
     authgroups=getauthzfg(authgroups)
@@ -150,7 +150,18 @@ def getauthzfiles(dbconlist,appsql):
     else:
         return None
 
-def getfiledata(fileuuid):
+def getfiledata(dbconlist,filesql):
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        thiscur.execute(filesql)
+        # get filetype and blob
+        tuplelist = thiscur.fetchone()
+        print(type(tuplelist))
+        dbhandle.close()
+    except Exception as err:
+        print(err)
+        return None
 
 
     return
