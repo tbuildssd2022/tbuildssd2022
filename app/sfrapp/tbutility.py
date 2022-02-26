@@ -15,6 +15,7 @@
 
 import time, datetime, sys, os, mysql.connector, uuid, string
 from mysql.connector import errorcode
+from flask.ext.sqlalchemy import get_debug_queries
 from . import db, dbconnectalt
 from . models import DataUser, User, DataGroup
 
@@ -199,6 +200,8 @@ def getgroupdetails(azglist):
         #tmplist.append(grouprecord.groupdesc)
         #tmplist.append(grouprecord.grouptype)
         #azgroupdetails[azg]=tmplist
+    dbq = list(get_debug_queries())
+    print(dbq)
     # creates a dictionary with a list for key data
     return #azgroupdetails
 
