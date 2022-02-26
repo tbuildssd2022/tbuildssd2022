@@ -194,13 +194,15 @@ def getgroupdetails(azglist):
     azgroupdetails=dict()
     for azg in azglist:
         print(azg)
+        tmplist=[]
         grouprecord=DataGroup.query.filter_by(groupid=azg).first()
-        print(type(grouprecord))
-        #tmplist.append(grouprecord.groupname)
-        #tmplist.append(grouprecord.groupdesc)
-        #tmplist.append(grouprecord.grouptype)
-        #azgroupdetails[azg]=tmplist
-    
+        if grouprecord is not None:
+            print(type(grouprecord))
+            tmplist.append(grouprecord.groupname)
+            tmplist.append(grouprecord.groupdesc)
+            tmplist.append(grouprecord.grouptype)
+            azgroupdetails[azg]=tmplist
+    print(azgroupdetails)
     # creates a dictionary with a list for key data
     return #azgroupdetails
 
