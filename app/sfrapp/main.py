@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql
 
 
 
@@ -183,6 +183,8 @@ def getdownload():
         azglist=thisdatauser.authgroups
         # Determine the user's requested action and develop the correct query
         if selaction=="sharefile" or selaction=="deletefile":
+            ftfosql=testfileownersql(fileuuid)
+            print(ftfosql)
             print("Check file ownership, if not owner redirect back with flash message")
             return redirect(request.referrer)
         else:

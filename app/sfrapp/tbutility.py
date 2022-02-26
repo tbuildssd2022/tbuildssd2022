@@ -114,7 +114,8 @@ def testfileownersql(fileuuid):
     if len(fileuuid) != 32:
         return None
     else:
-        sqlselect = "select fileowner from storedfiles where uuid_hex='{}'".format(fileuuid)
+        sqlselect = "select fileowner,filename from storedfiles where uuid_hex='{}'".format(fileuuid)
+        return sqlselect
 
 
 
