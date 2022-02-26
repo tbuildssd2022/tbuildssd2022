@@ -86,7 +86,7 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
 # It also creates multiple where clause conditions to confirm the authenticated user is authorized to access
 # this specific file. This prevents indirect object reference brute force attacks.
 def getfiledatasql(uid,authgroups,fileuuid):
-    sqlselect = "select filetype,filedate from storedfiles "
+    sqlselect = "select filetype,filedata from storedfiles "
     sqlwhere = "where uuid_hex='{}' and ( fileowner={} or ".format(fileuuid,uid)
     # convert string value into a list
     authgroups=getauthzfg(authgroups)
@@ -162,7 +162,11 @@ def getfiledata(dbconlist,filesql):
     except Exception as err:
         print(err)
         return None
-
+    if isinstance(tuplelist,list):
+        print("process list")
+        return tuplelist
+    else:
+        return None
 
     return
 
