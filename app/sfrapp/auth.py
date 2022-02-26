@@ -55,8 +55,8 @@ def verify_passwd(pwdhash,pwdstr):
 def login_post():
     accessid = request.form.get('accessid')
     formpasswd = request.form.get('passwd')
-    print(accessid)
-    print(formpasswd)
+    print(type(accessid))
+    print(type(formpasswd))
     # Need form validation on the accessid field.
     if accessid and formpasswd:
         thisduserobj=getdatauser(accessid)
@@ -78,6 +78,8 @@ def login_post():
         else:
             print("passwordcheck failed")
             return redirect(url_for('main.index'))
+    else:
+        return redirect(url_for('main.index'))
 
    
 # This checks for authentication status and redirects the user to the app home page while presenting their display name.
