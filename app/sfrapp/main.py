@@ -117,9 +117,11 @@ def presentfileview2():
         dbcondata = getconnectiondata()
         resultslist=getauthzfiles(dbcondata,authzfilessql)
         print(len(resultslist))
-        if resultslist is not None:
+        if resultslist is not None and len(resultslist) > 0:
             # New function to turn the tuples into a dictionary
             authzdict=newresultsdict(resultslist)
+        else:
+            authzdict['00000000000000000000000000000000']="No available files were indentified for this search: {} ".format(sftype)
     return render_template('fileview.html',azfiledict=authzdict)
 
 
