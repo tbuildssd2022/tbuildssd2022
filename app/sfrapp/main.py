@@ -186,8 +186,8 @@ def getdownload():
             filename=thisfilereq[1]
             filetype=thisfilereq[0]   
             # The filetype is used to determine the correct mimetype for the http response 
-            newsendstring(filetype)
-            return render_template('filedownload.html',tempprint=newsendstring)
+            sendfilestring=newsendstring(filetype)
+            return render_template('filedownload.html',tempprint=sendfilestring)
         else:
             # Collect SQL used for troubleshooting
             render_template('filedownloadfailure.html',tempprint=thissql)
