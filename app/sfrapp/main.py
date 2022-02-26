@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
 from . import db, getconnectiondata,newdburi
 from . models import DataUser, User
-import io
+import io,sys
 # Import custom module classes and functions
 from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, newsendstring
 
@@ -183,7 +183,7 @@ def getdownload():
         thisfilereq=getfiledata(dbcondata,thissql)
         if thisfilereq is not None:
             fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
-            print(len(fileblob))
+            print(sys.getsizeof(fileblob))
             filename=thisfilereq[1]
             print(filename)
             filetype=thisfilereq[0]   
