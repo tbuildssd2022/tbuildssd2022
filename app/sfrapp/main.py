@@ -11,6 +11,7 @@
 #######################################################################################################################
 #from crypt import methods
 from crypt import methods
+import re
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -115,6 +116,7 @@ def presentfileview2():
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
         resultslist=getauthzfiles(dbcondata,authzfilessql)
+        print(len(resultslist))
         if resultslist is not None:
             # New function to turn the tuples into a dictionary
             authzdict=newresultsdict(resultslist)
