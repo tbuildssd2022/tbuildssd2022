@@ -167,8 +167,18 @@ def getfiledata(dbconlist,filesql):
         return None
 
 def testfileownership(dbconlist,ownersql):
-
-    return
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        thiscur.execute(ownersql)
+        # get filetype and blob
+        resulttuple = thiscur.fetchone()
+        print(resulttuple)
+        dbhandle.close()
+    except Exception as err:
+        print(err)
+        return None
+    return resulttuple
 
 
 ############################  Database output processing ##################
