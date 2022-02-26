@@ -184,7 +184,7 @@ def getdownload():
         # Determine the user's requested action and develop the correct query
         if selaction=="sharefile" or selaction=="deletefile":
             print("Check file ownership, if not owner redirect back with flash message")
-            return request.referrer
+            return redirect(request.referrer)
         else:
             # Download file is expected to be the most common action
             #Rerun Need a second check to confirm user ID is permitted to access this file
