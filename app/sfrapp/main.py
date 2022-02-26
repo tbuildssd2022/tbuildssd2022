@@ -107,6 +107,7 @@ def presentfileview2():
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
+        thisaid=thisdatauser.useraccessid
         azglist=thisdatauser.authgroups
         duserfilegroups=getauthzfg(azglist)
         # Generate the SQL based on userid and group for authorization
@@ -124,7 +125,7 @@ def presentfileview2():
         else:
             authzdict = dict()
             authzdict['00000000000000000000000000000000']="No available files were indentified for this search: {} ".format(sftype)
-    return render_template('fileview.html',azfiledict=authzdict)
+    return render_template('fileview2.html',azfiledict=authzdict,aid=thisaid,grouplist=azglist,searchfname=sfname,searchkeytag=skeytag,searchtype=sftype)
 
 
 # File upload 
