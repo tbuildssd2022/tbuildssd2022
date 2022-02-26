@@ -73,6 +73,7 @@ def login_post():
             if thisauthzobj is not None:
                 pwdchk=verify_passwd(thisauthzobj.userpasswd, formpasswd)
             else:
+                flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
             if pwdchk:
                 print("Setup login manager for this user")
@@ -80,6 +81,7 @@ def login_post():
                 return redirect(url_for('main.presenthome'))        
             else:
                 print("passwordcheck failed")
+                flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
         else:
             print("Suspicious Username, write to IDS: {}".format(unametest[2]) )
