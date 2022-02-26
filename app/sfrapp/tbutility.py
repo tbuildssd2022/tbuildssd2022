@@ -195,7 +195,7 @@ def getgroupdetails(azglist):
     for azg in azglist:
         print(azg)
         grouprecord=DataGroup.query.filter_by(groupid=azg).first()
-        dir(grouprecord)
+        print(type(grouprecord))
         #tmplist.append(grouprecord.groupname)
         #tmplist.append(grouprecord.groupdesc)
         #tmplist.append(grouprecord.grouptype)
