@@ -186,7 +186,7 @@ def getdownload():
         thisfilereq=getfiledata(dbcondata,thissql)
         print(type(thisfilereq))
         if thisfilereq is None:
-            render_template('filedownloadfailure.html',tempprint=thissql)
+            return render_template('filedownloadfailure.html',tempprint=thissql)
         else:
         #if thisfilereq is not None:
             print(len(thisfilereq))
