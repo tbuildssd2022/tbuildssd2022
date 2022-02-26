@@ -110,17 +110,11 @@ def presentfileview2():
         azglist=thisdatauser.authgroups
         duserfilegroups=getauthzfg(azglist)
         # Generate the SQL based on userid and group for authorization
-        # modify function call based on search fields being populated
+        # function call modifies SQL based on search fields being populated
         sftype=request.form.get('selectedfiletype')
         sfname=request.form.get('filename')
         skeytag=request.form.get('keyword-tag')
-        #if sfname is not None and len(sfname) > 0: 
-        #    authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname)
-        #else:
         authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname,skeytag)
-        #if sfname is not None:
-        #    authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname)
-
         # Create database connection, then process SQL generated above
         dbcondata = getconnectiondata()
         resultslist=getauthzfiles(dbcondata,authzfilessql) 
