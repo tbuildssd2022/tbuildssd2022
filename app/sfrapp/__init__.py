@@ -110,7 +110,6 @@ def create_app():
         return User.query.get(int(user_id))
     
     # Import custom module functions
-def testfileownersql(fileuuid):
     from .tbutility import getauthzfg, getauthzfiles, getauthzfilesql, newresultsdict, getfiledatasql, getmimetype, getfiledata, testuserstrps,testfileownersql
 
     with app.app_context():
