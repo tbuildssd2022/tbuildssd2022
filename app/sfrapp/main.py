@@ -185,7 +185,10 @@ def getdownload():
         dbcondata = getconnectiondata()
         thisfilereq=getfiledata(dbcondata,thissql)
         print(type(thisfilereq))
-        if thisfilereq is not None:
+        if thisfilereq is None:
+            render_template('filedownloadfailure.html',tempprint=thissql)
+        else:
+        #if thisfilereq is not None:
             print(len(thisfilereq))
             filetype=thisfilereq[0] 
             filename=thisfilereq[1]
@@ -193,9 +196,9 @@ def getdownload():
             # The filetype is used to determine the correct mimetype for the http response 
             newmime=getmimetype(filetype)
             return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
-        else:
-            # Collect SQL used for troubleshooting
-            render_template('filedownloadfailure.html',tempprint=thissql)
+        #else:
+        #    # Collect SQL used for troubleshooting
+        #    render_template('filedownloadfailure.html',tempprint=thissql)
     # Redirect unauthenticated users
     else:
         return render_template('index.html')
