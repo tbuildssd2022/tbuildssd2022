@@ -11,7 +11,7 @@
 #######################################################################################################################
 #from crypt import methods
 from crypt import methods
-from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup
+from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
@@ -190,7 +190,8 @@ def getdownload():
             print(sys.getsizeof(fileblob))
             # The filetype is used to determine the correct mimetype for the http response 
             sendfilestring=newsendstring(filetype)
-            return render_template('filedownload.html',tempprint=sendfilestring)
+            return send_file(sendfilestring)
+            #return render_template('filedownload.html',tempprint=sendfilestring)
         else:
             # Collect SQL used for troubleshooting
             render_template('filedownloadfailure.html',tempprint=thissql)
