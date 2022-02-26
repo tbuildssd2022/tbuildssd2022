@@ -1,6 +1,7 @@
 #!/bin/env python3
 # Author(s): Doug Leece
 # Version history:  Feb 24/2022 - Inital setup, group parsing functions and file searching SQL
+#                   Feb 26/2022 - Adding input validation functions, not implementing WTForms
 #                   
 #
 # Notes: There are a number of data handling steps that are repeated withnig multiple parts of the application.
@@ -107,7 +108,13 @@ def getfiledatasql(uid,authgroups,fileuuid):
     return fullsql
 
 
-
+def testfileownersql(fileuuid):
+    if not isinstance(fileuuid,str):
+        return None
+    if len(fileuuid) != 32:
+        return None
+    else:
+        sqlselect = "select fileowner from storedfiles where uuid_hex='{}'".format(fileuuid)
 
 
 
@@ -117,20 +124,8 @@ def getfiledatasql(uid,authgroups,fileuuid):
 #  SQL or only portions of the record row retrieved.  Eg, do not move all possible files 
 #  into an object since that will exceed memory limits
 #
-#  This function utilizes a database credential method for connection functions created in init.py
-#def dbconnectalt(dbhost,dbuser,dbcred,dbname):
-#    try:
-#        dbh = mysql.connector.connect(
-#            host = dbhost,
-#            user = dbuser,
-#            password = dbcred,
-#            database = dbname
-#        )
-#        return dbh
-#    except Exception as err:
-#        print(err)
 
-
+#  These functions utilizes a database credential method for connection functions created in init.py
 def getauthzfiles(dbconlist,appsql):
     try:
         dbhandle=dbconnectalt(dbconlist)
@@ -170,7 +165,10 @@ def getfiledata(dbconlist,filesql):
     else:
         return None
 
+def testfileownership(dbconlist,ownersql):
+
     return
+
 
 ############################  Database output processing ##################
 #

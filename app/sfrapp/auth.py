@@ -87,6 +87,7 @@ def login_post():
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
         else:
+            flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
             print("Failed test 2, Suspicious Username, write to IDS: {}".format(unametest[2]) )
             return redirect(url_for('main.index'))
     else:
