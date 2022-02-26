@@ -82,6 +82,7 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     
     # Combine the parts to create the 
     fullsql=sqlselect + sqlwhere
+    print(fullsql)
     return fullsql
 
 # This function generates the SQL needed to retrieve the binary large object data and set the mime type
