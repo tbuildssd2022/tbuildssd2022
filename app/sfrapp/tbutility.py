@@ -71,7 +71,7 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     # Adjust SQL where to include optional file name and/or keyword arguments
     #if (fname is None) and (fkeytag is None):
     #    sqlwhere = sqlwhere
-    if (fname is not None) and (fkeytag is None):
+    if (len(fname) > 0) and (len(fkeytag) == 0):
         sqlwhere=sqlwhere + " and (filename like '%{}%')".format(fname) 
     if (fname is None) and (fkeytag is not None):
         sqlwhere=sqlwhere +  " and (keywords_tags like '%{}%')".format(fkeytag)
