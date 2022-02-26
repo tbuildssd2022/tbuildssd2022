@@ -87,6 +87,7 @@ def login_post():
             print("Suspicious Username, write to IDS")
             return redirect(url_for('main.index'))
     else:
+        print("failed test 1")
         return redirect(url_for('main.index'))
 
    
