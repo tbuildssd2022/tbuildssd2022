@@ -192,14 +192,15 @@ def getgroupdetails(azglist):
     #print(dir(grouprecord))
     azgroupdetails=dict()
     for azg in azglist:
-        tmplist=[]
+        print(azg)
         grouprecord=DataGroup.query.filter_by(groupid=azg).first()
-        tmplist.append(grouprecord.groupname)
-        tmplist.append(grouprecord.groupdesc)
-        tmplist.append(grouprecord.grouptype)
-        azgroupdetails[azg]=tmplist
+        dir(grouprecord)
+        #tmplist.append(grouprecord.groupname)
+        #tmplist.append(grouprecord.groupdesc)
+        #tmplist.append(grouprecord.grouptype)
+        #azgroupdetails[azg]=tmplist
     # creates a dictionary with a list for key data
-    return azgroupdetails
+    return #azgroupdetails
 
 
 
