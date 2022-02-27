@@ -181,6 +181,8 @@ def presentfileshare():
 @main.route('/fshr4', methods=['POST'])
 @login_required
 def processfileshare():
+    checkshared=request.form.getlist('sharedgroups')
+    print(checkshared)
     return render_template('fileshareresp.html')
 
 

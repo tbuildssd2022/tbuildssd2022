@@ -15,7 +15,7 @@
 <div class="content">
   
   <p> This would be the user's group membership list  checkbox</p>
-  <form method="POST" action="/fshr4"></form>
+  <form method="POST" action="/fshr4">
     {% for gid, gdesc in prezgroups %}
      <input type="checkbox" name="sharedgroups" value="{{ gid }}"> <label > {{ gdesc }} </label> <br>
      <!--
