@@ -202,12 +202,11 @@ def processfileshare():
 def getdownload():
     # Error handling for unchecked radio buttons, since we are avoiding client side javascript
     # to avoid browser compatibility issues and client side attack surface
+    print("inside fsd5")
+    fileuuid=request.form.get('fileselection')
+    selaction=request.form.get('actionrequest')
     print(type(fileuuid))
     print(type(selaction))
-    fileuuid=request.form.get('fileselection')
-    print(type(fileuuid))
-    selaction=request.form.get('actionrequest')
-    print(selaction)
     if current_user.is_authenticated:
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
