@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="columns" >
+        <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
+    </div>
+    <div class="columns">
+        <div class="column is-two-thirds">
+            <h2 class="title">Secure File Repository Search </h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Tempora adipisci corporis illum saepe sequi neque natus fuga distinctio cum aperiam, ad consequatur asperiores consectetur voluptates at ut illo.</p>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-warning">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <p> Note, only files shared with the following groups {{grouplist}} or files assigned to {{aid}} ownernship are authorized for access</p>
+                <form method="POST" action="/flup2">
+                    <div class="field"> 
+                        <div class="label">File Name</div>
+                        <div class="control">
+                            <div class="file">
+                                <label class="file-label">
+                                  <input class="file-input" type="file" name="fileup">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label"> Choose a file to upload </span>
+                                    </span>
+                                </label>
+                              </div><!-- End file input div class-->                        
+                        </div>
+                    <!-- </div> <div class="field"> -->
+                        <div class="label">Keyword or Meta Data Tag</div>
+                        <div class="control">
+                        <input class="input is-normal" type="text" name="keyword-tag" placeholder="Partial or complete keyword" autofocus="">
+                        </div>
+                    <!-- </div>  <div class="field"> -->
+                        <div class="control">
+                            <div class="select" >
+                                <select name="selectedfiletype">
+                                <option value="any" >All File types: ANY</option>    
+                                <option value="tar">Archive File: TAR</option>
+                                <option value="zip">Archive File: ZIP</option>
+                                <option value="pdf">Document File: PDF</option>
+                                <option value="docx">Document File: DOCX</option>
+                                <option value="jpeg">Image File: JPEG</option>
+                                <option value="svg">Image File: SVG</option>
+                                <option value="xlsx">Spreadsheet: XLSX</option>
+                                <option value="txt">Text/Data File: TXT</option>
+                                <option value="csv">Text/Data File: CSV</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                        
+                        <button class="button is-block is-info is-large is-fullwidth">Upload file</button>
+                </form>
+                </div> <!-- End of box form-->
+            <h2> &nbsp </h2>
+        </div> <!-- End of 2/3 column-->
+        <div class="column is-one-third" >
+            <p> &nbsp</p>
+        </div> <!-- end of 1/3-->
+        <!--<div class="column"> <p> &nbsp</p></div>  auto column filler -->
+    </div> <!-- end columns-->
+{% endblock %}

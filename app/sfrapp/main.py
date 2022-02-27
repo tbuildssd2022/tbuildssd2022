@@ -143,8 +143,8 @@ def presentfileview2():
 @main.route('/flup7')
 @login_required
 def presentupload():
-    print("inside present upload")
-    return render_template('fileup.html')
+    print("inside presentupload /flup7")
+    return render_template('fileup2.html')
 
 # Response page 
 @main.route('/flup2')
