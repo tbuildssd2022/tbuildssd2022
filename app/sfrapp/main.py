@@ -174,8 +174,8 @@ def presentfileshare():
             #print(usergroupdict)
             thisprezgroups=newsharedgroups(usergroupdict)
             print(thisprezgroups)
-            sharedgrpcb = newcheckbox(thisprezgroups)
-    return render_template('fileshare.html',sgcb=sharedgrpcb)
+            #sharedgrpcb = newcheckbox(thisprezgroups)
+    return render_template('fileshare.html',prezgroups=thisprezgroups)
 
 
 @main.route('/fshr4', methods=['POST'])

@@ -267,11 +267,13 @@ def newsharedgroups(shrgrpdict):
     for item in shrgrpitems:
         tmplist=[]
         tmplist.append(item[0])
-        tmplist.append(item[1][0])
+        gid=item[1][0]
         if len(item[1][1]) > 30:
-            tmplist.append(item[1][1][:27] + "...")
+            gdesc=item[1][1][:27] + "..."
         else:
-            tmplist.append(item[1][1])
+            gdesc=item[1][1]
+        gdetails="{}: {}".format(gid,gdesc)
+        tmplist.append(gdetails)
         presgrouplist.append(tmplist)
     print(presgrouplist)
     return presgrouplist
