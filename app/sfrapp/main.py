@@ -200,6 +200,10 @@ def processfileshare():
 @main.route('/fsd5',methods=['POST'])
 @login_required
 def getdownload():
+    # Error handling for unchecked radio buttons, since we are avoiding client side javascript
+    # to avoid browser compatibility issues and client side attack surface
+    print(type(fileuuid))
+    print(type(selaction))
     fileuuid=request.form.get('fileselection')
     print(type(fileuuid))
     selaction=request.form.get('actionrequest')
