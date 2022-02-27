@@ -7,7 +7,7 @@
     </div>
     <div class="columns">
         <div class="column is-two-thirds">
-            <h2 class="title">Secure File Repository Search </h2>
+            <h2 class="title">Secure File Repository File Upload </h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Tempora adipisci corporis illum saepe sequi neque natus fuga distinctio cum aperiam, ad consequatur asperiores consectetur voluptates at ut illo.</p>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -16,7 +16,8 @@
                     </div>
                 {% endif %}
             {% endwith %}
-            <p> Note, only files shared with the following groups {{grouplist}} or files assigned to {{aid}} ownernship are authorized for access</p>
+            <p> Note, any files uploaded will be assigned ownership to account {{ useraccessid }} and will require additional steps to share
+                the file with any of the greoups {{ useraccessid }} is currently a member of.</p>
                 <form method="POST" action="/flup2">
                     <div class="label">Keywords or Meta Data Tagging</div>
                         <div class="control">
