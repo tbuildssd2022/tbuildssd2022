@@ -276,10 +276,15 @@ def newsharedgroups(shrgrpdict):
     print(presgrouplist)
     return presgrouplist
 
+# This function converts a list of lists into a group of html checkboxes.
+# Jinja2 formating is a bit buggy, and the nature of a checkbox means you don't know the field name in advance
+def newcheckbox(groupslist):
+    cbhtml=""
+    for glist in groupslist:
+        cbhtml=cbhtml +'''<input type="checkbox" name="sharedgroups" value="{}"> \
+            <label> {}:{} </label><br>'''.format(glist[0],glist[1],glist[2])
 
-
-
-    return
+    return cbhtml
 
 
 

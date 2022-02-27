@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,newcheckbox
 
 
 
@@ -174,8 +174,8 @@ def presentfileshare():
             #print(usergroupdict)
             thisprezgroups=newsharedgroups(usergroupdict)
             print(thisprezgroups)
-
-    return render_template('fileshare.html')
+            sharedgrpcb = newcheckbox(thisprezgroups)
+    return render_template('fileshare.html',sgcb=sharedgrpcb)
 
 
 @main.route('/fshr4', methods=['POST'])
