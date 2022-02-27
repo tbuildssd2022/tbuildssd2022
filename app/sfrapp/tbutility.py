@@ -343,6 +343,29 @@ def testfsradio(rb1,rb2):
     else:
         return None
 
+# May not be required if zero length list is a valid response E.G,  removing all sharing, just send the user a warning
+#  
+def testfschkbx(cblist):
+    print(cblist)
+    if len(cblist)== 0:
+        msg="Warning, this file will no longer be shared with any groups. If this is in error, please revisit the file sharing page."
+        return msg
+    return None
+
+# Process the file name provided and return only the last object, (files can have more than one dot, either accidentally or maliciously) 
+def getfileextension(flupfilename):
+    flupext = flupfilename.split('.')[-1]
+    return flupext
+
+# This function can confirm the extention is on the list of supported extensions and it matches the mime type selected
+# provides warning messagesback to user, existance of message is reason to halt processing and redirect user back to the
+# file upload page.
+def testfileextension(flupext,fluptype):
+    if flupext.lower() != fluptype.lower():
+        msg="The file extension value of the file uploaded must match the file type selected from the drop down menu."
+        return msg
+    return None
+
 
 
 

@@ -18,12 +18,13 @@ from flask import Blueprint,render_template, redirect,url_for, request, flash, M
 from markupsafe import escape
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from os import environ, path
 from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension
 
 
 
@@ -171,18 +172,50 @@ def proccessupload():
         thisaid=thisdatauser.useraccessid
     #
     newfile = request.files['fileup']
-    print(type(newfile))
-    print(newfile.filename)
+    if newfile.filename == '':
+        errmsg="No file was selected for uploading"
+        flash(errmsg)
+        return redirect(url_for('main.presentupload'))
+    # Use werkzeug utility method for removing leading file paths occasionally used in application attacks
+    newfile=secure_filename(newfile)
     flupkeytag=request.form.get('fileup-keyword-tag')
+    # Use server size validation to prevent input errors when including keywords in the file storage action
+    # Truncate the data rather than warning the user, 254 characters is more than adequate for reasonable needs
+    # excessive uploads seems malicious
+    if len(flupkeytag) > 254:
+        flupkeytag = flupkeytag[:254]
+    # Remove any potentially malicious HTML tags in this open user input field
     flupkeytag=escape(flupkeytag)
-    print(flupkeytag)
-    flupmime=request.form.get('uploadedfiletype')
-
-    flupmimetest=getmimetype(flupmime)
+    print(len(flupkeytag))
+    # This is now set to selected by default so an unset value is a strong indicator of input tampering, as is invalid mime type
+    fluptype=request.form.get('uploadedfiletype')
+    if len(fluptype) == 0:
+        errmsg="Please select the correct file type from the dropdown menu"
+        flash(errmsg)
+        return redirect(url_for('main.presentupload'))
+    flupmimetest=getmimetype(fluptype)
     if flupmimetest=='invalid-mimetype':
         print("generate security event: Suspicious Mimetype attempted  {} ".format("- - "+flupmimetest+" - -"))
+        errmsg="Please select the correct file type from the dropdown menu"
+        flash(errmsg)
+        return redirect(url_for('main.presentupload'))
+    # Confirm valid extension
+    flupext=getfileextension(newfile)
+    errmsg=testfileextension(flupext,fluptype)
+    if errmsg is not None:
+        flash(errmsg)
+        return redirect(url_for('main.presentupload'))
     
-    print("extension data {} {}".format(flupmime,flupmimetest))
+    # Assuming no errors or suspicious activity with file upload input values
+    # begin processing the filedata itself.
+
+
+
+    
+    
+
+
+    print("extension data {} {}".format(fluptype,flupmimetest))
 
 
     # Runs file validator module 
