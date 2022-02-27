@@ -172,6 +172,7 @@ def proccessupload():
     #
     newfile = request.files['fileup']
     print(type(newfile))
+    print(newfile.filename)
     flupkeytag=request.form.get('fileup-keyword-tag')
     flupkeytag=escape(flupkeytag)
     print(flupkeytag)
