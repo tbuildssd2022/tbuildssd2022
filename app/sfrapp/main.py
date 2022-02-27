@@ -201,6 +201,7 @@ def processfileshare():
 @login_required
 def getdownload():
     fileuuid=request.form.get('fileselection')
+    print(type(fileuuid))
     selaction=request.form.get('actionrequest')
     print(selaction)
     if current_user.is_authenticated:
