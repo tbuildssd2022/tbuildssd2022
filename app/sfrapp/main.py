@@ -169,14 +169,19 @@ def proccessupload():
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
-
+    print("User data, uid: {}, useraccessid {}".format(uid,thisaid))
+    #
+    newfile = request.files['file']
+    print(type(newfile))
     flupkeytag=request.form.get('fileup-keyword-tag')
     flupkeytag=escape(flupkeytag)
     print(flupkeytag)
     flupmime=request.form.get('uploadedfiletype')
+
     flupmimetest=getmimetype(flupmime)
     if flupmimetest=='invalid-mimetype':
         print("generate security event: Suspicious Mimetype attempted  {} ".format("- - "+flupmimetest+" - -"))
+    print("extension data {} {}".format(flupmime,flupmimetest))
 
 
     # Runs file validator module 
