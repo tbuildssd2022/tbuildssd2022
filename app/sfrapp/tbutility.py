@@ -118,10 +118,11 @@ def testfileownersql(fileuuid):
         sqlselect = "select fileowner,filename from storedfiles where uuid_hex='{}'".format(fileuuid)
         return sqlselect
 
-
-def updatesharedgroupssql(grouplist,fileuuid):
+# This function adds the correct file owner into the where clause as well, preventing
+# anyone but the file owner from making permission changes. 
+def updatesharedgroupssql(grouplist,fileuuid,fileowner):
     azglist = ','.join([str(x) for x in grouplist])
-    updgrpsql="update storedfiles set authgroups='{}' where uuid_hex='{}'".format(azglist,fileuuid)
+    updgrpsql="update storedfiles set authgroups='{}' where uuid_hex='{}' and fileowner={}".format(azglist,fileuuid,int(fileowner))
     return updgrpsql
 
 

@@ -182,11 +182,13 @@ def presentfileshare():
 @main.route('/fshr4', methods=['POST'])
 @login_required
 def processfileshare():
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
     checkshared=request.form.getlist('sharedgroups')
     fileid=request.form.get('ukn2')
     print(checkshared)
     print(fileid)
-    updategrpsql=updatesharedgroupssql(checkshared,fileid)
+    updategrpsql=updatesharedgroupssql(checkshared,fileid,uid)
     # Create database connection, then process SQL generated above
     dbcondata = getconnectiondata()
     updatesharedgrp(dbcondata,updategrpsql)
