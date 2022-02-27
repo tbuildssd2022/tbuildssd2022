@@ -186,6 +186,21 @@ def testfileownership(dbconlist,ownersql):
         return None
     return resulttuple
 
+def updatesharedgrp(dbconlist,shgrpsql):
+    print(shgrpsql)
+    print(dbconlist)
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        resultcode=thiscur.execute(shgrpsql)
+        dbhandle.commit()
+        dbhandle.close()
+    except Exception as err:
+        print(err)
+        return None
+    return resultcode
+
+
 # This function retrieves the record set for each group the user is a member off
 # The records are put into a dictionary so they can be used to advise the user about 
 # which groups they may want to grant access to a file they own.

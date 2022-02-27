@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp
 
 
 
@@ -187,7 +187,9 @@ def processfileshare():
     print(checkshared)
     print(fileid)
     updategrpsql=updatesharedgroupssql(checkshared,fileid)
-    print(updategrpsql)
+    # Create database connection, then process SQL generated above
+    dbcondata = getconnectiondata()
+    updatesharedgrp(dbcondata,updategrpsql)
 
     return render_template('fileshareresp.html')
 
