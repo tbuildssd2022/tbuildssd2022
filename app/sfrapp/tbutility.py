@@ -327,7 +327,7 @@ def testfsradio(rb1,rb2):
     print(type(rb1))
     print(type(rb2))
     if (not isinstance(rb1,str)) and (not isinstance(rb2,str)):
-        msg="Please select both a file and one of three processing options: download, share or delete"
+        msg="Please repeat your search then select both a file and one of three processing options: download, share or delete"
         return msg
     else:
         return None

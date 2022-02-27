@@ -2,25 +2,33 @@
 
 {% block content %}
 <h1 class="title">
-  File Share Inital page 
+  Secure File Repository File Sharing Permissions Modification 
 </h1>
-<h2> some dynamic subtitle </h2>
-<div class="content">
-    <p> This would be the file details : <br>
-    filename, first six keywords, file date
+<h2> Future user experience enhancements: </h2>
+<div class="content has-text-justified">
+    <p>This section would include the following file details:
+      <ul>
+        <li>File Name</li>
+        <li>The first six to eight keywords or tags</li>
+        <li>File creation date: 2022-02-27 7:14:06 MST</li>
+        <li>Additional meta-data as features added</li>
+      </ul>
     </p>
     
 </div>
 
-<div class="content">
+<div class="content has-text-justified">
   
-  <p> This would be the user's group membership list  checkbox</p>
+  <p> You are a member of the following groups and the current owner of this file, therefore you 
+    can grant to any of the following groups by selecting the appropriate check box. <br>
+    Note: All unchecked groups will have access removed even if they were previously granted access.</p>
   <form method="POST" action="/fshr4">
     <input type="hidden" name="ukn2" value="{{ ukn }}">
     {% for gid, gdesc in prezgroups %}
      <input type="checkbox" name="sharedgroups" value="{{ gid }}"> <label > {{ gdesc }} </label> <br> 
     {% endfor %}
-  <p> Select the groups you wish to share the files ( checkboxes above) then click the update button below </p>
+  <p>&nbsp;</p>
+  <p class="has-text-info"> Select the groups you wish to share the files ( checkboxes above) then click the update button below </p>
   
   <button class="button is-block is-info is-large is-fullwidth">Update Sharing</button>
   </form>
