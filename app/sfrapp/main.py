@@ -169,20 +169,21 @@ def presentfileshare():
         # Parse the string into two digit list values
         azglist=getauthzfg(azglist)
         usergroupdict=getgroupdetails(azglist)
+        fileid=request.args.get('ukn')
         # confirm user belongs to at least one group
         if len(usergroupdict) > 0:
             #print(usergroupdict)
             thisprezgroups=newsharedgroups(usergroupdict)
             print(thisprezgroups)
             #sharedgrpcb = newcheckbox(thisprezgroups)
-    return render_template('fileshare.html',prezgroups=thisprezgroups)
+    return render_template('fileshare.html',prezgroups=thisprezgroups,ukn=fileid)
 
 
 @main.route('/fshr4', methods=['POST'])
 @login_required
 def processfileshare():
     checkshared=request.form.getlist('sharedgroups')
-    fileid=request.form.get('ukn')
+    fileid=request.form.get('ukn2')
     print(checkshared)
     print(fileid)
     updategrpsql=updatesharedgroupssql(checkshared,fileid)
