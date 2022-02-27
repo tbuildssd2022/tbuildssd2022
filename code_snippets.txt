@@ -1,0 +1,10 @@
+Flash Message presenation 
+
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="notification is-warning">
+{{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}

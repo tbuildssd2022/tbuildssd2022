@@ -2,6 +2,7 @@
 # Author(s): Doug Leece
 # Version history:  Feb 24/2022 - Inital setup, group parsing functions and file searching SQL
 #                   Feb 26/2022 - Adding input validation functions, not implementing WTForms
+#                   Feb 27/2022 - Additional input validation for checkboxes and radio buttons used in app
 #                   
 #
 # Notes: There are a number of data handling steps that are repeated withnig multiple parts of the application.
@@ -319,6 +320,16 @@ def testuserstrps(ustr):
     return [True,strpustr]
 
 
-    
+# This function validates the radio buttons used for file select are set and generates a user friendly responses 
+# based on the various possible error states.
+def testfsradio(rb1,rb2):
+    # Both radio buttons unselected
+    if (not isinstance(rb1,str)) and (not isinstance(rb2,str)):
+        msg="Please select both a file and one of three processing options: download, share or delete"
+        return msg
+    else:
+        return None
+
+
 
 

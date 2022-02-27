@@ -9,6 +9,13 @@
         <div class="column is-two-thirds">
             <h2 class="title">Secure File Repository Search </h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, perspiciatis. Tempora adipisci corporis illum saepe sequi neque natus fuga distinctio cum aperiam, ad consequatur asperiores consectetur voluptates at ut illo.</p>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-warning">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <p> Note, only files shared with the following groups {{grouplist}} or files assigned to {{aid}} ownernship are authorized for access</p>
                 <form method="POST" action="/fsd1">
                     <div class="field"> 

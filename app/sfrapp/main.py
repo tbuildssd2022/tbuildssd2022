@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio
 
 
 
@@ -186,8 +186,12 @@ def processfileshare():
         uid=current_user.get_id()
     checkshared=request.form.getlist('sharedgroups')
     fileid=request.form.get('ukn2')
-    print(checkshared)
-    print(fileid)
+    # User input validation & anomalous detection measure
+    errmsg=testfsradio(checkshared,fileid)
+    if errmsg is not None:
+        print(errmsg)
+        flash(errmsg)
+        return redirect(url_for('main.presentfileview'))
     updategrpsql=updatesharedgroupssql(checkshared,fileid,uid)
     # Create database connection, then process SQL generated above
     dbcondata = getconnectiondata()
