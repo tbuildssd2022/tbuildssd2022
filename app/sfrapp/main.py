@@ -179,14 +179,13 @@ def proccessupload():
     # Use werkzeug utility method for removing leading file paths occasionally used in application attacks
     newfile=secure_filename(newfile.filename)
     flupkeytag=request.form.get('fileup-keyword-tag')
-    # Use server size validation to prevent input errors when including keywords in the file storage action
+    # Use server side validation to prevent input errors when including keywords in the file storage action
     # Truncate the data rather than warning the user, 254 characters is more than adequate for reasonable needs
-    # excessive uploads seems malicious
+    # excessive uploads seems malicious ( tested with 3k of text, truncates as expected)
     if len(flupkeytag) > 254:
         flupkeytag = flupkeytag[:254]
     # Remove any potentially malicious HTML tags in this open user input field
     flupkeytag=escape(flupkeytag)
-    print(len(flupkeytag))
     # This is now set to selected by default so an unset value is a strong indicator of input tampering, as is invalid mime type
     fluptype=request.form.get('uploadedfiletype')
     if len(fluptype) == 0:
@@ -205,9 +204,13 @@ def proccessupload():
     if errmsg is not None:
         flash(errmsg)
         return redirect(url_for('main.presentupload'))
-    
-    # Assuming no errors or suspicious activity with file upload input values
-    # begin processing the filedata itself.
+    ###########################   End User input testing #########################################
+    # Assuming no errors or suspicious activity with file upload input values begin processing the filedata itself.
+    filedata = newfile.stream.read()  # assuming this is a byte stream
+    filesize = len(filedata) # An array of bytes easily counted at insert,  useful meta data going forward
+    if filesize > 6400:
+        errmsg="Maximum filesize has been exceeded"
+        flash(errmsg)
 
 
 
@@ -215,7 +218,7 @@ def proccessupload():
     
 
 
-    print("extension data {} {}".format(fluptype,flupmimetest))
+    
 
 
     # Runs file validator module 
