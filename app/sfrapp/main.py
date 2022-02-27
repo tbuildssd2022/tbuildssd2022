@@ -173,8 +173,9 @@ def presentfileshare():
         if len(usergroupdict) > 0:
             #print(usergroupdict)
             thisprezgroups=newsharedgroups(usergroupdict)
+            print(thisprezgroups)
 
-    return render_template('fileshare.html',prezgroups=thisprezgroups)
+    return render_template('fileshare.html')
 
 
 @main.route('/fshr4', methods=['POST'])
