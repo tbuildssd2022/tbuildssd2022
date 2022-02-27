@@ -211,6 +211,7 @@ def proccessupload():
     if filesize > 6400:
         errmsg="Maximum filesize has been exceeded"
         flash(errmsg)
+        return redirect(url_for('main.presentupload'))
 
 
 
