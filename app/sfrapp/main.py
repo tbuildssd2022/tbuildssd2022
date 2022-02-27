@@ -186,13 +186,7 @@ def processfileshare():
         uid=current_user.get_id()
     checkshared=request.form.getlist('sharedgroups')
     fileid=request.form.get('ukn2')
-    # User input validation & anomalous detection measure
-    errmsg=testfsradio(checkshared,fileid)
-    print(errmsg)
-    if errmsg is not None:
-        print(errmsg)
-        flash(errmsg)
-        return redirect(url_for('main.presentfileview'))
+    
     updategrpsql=updatesharedgroupssql(checkshared,fileid,uid)
     # Create database connection, then process SQL generated above
     dbcondata = getconnectiondata()
@@ -210,8 +204,13 @@ def getdownload():
     print("inside fsd5")
     fileuuid=request.form.get('fileselection')
     selaction=request.form.get('actionrequest')
-    print(type(fileuuid))
-    print(type(selaction))
+    # User input validation & anomalous detection measure
+    errmsg=testfsradio(fileuuid,selaction)
+    print(errmsg)
+    if errmsg is not None:
+        print(errmsg)
+        flash(errmsg)
+        return redirect(url_for('main.presentfileview'))
     if current_user.is_authenticated:
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
