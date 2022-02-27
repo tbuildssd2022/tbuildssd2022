@@ -16,8 +16,8 @@
   
   <p> This would be the user's group membership list  checkbox</p>
   <form method="POST" action="/fshr4"></form>
-    {% for group in prezgroups %}
-      <p>{{ group }}</p>
+    {% for gid, gdesc in prezgroups %}
+      <p>{{ gid }} -- {{ gdesc }}</p>
 
     {% endfor %}
  
