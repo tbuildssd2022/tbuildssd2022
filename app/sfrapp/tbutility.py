@@ -260,21 +260,19 @@ def getmimetype(filetype):
     return truemime
 
 
-# This function converts the dictionary into a list for presentation
+# This function converts the dictionary into a list of tuples for presentation
 def newsharedgroups(shrgrpdict):
     presgrouplist=[]
     shrgrpitems=shrgrpdict.items()
     for item in shrgrpitems:
-        tmplist=[]
-        tmplist.append(item[0])
-        gid=item[1][0]
+        gid=item[0]
+        gname=item[1][0]
         if len(item[1][1]) > 30:
             gdesc=item[1][1][:27] + "..."
         else:
             gdesc=item[1][1]
-        gdetails="{}: {}".format(gid,gdesc)
-        tmplist.append(gdetails)
-        presgrouplist.append(tmplist)
+        gdetails="{}: {}".format(gname,gdesc)
+        presgrouplist.append((gid,gdetails))
     print(presgrouplist)
     return presgrouplist
 
