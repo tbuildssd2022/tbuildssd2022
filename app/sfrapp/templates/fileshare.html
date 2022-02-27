@@ -17,8 +17,10 @@
   <p> This would be the user's group membership list  checkbox</p>
   <form method="POST" action="/fshr4"></form>
     {% for gid, gdesc in prezgroups %}
-      <p>{{ gid }} -- {{ gdesc }}</p>
-
+     <input type="checkbox" name="sharedgroups" value="{{ gid }}"> <label > {{ gdesc }} </label> <br>
+     <!--
+     <p>{{ gid }} -- {{ gdesc }}</p>
+      -->
     {% endfor %}
  
    
