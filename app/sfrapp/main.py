@@ -116,7 +116,7 @@ def presentfileview2():
         sfname=request.form.get('filename')
         skeytag=request.form.get('keyword-tag')
         authzfilessql=getauthzfilesql(uid,duserfilegroups,sftype,sfname,skeytag)
-        if len(sftype) == 0:
+        if len(sfname) == 0:
             sfname="any file name"
         if len(skeytag) == 0:
             skeytag="any keywords"

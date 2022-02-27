@@ -329,6 +329,12 @@ def testfsradio(rb1,rb2):
     if (not isinstance(rb1,str)) and (not isinstance(rb2,str)):
         msg="Please repeat your search then select both a file and one of three processing options: download, share or delete"
         return msg
+    elif (isinstance(rb1,str)) and (not isinstance(rb2,str)):
+        msg="Warning, the file action was not selected. Please repeat your search and select one of three processing options: download, share or delete as well as the selected file."
+        return msg
+    elif (not isinstance(rb1,str)) and (isinstance(rb2,str)):
+        msg="Warning, no file was selected. Please repeat your search and select both a file and one of three processing options: download, share or delete."
+        return msg
     else:
         return None
 
