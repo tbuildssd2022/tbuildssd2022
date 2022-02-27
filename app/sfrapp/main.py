@@ -172,10 +172,8 @@ def presentfileshare():
         fileid=request.args.get('ukn')
         # confirm user belongs to at least one group
         if len(usergroupdict) > 0:
-            #print(usergroupdict)
             thisprezgroups=newsharedgroups(usergroupdict)
             print(thisprezgroups)
-            #sharedgrpcb = newcheckbox(thisprezgroups)
     return render_template('fileshare.html',prezgroups=thisprezgroups,ukn=fileid)
 
 
@@ -224,7 +222,10 @@ def getdownload():
             dbcondata = getconnectiondata()
             tforesult=testfileownership(dbcondata,tfosql)
             if int(tforesult[0]) != int(uid):
-                print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
+                errmsg="Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1])
+                print(errmsg)
+                flash(errmsg)
+                #print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
                 return redirect(request.referrer)
             else:
                 return redirect(url_for('main.presentfileshare',ukn=fileuuid))
