@@ -276,8 +276,10 @@ def getmimetype(filetype):
         truemime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     elif filetype.lower()=="csv":
         truemime='text/csv'
+    elif filetype.lower()=="txt":
+        truemime='text/csv'
     else:
-        truemime='text/plain'
+        truemime='invalid-mimetype'
     # once the mime type has been established return string
     return truemime
 

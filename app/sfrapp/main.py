@@ -15,6 +15,7 @@
 from crypt import methods
 import re
 from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file
+from markupsafe import escape
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from os import environ, path
@@ -134,24 +135,50 @@ def presentfileview2():
     return render_template('fileview2.html',azfiledict=authzdict,aid=thisaid,grouplist=azglist,searchfname=sfname,searchkeytag=skeytag,searchtype=sftype)
 
 
-# File upload 
-# Place holder page for now, just validate for login
-# Possible IDS monitoring option, insider threat exploring the app once authenticated.
-# Queries for active pages that don't end with a known valid number would generate 404 events
-# Attacker would have no idea which ones were valid and we could also create a honeypot page
-# that can only be accessed via indirect reference.
-# replies with a 200, captures attacker data and triggers an alert, while presenting an old help page
+# This route presents the HTML forms for the file upload feature.
+# To ensure non-repudition, both the authenticated user's unique ID and the current time will be 
+# included in the metadata of the uploaded file. To avoid tampering, this data will be collected
+# serverside when the file content form is posted. 
+#
+# The unexpected routing URLS, flup7 posting to flup2 creates a possible IDS monitoring option,
+# I.E., an insider threat exploring the app once authenticated with typically query for numerous
+# URLs that follow naming conventions. 
+# - Queries for active pages that don't end with a known valid number would generate 404 events and would
+#   be more easily detectable through logparsing that relies on regular expressions.
+# - Defining the specifc HTTP methods ensures "invalid method" errors can be highlighted since normal use
+#   of the application should not generate such events.
+# - Finally, an internal attacker may identify the numeric numeric convention and may periodically attempt
+#   a few pages to avoid triggering detection. An unlinked page can be included in the application that appers
+#   to be an older, forgotten portion of the application but in reality it captures the users's account information
+#   and writes the data to the security log. This is commonly called a honey token or honey pot approach, and is one 
+#   option for identifiying a sophisticated internal threat actor.
 # 
-@main.route('/flup7')
+@main.route('/flup7', methods=['GET'])
 @login_required
 def presentupload():
     print("inside presentupload /flup7")
     return render_template('fileup2.html')
 
-# Response page 
-@main.route('/flup2')
+# This route collects the file upload inputs, sanitizes those inputs, rejects suspicious content and identifies the authenticated user's id
+# so file ownership can be established. 
+@main.route('/flup2', methods=['POST'])
 @login_required
 def proccessupload():
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        thisaid=thisdatauser.useraccessid
+
+    flupkeytag=request.form.get('fileup-keyword-tag')
+    flupkeytag=escape(flupkeytag)
+    print(flupkeytag)
+    flupmime=request.form.get('uploadedfiletype')
+    flupmimetest=getmimetype(flupmime)
+    if flupmimetest=='invalid-mimetype':
+        print("generate security event: Suspicious Mimetype attempted  {} ".format("- - "+flupmimetest+" - -"))
+
+
     # Runs file validator module 
     # (Haroun notes)
     # Convert file to blob,  ( V0 drop on /tmp to allow validator to work)
