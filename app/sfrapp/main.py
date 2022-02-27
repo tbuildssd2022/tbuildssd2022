@@ -183,6 +183,8 @@ def presentfileshare():
 def processfileshare():
     checkshared=request.form.getlist('sharedgroups')
     fileid=request.form.get('ukn')
+    print(checkshared)
+    print(fileid)
     updategrpsql=updatesharedgroupssql(checkshared,fileid)
     print(updategrpsql)
 
