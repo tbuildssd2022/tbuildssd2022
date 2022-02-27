@@ -20,7 +20,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,newcheckbox
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql
 
 
 
@@ -182,7 +182,10 @@ def presentfileshare():
 @login_required
 def processfileshare():
     checkshared=request.form.getlist('sharedgroups')
-    print(checkshared)
+    fileid=request.form.get('ukn')
+    updategrpsql=updatesharedgroupssql(checkshared,fileid)
+    print(updategrpsql)
+
     return render_template('fileshareresp.html')
 
 
@@ -209,7 +212,7 @@ def getdownload():
                 print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
                 return redirect(request.referrer)
             else:
-                return redirect(url_for('main.presentfileshare'))
+                return redirect(url_for('main.presentfileshare',ukn=fileuuid))
         else:
             # Download file is expected to be the most common action
             #Rerun Need a second check to confirm user ID is permitted to access this file
