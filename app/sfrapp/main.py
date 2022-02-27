@@ -3,6 +3,8 @@
 # Version history:  Feb 18/2022 - Inital setup and variable cleanup
 #                   Feb 21/2022 - Working through routing and HTML templates, working toward wireframes, 
 #                               modified data model, built user admin tool etc.
+#                   Feb 25/2022 - File search, file sharing, data model adjustments
+#                   Feb 27/2022 - File upload and user details
 #
 # Notes: Main.py is the primary script used for routing the requests to the different URLs into the correct application
 # log functions, (views?). Where possible, the presentation of the results and input forms will be done through HTML
