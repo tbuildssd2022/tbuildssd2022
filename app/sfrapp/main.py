@@ -170,8 +170,8 @@ def proccessupload():
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
     #
-    #newfile = request.files['file']
-    #print(type(newfile))
+    newfile = request.files['fileup']
+    print(type(newfile))
     flupkeytag=request.form.get('fileup-keyword-tag')
     flupkeytag=escape(flupkeytag)
     print(flupkeytag)
