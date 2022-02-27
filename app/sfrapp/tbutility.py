@@ -273,6 +273,7 @@ def newsharedgroups(shrgrpdict):
         else:
             tmplist.append(item[1][1])
         presgrouplist.append(tmplist)
+        print(presgrouplist)
     return presgrouplist
 
 
