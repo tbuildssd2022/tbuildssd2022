@@ -120,8 +120,7 @@ def testfileownersql(fileuuid):
 
 
 def updatesharedgroupssql(grouplist,fileuuid):
-    print(grouplist)
-    print(fileuuid)
+    print(type(grouplist))
     #azglist = ','.join([str[x] for x in grouplist])
     azglist='01,02,03'
     updgrpsql="update storedfiles set authgroups='{}' where uuid_hex='{}'".format(azglist,fileuuid)
