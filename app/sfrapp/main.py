@@ -24,7 +24,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension,getcurdate,getnewuuid,getfileuploadsql,newfileupload
 
 
 
@@ -167,6 +167,7 @@ def presentupload():
 def proccessupload():
     if current_user.is_authenticated:
         uid=current_user.get_id()
+        # Collect this info for logging 
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
@@ -208,11 +209,22 @@ def proccessupload():
     # Assuming no errors or suspicious activity with file upload input values begin processing the filedata itself.
     filedata = newfile.stream.read()  # assuming this is a byte stream
     filesize = len(filedata) # An array of bytes easily counted at insert,  useful meta data going forward
-    if filesize > 6400:
+    if filesize > 64000000:
         errmsg="Maximum filesize has been exceeded"
         flash(errmsg)
         return redirect(url_for('main.presentupload'))
+    # Build meta-data for file upload 
+    filecreate = getcurdate()
+    fileuuid = getnewuuid()
+    thisuploadsql=getfileuploadsql()
+    # Create database connection, then insert the complete file and meta-data 
+    dbcondata = getconnectiondata()
+    resultslist=newfileupload(dbcondata,thisuploadsql)
+    print(type(resultslist))
+    print(resultslist)
 
+
+    
 
 
     

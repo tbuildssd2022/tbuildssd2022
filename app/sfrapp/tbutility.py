@@ -126,6 +126,13 @@ def updatesharedgroupssql(grouplist,fileuuid,fileowner):
     updgrpsql="update storedfiles set authgroups='{}' where uuid_hex='{}' and fileowner={}".format(azglist,fileuuid,int(fileowner))
     return updgrpsql
 
+# this function creates the SQL statement needed to upload a binary large object into the storedfiles database table.
+def getfileuploadsql():
+    uploadsql = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
+    valuetuple = (fileuuid,newsecfilename,fluptype,filedata,uid,filecreate,filesize,flupkeytag)
+    return [uploadsql,valuetuple]
+
+
 
 ###################  SQL database connections & queries ####################################
 # 
@@ -219,6 +226,23 @@ def getgroupdetails(azglist):
             azgroupdetails[azg]=tmplist
     # creates a dictionary with a list for key data
     return azgroupdetails
+
+
+
+def newfileupload(dbconlist,flupsqllist):
+    UPLOADSQL=flupsqllist[0]
+    VALUESTUPLE=flupsqllist[1]
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        result=thiscur.execute(UPLOADSQL, VALUESTUPLE)
+        dbhandle.commit()
+        dbhandle.close()
+        return result
+    except Exception as err:
+        print(err)
+        return None
+
 
 
 
@@ -368,4 +392,19 @@ def testfileextension(flupext,fluptype):
 
 
 
+# extract the current date and time, then format into MySQL datetime
+# https://dev.mysql.com/doc/refman/8.0/en/datetime.html
+def getcurdate():
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+# Generate UUID on the MVC node, load into database as a hex value
+# This is a consistent 16 byte value that can be converted back to a string for presenation.
+# Stored as a string in mysql which could affect ordering in some scenarios
+#  Using uuid4 to generate UUID that is system MAC agnostic https://docs.python.org/3/library/uuid.html
+def getnewuuid():
+    hexuuid = uuid.uuid4().hex
+    return hexuuid
+
+# Convert the hex number into a human readable string if needed for presentation
+def getuuidstring(hexuuid):
+    return str(uuid.UUID(hexuuid))
