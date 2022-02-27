@@ -10,13 +10,13 @@
             <h2 class="title">Secure File Repository Search Results</h2>
             
             <p class="has-text-justified"> The following files were located based on the following file name, keyword and file type search conditions:</p>
-            <p> filename: {{searchfname}} &nbsp;&nbsp;, keywords or tagging: {{searchkeytag}}&nbsp;&nbsp;, file type: {{searchtype}}</p>
+            <p class="has-text-info"> filename: {{searchfname}} &nbsp;&nbsp;, keywords or tagging: {{searchkeytag}}&nbsp;&nbsp;, file type: {{searchtype}}</p>
             <p> &nbsp;</p>
             <p class="has-text-justified"> Select the file you wish to work with, then choose download, sharing or delete options</p>
             <p class="has-text-justified"> Note, only files shared with the following groups {{grouplist}} will be avaliable for downloading. 
                 Additionally, only files assigned to or created by the account {{aid}} will be avaliable for sharing</p>
                
-            <h3 class="title">Files available for authorized access:</h3>
+            <h3 class="title ">Files available for authorized access:</h3>
             <form method="POST" action="/fsd5">
                 <p class="has-text-justified"> File name &nbsp; &nbsp; Keywords/Tags &nbsp; &nbsp; Creation Date &nbsp; &nbsp; File Type &nbsp; &nbsp; File Size</p>
                 <div class = "field has-text-justified">
@@ -27,8 +27,8 @@
                 </div> <!-- End file radio buttons-->
                 </div>
                 <div class="control" >
-                  <p>&nbsp;</p>
-                  <p class="has-text-info-dark is-italic is-size-5" > Select one of the three radio buttons below based on what you want to do with the selected file. 
+                  
+                  <p class="has-text-info-dark is-italic is-size-5 py-3" > Select one of the three radio buttons below based on what you want to do with the selected file. 
                       If you do not see the file, or type of files you are looking for please use your browser's back button
                       and retry your search with different criteria.</p>
                   <label class="radio"></label><input type="radio" name="actionrequest" value="download"> Download file</label>
@@ -36,7 +36,7 @@
                   <label class="radio"></label><input type="radio" name="actionrequest" value="deletefile"> Delete file</label>
                 </div>
                 
-                  <button class="button is-block is-info is-large is-fullwidth">proceed</button>
+                  <button class="button is-block is-info is-large is-fullwidth py-3 ">proceed</button>
                 
                   </form>
                 
