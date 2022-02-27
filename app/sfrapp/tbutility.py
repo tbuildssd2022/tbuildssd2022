@@ -271,7 +271,7 @@ def newsharedgroups(shrgrpdict):
         if len(item[1][1]) > 30:
             tmplist.append(item[1][1][:27] + "...")
         else:
-            tmplist.append(item[1][1]
+            tmplist.append(item[1][1])
         presgrouplist.append(tmplist)
     return presgrouplist
 
