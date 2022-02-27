@@ -188,6 +188,7 @@ def processfileshare():
     fileid=request.form.get('ukn2')
     # User input validation & anomalous detection measure
     errmsg=testfsradio(checkshared,fileid)
+    print(errmsg)
     if errmsg is not None:
         print(errmsg)
         flash(errmsg)

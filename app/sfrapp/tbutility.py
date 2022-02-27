@@ -324,6 +324,8 @@ def testuserstrps(ustr):
 # based on the various possible error states.
 def testfsradio(rb1,rb2):
     # Both radio buttons unselected
+    print(type(rb1))
+    print(type(rb2))
     if (not isinstance(rb1,str)) and (not isinstance(rb2,str)):
         msg="Please select both a file and one of three processing options: download, share or delete"
         return msg
