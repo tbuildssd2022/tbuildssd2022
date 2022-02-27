@@ -19,8 +19,8 @@
   
   <ul> 
     {% for group in prezgroups %}
-      {% for gid, gname, gdesc in group %}
-        <input type="checkbox" value="gid" name="ph" > <label>gname &nbsp; gdesc </label>
+      {% for gid, gdesc in group %}
+        <input type="checkbox" value="gid" name="ph" > <label> gdesc </label>
       {% endfor %}
     {% endfor %}
   </ul>
