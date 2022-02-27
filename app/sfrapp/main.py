@@ -177,7 +177,7 @@ def proccessupload():
         flash(errmsg)
         return redirect(url_for('main.presentupload'))
     # Use werkzeug utility method for removing leading file paths occasionally used in application attacks
-    newfile=secure_filename(newfile)
+    newfile=secure_filename(newfile.filename)
     flupkeytag=request.form.get('fileup-keyword-tag')
     # Use server size validation to prevent input errors when including keywords in the file storage action
     # Truncate the data rather than warning the user, 254 characters is more than adequate for reasonable needs
