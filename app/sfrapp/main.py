@@ -367,5 +367,6 @@ def updateuser():
     newpassword = request.form.get('pwd2')
     print(oldpassword)
     print(newpassword)
+    flash("Password change for account {}was successful".format(thisaccessid))
     # Temp placeholder before the database integration gets built out
     return render_template('userdetails.html')
