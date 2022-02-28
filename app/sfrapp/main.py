@@ -301,7 +301,10 @@ def getdownload():
                 #print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
                 return redirect(request.referrer)
             else:
-                return redirect(url_for('main.presentfileshare',ukn=fileuuid))
+                if selaction=="sharefile":
+                    return redirect(url_for('main.presentfileshare',ukn=fileuuid))
+                if selaction=="deletefile":
+                    return redirect(url_for('main.delfile',ukn=fileuuid))
         else:
             # Download file is expected to be the most common action
             #Rerun Need a second check to confirm user ID is permitted to access this file
@@ -331,7 +334,26 @@ def getdownload():
 def presentdlredirect():
     return render_template('index.html')
 
+######################################### File Delete ########################################################
+@main.route('/fdel2',methods=['POST'])
+@login_required
+def delfile():
+    print("inside delete file method")
+    # confirm the correct user is logged in
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+        thisaid=thisdatauser.useraccessid
+    # get file information
+    fileid=request.args.get('ukn')
+    print(fileid)
+    
 
+    return render_template('filedelresp.html',aid=thisaid)
+
+
+
+######################################### User Details ########################################################
 # These routes enable users to see what personally identifiable information about the authenticated user
 # is included in the system, what groups they are currently a member of and presents a form to change their 
 # password.  
