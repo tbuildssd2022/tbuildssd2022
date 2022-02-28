@@ -228,14 +228,12 @@ def getgroupdetails(azglist):
     return azgroupdetails
 
 
-
-def newfileupload(dbconlist,flupsqllist):
-    UPLOADSQL=flupsqllist[0]
-    VALUESTUPLE=flupsqllist[1]
+# This database insert function utilizes a parameter based query using data that has been fully sanitized
+def newfileupload(dbconlist,upsql,upval):
     try:
         dbhandle=dbconnectalt(dbconlist)
         thiscur=dbhandle.cursor()
-        result=thiscur.execute(UPLOADSQL, VALUESTUPLE)
+        result=thiscur.execute(upsql,upval)
         dbhandle.commit()
         dbhandle.close()
         return result

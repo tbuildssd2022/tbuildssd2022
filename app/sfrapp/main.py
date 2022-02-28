@@ -216,10 +216,12 @@ def proccessupload():
     # Build meta-data for file upload 
     filecreate = getcurdate()
     fileuuid = getnewuuid()
-    thisuploadsql=getfileuploadsql()
+    #thisuploadsql=getfileuploadsql()
+    uploadsql = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
+    valuetuple = (fileuuid,newfilesecname,fluptype,filedata,uid,filecreate,filesize,flupkeytag)
     # Create database connection, then insert the complete file and meta-data 
     dbcondata = getconnectiondata()
-    resultslist=newfileupload(dbcondata,thisuploadsql)
+    resultslist=newfileupload(dbcondata,uploadsql,valuetuple)
     print(type(resultslist))
     print(resultslist)
 
