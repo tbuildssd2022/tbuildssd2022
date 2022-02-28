@@ -10,7 +10,7 @@
 
 from crypt import methods
 import mimetypes, os, io, tbsnippets
-#from app.sfrapp.tbutility import getcurdate
+from tbsnippets import getcurdate
 
 from flask import Flask, flash, request, redirect, url_for, send_file
 from flask import send_from_directory
