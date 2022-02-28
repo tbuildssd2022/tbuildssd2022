@@ -8,9 +8,19 @@
     <div class="column is-two-thirds">
         <h2 class="title">  User Details</h2>
 
-<div class="content">
-    <p> This would be the user's PII </p>
-    <p> {{ uddict }} </p>
+<div class="content has-text-justified">
+    <p> This is personally identifable information currently held within the Secure File Repository application. To make any changes 
+        to these records or request the record to be removed please contact the International Space Station ground control information 
+        services department.
+    </p>
+    <ul>
+        {% for atr, data in udict.iteritems() %}
+        <dt> {{ atr }}</dt>
+        <dd> {{ data }} </dd>
+
+        {% endfor %}
+    </ul>
+    
 
 </div>
 
