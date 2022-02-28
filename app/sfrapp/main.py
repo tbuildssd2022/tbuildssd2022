@@ -222,25 +222,8 @@ def proccessupload():
     # Create database connection, then insert the complete file and meta-data 
     dbcondata = getconnectiondata()
     resultslist=newfileupload(dbcondata,uploadsql,valuetuple)
-    print(type(resultslist))
-    print(resultslist)
-
-
-    
-
-
-    
-    
-
-
-    
-
-
-    # Runs file validator module 
-    # (Haroun notes)
-    # Convert file to blob,  ( V0 drop on /tmp to allow validator to work)
-    # 
-    return render_template('fileupresp.html')
+ 
+    return render_template('fileupresp.html',fname=newfilesecname,aid=thisaid)
 
 
 
@@ -357,10 +340,22 @@ def presentdlredirect():
 @login_required
 def showuser():
     print("inside show user")
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        userdisplay=dict()
+        userdisplay['aid']=thisdatauser.useraccessid
+        userdisplay['azglist']=thisdatauser.authgroups
+        userdisplay['agency']=thisdatauser.useragency
+        userdisplay['forename']=thisdatauser.userforename
+        userdisplay['surname']=thisdatauser.usersurname
+    print(userdisplay)
+
     # get accessid from the session,
     # get uid for the user based on accessid ( need a common function, maybe hooked on all page loads?)
     # get groups list from datauser table, issue second query to groups table to get group details
-    return render_template('userdetails.html')
+    return render_template('userdetails.html',udict=userdisplay)
 
 
 @main.route('/ud4', methods=['POST'])

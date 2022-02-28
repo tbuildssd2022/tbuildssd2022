@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  User Details
-</h1>
-<h2> some dynamic subtitle </h2>
+<div class="columns" >
+    <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
+  </div>
+  <div class="columns">
+    <div class="column is-two-thirds">
+        <h2 class="title">  User Details</h2>
+
 <div class="content">
     <p> This would be the user's PII </p>
-    <ul> 
-        <li>First, Last</li>
-        <li>Space Agency affiliation</li>
-        <li>Date account created</li>
-    </ul>
+    <p> {{ uddict }} </p>
 
 </div>
 
@@ -55,6 +54,11 @@
       <button class="button is-block is-info is-large is-fullwidth">Login</button>
   </form>
 </div>
-
+</div> <!-- End of 2/3 column-->
+<div class="column is-one-third" >
+    <p> &nbsp</p>
+</div> <!-- end of 1/3-->
+<!--<div class="column"> <p> &nbsp</p></div>  auto column filler -->
+</div> <!-- end columns-->
 
 {% endblock %}

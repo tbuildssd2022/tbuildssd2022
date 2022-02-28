@@ -1,26 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  File Upload Success  
-</h1>
-<div class="content">
-    <p>
-    The file has been uploaded successfully. 
-    Continue to upload more files if needed or go to the sharing type to make available to other application users.
+
+<div class="columns" >
+  <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
+</div>
+<div class="columns">
+  <div class="column is-two-thirds">
+
+    <h2 class="title"> File Upload Success  </h2>
+    <!-- Messages if needed-->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-warning">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+      <div class="content has-text-justified">
+    <p> The file {{ fname }} has been uploaded successfully and is currently only viewable by the account {{ aid }}. 
+    Continue to upload more files as needed. To make files available to other application users, use the Secure Repository's 
+    search feature to locate a particular file, select the file, then shareing and finally the groups you wish to share the file with.
     </p>
 </div>
 
-<div class="content">
-  <ul> 
-      <li>Group 1,  details of group</li>
-      <li>Group 12,  details of group</li>
-      <li>Group 6,  details of group</li>
-      <li>Group 5,  details of group</li>
-      <li>Group 14,  details of group</li>
-
-  </ul>
-</div>
-
+</div> <!-- End of 2/3 column-->
+<div class="column is-one-third" >
+    <p> &nbsp</p>
+</div> <!-- end of 1/3-->
+</div> <!-- end columns-->
 
 {% endblock %}
