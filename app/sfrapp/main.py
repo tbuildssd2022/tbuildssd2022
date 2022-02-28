@@ -335,7 +335,7 @@ def presentdlredirect():
     return render_template('index.html')
 
 ######################################### File Delete ########################################################
-@main.route('/fdel2',methods=['POST'])
+@main.route('/fdel2',methods=['GET'])
 @login_required
 def delfile():
     print("inside delete file method")
