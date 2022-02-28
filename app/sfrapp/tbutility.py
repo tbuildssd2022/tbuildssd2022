@@ -246,7 +246,19 @@ def newfileupload(dbconlist,upsql,upval):
         print(err)
         return None
 
+# This database delete function requires both the correct file owner and file uuid, neither based on direct user input.
 
+def deletefilerecord(dbconlist,delsql):
+    try:
+        dbhandle=dbconnectalt(dbconlist)
+        thiscur=dbhandle.cursor()
+        result=thiscur.execute(delsql)
+        dbhandle.commit()
+        dbhandle.close()
+        return result
+    except Exception as err:
+        print(err)
+        return None
 
 
 ############################  Database output processing ##################
