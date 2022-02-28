@@ -19,16 +19,22 @@
             <p class="has-text-info py-4 has-text-justified"> Note, any files uploaded will be assigned ownership to account {{ useraccessid }} and will require additional steps to share
                 the file with any of the groups {{ useraccessid }} is currently a member of.</p>
                 <form method="POST" action="/flup2" enctype=multipart/form-data>
-                    <div class="label">Keywords or Meta Data Tagging</div>
-                        <div class="control">
-                        <input class="input is-normal" type="text" name="fileup-keyword-tag" placeholder="Add keywords or tags to use for search filtering" autofocus="">
-                        </div> <!-- End first control div-->
+                    <div class="field">
+                        <div class="label">Keywords or Meta Data Tagging</div>
+                            <div class="control">
+                        <   input class="input is-normal" type="text" name="fileup-keyword-tag" placeholder="Add keywords or tags to use for search filtering" autofocus="">
+                            </div> <!-- End first control div-->
+                    </div> <!-- end first field -->
                     <div class="field"> 
                         <div class="label">Select File & Set File Type </div>
                         <div class="control">
                             <div class="file">
                                 <input type="file" name="fileup">
                             </div>
+                        </div> <!-- end control-->
+                    </div> <!-- end second field -->
+                    <div class="field"> 
+                        <div class="control">
                             <div class="select" >
                                 <select name="uploadedfiletype">
                                 <option value="tar">Archive File: TAR .tar </option>
@@ -39,11 +45,11 @@
                                 <option value="jpeg">Image File: JPG .jpg</option>
                                 <option value="svg">Image File: SVG .svg</option>
                                 <option value="xlsx">Spreadsheet: XLSX .xlsx</option>
-                                <option value="txt" selected="selected">Text/Data File: TXT .txt</option>
+                                <option value="txt" >Text/Data File: TXT .txt</option>
                                 <option value="csv">Text/Data File: CSV .csv</option>
                                 </select>
                             </div> <!-- end div select-->                     
-                        </div> <!-- End Div control-->
+                    </div> <!-- End Div control-->
                     
                 
                     </div> <!-- end div field-->
