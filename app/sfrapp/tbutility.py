@@ -127,10 +127,15 @@ def updatesharedgroupssql(grouplist,fileuuid,fileowner):
     return updgrpsql
 
 # this function creates the SQL statement needed to upload a binary large object into the storedfiles database table.
-def getfileuploadsql():
-    uploadsql = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
-    valuetuple = (fileuuid,newsecfilename,fluptype,filedata,uid,filecreate,filesize,flupkeytag)
-    return [uploadsql,valuetuple]
+#def getfileuploadsql():
+#    uploadsql = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
+#    valuetuple = (fileuuid,newsecfilename,fluptype,filedata,uid,filecreate,filesize,flupkeytag)
+#    return [uploadsql,valuetuple]
+
+def getfiledeletesql(uid,fileuuid):
+    deletesql= "delete from storedfiles where uuid_hex='{}' and fileowner='{}'".format(fileuuid,uid)
+    return deletesql
+
 
 
 

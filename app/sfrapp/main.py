@@ -24,7 +24,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension,getcurdate,getnewuuid,getfileuploadsql,newfileupload
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension,getcurdate,getnewuuid,getfileuploadsql,newfileupload,getfiledeletesql
 
 
 
@@ -346,7 +346,8 @@ def delfile():
         thisaid=thisdatauser.useraccessid
     # get file information
     fileid=request.args.get('ukn')
-    print(fileid)
+    delsql=getfiledeletesql(uid,fileid)
+    print(delsql)
     
 
     return render_template('filedelresp.html',aid=thisaid)
