@@ -349,7 +349,7 @@ def delfile():
     delsql=getfiledeletesql(uid,fileid)
     print(delsql)
     dbcondata = getconnectiondata()
-    results=newfileupload(dbcondata,delsql)
+    results=deletefilerecord(dbcondata,delsql)
     print(type(results))
     print(results)
 
