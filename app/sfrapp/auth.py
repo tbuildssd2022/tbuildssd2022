@@ -22,7 +22,7 @@ from . import db
 from . models import User,DataUser
 # Import custom module classes and functions
 from . tbutility import testuserstrps
-#from app.sfrapp import tbutility
+
 
 auth = Blueprint('auth', __name__)
 

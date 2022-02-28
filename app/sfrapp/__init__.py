@@ -17,6 +17,9 @@ from datetime import timedelta
 import mysql.connector
 from mysql.connector import errorcode
 
+# Logging changes for monitoring requirems 
+import logging
+
 # initialize the dabase object  so it is globally accessable
 db = SQLAlchemy()
 

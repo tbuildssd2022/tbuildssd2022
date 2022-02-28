@@ -22,8 +22,8 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf','doc','docx','png', 'jpg', 'jpeg', 'gif','zip
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH']= 32 * 1000 * 1024
-app.config['FLASK_ENV'] =  'development'
-#app.config['DEBUG'] = True
+app.config['FLASK_ENV'] =  'production'
+app.config['DEBUG'] = False
 # Never do this in production, seriously never do this
 app.config['SECRET_KEY'] = 'TH!Sis@v3ryl0ngkeyTH@Tisn0ts3cr3t'
 
@@ -40,6 +40,7 @@ def allowed_file(filename):
 # List files in the database
 @app.route('/flist', methods=['GET'])
 def search_files():
+    app.logger.error('Inside flist route - search_files')
     return '''
     <!doctype html>
     <title>Search existing files</title>
@@ -59,6 +60,7 @@ def search_files():
   
 @app.route('/flist2', methods=['POST'])
 def present_files():
+    app.logger.error('Inside flist2 route - present_files')
     searchkey = request.form.get('keytag')
     searchfname = request.form.get('filename')
     print(len(searchkey))
@@ -111,6 +113,7 @@ def present_files():
 # Select a file to download from the database
 @app.route('/fdl1', methods=['GET'])
 def select_file_download():
+    app.logger.error('Inside fdl11 route - file_downlload')
     return '''
     <!doctype html>
     <title>Download existing files</title>
@@ -127,6 +130,7 @@ def select_file_download():
 
 @app.route('/fdl7', methods=['GET','POST'])
 def download_file2():
+    app.logger.error('Inside fdl17 route - download_file2')
     if request.method == 'GET':
         return '''
          <!doctype html>
@@ -175,6 +179,7 @@ def download_file2():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    app.logger.error('Inside main route')
     if request.method == 'POST':
         # check if the post request has the file part
         if 'upfile' not in request.files:
@@ -241,4 +246,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=9099, debug=True)
+    app.run(host="0.0.0.0",port=8080, debug=True)
