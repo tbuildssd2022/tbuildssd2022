@@ -36,37 +36,38 @@
   </ul>
 
 </div>
-<div class="box">
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <div class="notification is-warning">
-      {{ messages[0] }}
-  </div>
-  {% endif %}
-  {% endwith %}
-  <p> User Change password form</p>
-  <form method="POST" action="/ud2">
-      <div class="field">
-          <div class="control">
-              <input class="input is-large" type="text" name="accessid" placeholder="Access ID" autofocus="">
-          </div>
-      </div>
 
-      <div class="field">
-          <div class="control">
-              <input class="input is-large" type="password" name="pwd" placeholder="Access ID Password">
-          </div>
-          <div class="control">
-            <input class="input is-large" type="password" name="pwd2" placeholder="Access ID Password">
-        </div>
-      </div>
-      
-      <button class="button is-block is-info is-large is-fullwidth">Login</button>
-  </form>
 </div>
 </div> <!-- End of 2/3 column-->
 <div class="column is-one-third" >
     <p> &nbsp</p>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-warning">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <p> User Change password form</p>
+        <form method="POST" action="/ud2">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="accessid" placeholder="Access ID" autofocus="">
+                </div>
+            </div>
+      
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="pwd" placeholder="Access ID Password">
+                </div>
+                <div class="control">
+                  <input class="input is-large" type="password" name="pwd2" placeholder="Access ID Password">
+              </div>
+            </div>
+            
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
 </div> <!-- end of 1/3-->
 <!--<div class="column"> <p> &nbsp</p></div>  auto column filler -->
 </div> <!-- end columns-->

@@ -345,11 +345,11 @@ def showuser():
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
     if thisdatauser:
         userdisplay=dict()
-        userdisplay['aid']=thisdatauser.useraccessid
-        userdisplay['azglist']=thisdatauser.authgroups
-        userdisplay['agency']=thisdatauser.useragency
-        userdisplay['forename']=thisdatauser.userforename
-        userdisplay['surname']=thisdatauser.usersurname
+        userdisplay['Account Access ID']=thisdatauser.useraccessid
+        userdisplay['List of Authorized Groups']=thisdatauser.authgroups
+        userdisplay['Space Agency Affiliation']=thisdatauser.useragency
+        userdisplay['Forename']=thisdatauser.userforename
+        userdisplay['Surname']=thisdatauser.usersurname
     print(userdisplay)
 
     # get accessid from the session,
