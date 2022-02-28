@@ -361,6 +361,17 @@ def showuser():
 @main.route('/ud4', methods=['POST'])
 @login_required
 def updateuser():
+    if current_user.is_authenticated:
+        uid=current_user.get_id()
+        thisdatauser=DataUser.query.filter_by(userid=uid).first()
+    if thisdatauser:
+        userdisplay=dict()
+        userdisplay['Account Access ID']=thisdatauser.useraccessid
+        userdisplay['List of Authorized Groups']=thisdatauser.authgroups
+        userdisplay['Space Agency Affiliation']=thisdatauser.useragency
+        userdisplay['Forename']=thisdatauser.userforename
+        userdisplay['Surname']=thisdatauser.usersurname
+    # 
     thisaccessid = request.form.get('aid')
     # confirm the user provided original password and accessid submitted matches aid in session 
     oldpassword = request.form.get('pwd')
@@ -369,4 +380,4 @@ def updateuser():
     print(newpassword)
     flash("Password change for account {}was successful".format(thisaccessid))
     # Temp placeholder before the database integration gets built out
-    return render_template('userdetails.html')
+    return render_template('userdetails.html',udict=userdisplay)
