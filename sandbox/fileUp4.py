@@ -138,7 +138,7 @@ def select_file_download():
 @app.route('/fdl7', methods=['GET','POST'])
 def download_file2():
     logdate=getcurdate()
-    logmsg='''{'timestamp':{},'level':"Warning",'type':"EventOfInterest",'category':"Anomoalous Activity",'msgpayload':{}'''.format(logdate,"accessed file dowload with get request - monitor source & frequency")
+    logmsg='''{'timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"Anomoalous Activity",'msgpayload':"{}"}'''.format(logdate,"accessed file dowload with get request - monitor source & frequency")
     app.logger.warning(logmsg)
 
     app.logger.warning('Inside fdl17 route - download_file2')
@@ -155,7 +155,7 @@ def download_file2():
         uuid_hex = request.form['fileid']
         SQLFILEDOWNLOAD= "SELECT filename,filetype,filesize,filedata from storedfiles WHERE uuid_hex='{}'".format(uuid_hex)
         logdate=getcurdate()
-        logmsg='''{'timestamp':{},'level':"Info",'type':"ActivityTracking",'category':"File Download",'msgpayload':{}'''.format(logdate,uuid_hex)
+        logmsg='''{'timestamp':"{}",'level':"Info",'type':"ActivityTracking",'category':"File Download",'msgpayload':"{}"}'''.format(logdate,uuid_hex)
         app.logger.info(logmsg)
 
         # Run the search for either partial filename or partial keyword
@@ -194,7 +194,7 @@ def download_file2():
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     logdate=getcurdate()
-    logmsg='''{'timestamp':{},'level':"Info",'type':"ActivityTracking",'category':"Accessed main app",'msgpayload':{}'''.format(logdate,"accessed main app")
+    logmsg='''{'timestamp':"{}",'level':"Info",'type':"ActivityTracking",'category':"Accessed main app",'msgpayload':"{}"}'''.format(logdate,"accessed main app")
     app.logger.info(logmsg)
     if request.method == 'POST':
         # check if the post request has the file part
@@ -228,7 +228,7 @@ def upload_file():
             VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
             
             logdate=getcurdate()
-            logmsg='''{'timestamp':{},'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':{}'''.format(logdate,str(VALUESTUPLE))
+            logmsg='''{'timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':"{}"}'''.format(logdate,str(VALUESTUPLE))
             app.logger.warning(logmsg)
             # Write file to database
             try:
