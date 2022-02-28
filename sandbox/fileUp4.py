@@ -226,9 +226,10 @@ def upload_file():
             # Required fields + keywords. 
             UPLOADSQL = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
             VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
+            VALUESMON = (fileuuid,filename,filetype,fileowner,dtcreate,filesize,keywords)
             
             logdate=getcurdate()
-            logmsg=''''timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':"{}"'''.format(logdate,str(VALUESTUPLE))
+            logmsg=''''timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':"{}"'''.format(logdate,str(VALUESMON))
             app.logger.warning(logmsg)
             # Write file to database
             try:
