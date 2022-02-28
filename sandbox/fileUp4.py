@@ -10,10 +10,12 @@
 
 from crypt import methods
 import mimetypes, os, io, tbsnippets
+from app.sfrapp.tbutility import getcurdate
 
 from flask import Flask, flash, request, redirect, url_for, send_file
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
+import logging
 
 
 UPLOAD_FOLDER = '/var/tmp/uploads'
@@ -26,7 +28,12 @@ app.config['FLASK_ENV'] =  'production'
 app.config['DEBUG'] = False
 # Never do this in production, seriously never do this
 app.config['SECRET_KEY'] = 'TH!Sis@v3ryl0ngkeyTH@Tisn0ts3cr3t'
-
+#
+# Modify Flask's built-in incorporation of the Python logging library.
+# Set the logging level down to debug to allow troubleshooting of conditions.
+# Write operational events to the info facility - severity 20
+# Write security events to the warning facility - severity 30
+logging.basicConfig(filename= '/var/tmp/sfrsbx.log', level=logging.DEBUG)
 
 @app.route('/uploads/<name>')
 def download_file(name):
@@ -40,7 +47,7 @@ def allowed_file(filename):
 # List files in the database
 @app.route('/flist', methods=['GET'])
 def search_files():
-    app.logger.error('Inside flist route - search_files')
+    app.logger.info('Inside flist route - search_files')
     return '''
     <!doctype html>
     <title>Search existing files</title>
@@ -60,7 +67,7 @@ def search_files():
   
 @app.route('/flist2', methods=['POST'])
 def present_files():
-    app.logger.error('Inside flist2 route - present_files')
+    app.logger.info('Inside flist2 route - present_files')
     searchkey = request.form.get('keytag')
     searchfname = request.form.get('filename')
     print(len(searchkey))
@@ -113,7 +120,7 @@ def present_files():
 # Select a file to download from the database
 @app.route('/fdl1', methods=['GET'])
 def select_file_download():
-    app.logger.error('Inside fdl11 route - file_downlload')
+    app.logger.info('Inside fdl11 route - file_downlload')
     return '''
     <!doctype html>
     <title>Download existing files</title>
@@ -130,7 +137,11 @@ def select_file_download():
 
 @app.route('/fdl7', methods=['GET','POST'])
 def download_file2():
-    app.logger.error('Inside fdl17 route - download_file2')
+    logdate=getcurdate()
+    logmsg='''{'timestamp':{},'level':"Warning",'type':"EventOfInterest",'category':"Anomoalous Activity",'msgpayload':{}'''.format(logdate,"accessed file dowload with get request - monitor source & frequency")
+    app.logger.warning(logmsg)
+
+    app.logger.warning('Inside fdl17 route - download_file2')
     if request.method == 'GET':
         return '''
          <!doctype html>
@@ -143,6 +154,9 @@ def download_file2():
         # We need to test this to make sure it's a valid UUID hex value
         uuid_hex = request.form['fileid']
         SQLFILEDOWNLOAD= "SELECT filename,filetype,filesize,filedata from storedfiles WHERE uuid_hex='{}'".format(uuid_hex)
+        logdate=getcurdate()
+        logmsg='''{'timestamp':{},'level':"Info",'type':"ActivityTracking",'category':"File Download",'msgpayload':{}'''.format(logdate,uuid_hex)
+        app.logger.info(logmsg)
 
         # Run the search for either partial filename or partial keyword
         try:
@@ -179,7 +193,9 @@ def download_file2():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    app.logger.error('Inside main route')
+    logdate=getcurdate()
+    logmsg='''{'timestamp':{},'level':"Info",'type':"ActivityTracking",'category':"Accessed main app",'msgpayload':{}'''.format(logdate,"accessed main app")
+    app.logger.info(logmsg)
     if request.method == 'POST':
         # check if the post request has the file part
         if 'upfile' not in request.files:
@@ -211,6 +227,9 @@ def upload_file():
             UPLOADSQL = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
             VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
             
+            logdate=getcurdate()
+            logmsg='''{'timestamp':{},'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':{}'''.format(logdate,str(VALUESTUPLE))
+            app.logger.warning(logmsg)
             # Write file to database
             try:
                 thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
