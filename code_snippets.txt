@@ -8,3 +8,12 @@ Flash Message presenation
 </div>
 {% endif %}
 {% endwith %}
+
+
+
+Logging snippet
+# Create a payload list of at least 1 key and 1 value, cast everything as strings
+payloadlist=['UXReport','search failure','keytag',searchkey,'filename',searchfname]
+logmsgdict = tbsnippets.newlogheader(1,0,0,99)  # faking user 99
+logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+app.logger.info(logmsg)

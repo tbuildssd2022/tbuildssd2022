@@ -21,7 +21,7 @@ from werkzeug.security import check_password_hash
 from . import db
 from . models import User,DataUser
 # Import custom module classes and functions
-from . tbutility import testuserstrps
+from . tbutility import testuserstrps,newlogheader,newlogmsg
 
 
 auth = Blueprint('auth', __name__)
@@ -65,8 +65,13 @@ def login_post():
             thisduserobj=getdatauser(accessid)
             # Catches invalid user
             if thisduserobj is None:
-                print("Failed test 3, invalid user")
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
+                # Result generated from unknown-invalid user input, high volumes of such events in a short time period 
+                # are potentially a credential stuffing attack since the logon method does not faciliate enumeration
+                payloadlist=['URL','/login','HTTPMethod',request.method,'FailureReason','UnknownUser','AccessID',accessid]
+                logmsgdict = newlogheader(2,1,2)
+                logmsg=newlogmsg(logmsgdict,payloadlist)
+                print(logmsg)
                 return redirect(url_for('main.index'))
             # Check password
             pwdchk=False # ensure authz check comes back true before proceeding
@@ -81,10 +86,25 @@ def login_post():
             if pwdchk:
                 print("Setup login manager for this user")
                 login_user(thisauthzobj)
+                # Records the successful login event, capturing the accessID used, time stamp can be used to correlate 
+                # source IP address with account, potentially useful if account compromise is suspected.
+                payloadlist=['URL','/login','HTTPMethod',request.method,'AccessID',accessid]
+                logmsgdict = newlogheader(1,0,1)
+                logmsg=newlogmsg(logmsgdict,payloadlist)
+                print(logmsg)
                 return redirect(url_for('main.presenthome'))        
             else:
                 print("Failed test 4, invalid password for valid user")
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
+                # Records the failed authentication attempt, capturing the accessID used, time stamp can be used to correlate 
+                # source IP address with account used. High volumes of failed authencation and multiple usernames is indicative
+                # of a password spraying attack. Knowing which account IDs are being attempted can provide insight into whether
+                # internal data like a userlist is in the hands of the attacker - potential insider threat or indicator of previous 
+                # data loss event that may not have been detected.
+                payloadlist=['URL','/login','HTTPMethod',request.method,'FailureReason','InvalidPassword','AccessID',accessid]
+                logmsgdict = newlogheader(2,1,2)
+                logmsg=newlogmsg(logmsgdict,payloadlist)
+                print(logmsg)
                 return redirect(url_for('main.index'))
         else:
             flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
@@ -130,6 +150,12 @@ def logout():
         msg='Logging out the following user access id: {} '.format(duserobj.useraccessid)
         flash(msg)
         logout_user() 
+         # Records the time a user account logged out of the application, potentially important to an investigation if there is
+         # dispute over user activity, time worked etc.
+        payloadlist=['URL','/logout','HTTPMethod',request.method,'AccessID',duserobj.useraccessid]
+        logmsgdict = newlogheader(1,0,1)
+        logmsg=newlogmsg(logmsgdict,payloadlist)
+        print(logmsg)
         return redirect(url_for('main.index'))
     else:
         return redirect(url_for('main.index'))  
