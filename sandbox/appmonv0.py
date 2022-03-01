@@ -28,7 +28,7 @@ def followfile(applog):
 
 def filterline(thisline):
     # test first to see if we get the lines, then start analysing
-    print(thisline)
+    #print(type(thisline))
     # filter out the werkzueg logs, and potentially clean them up to look like standard W3C logs
     # Using a case statement instead of regex for speed
     if thisline.startswith('INFO:werkzeug:'):
