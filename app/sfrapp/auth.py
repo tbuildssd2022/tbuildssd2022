@@ -17,7 +17,7 @@
 from ast import Str
 from crypt import methods
 import flask,logging
-from flask import Blueprint, render_template, redirect, url_for,flash, request
+from flask import Blueprint, render_template, redirect, url_for,flash, request,current_app
 from flask_login import login_user,current_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from . import db
@@ -75,7 +75,7 @@ def login_post():
                 logmsgdict = newlogheader(2,1,2)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
-                auth.logger.warning(logmsg)
+                current_app.logger.warning(logmsg)
                 return redirect(url_for('main.index'))
             # Check password
             pwdchk=False # ensure authz check comes back true before proceeding
@@ -96,7 +96,7 @@ def login_post():
                 logmsgdict = newlogheader(1,0,1)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
-                auth.logger.info(logmsg)
+                current_app.logger.info(logmsg)
                 return redirect(url_for('main.presenthome'))        
             else:
                 #print("Failed test 4, invalid password for valid user")
@@ -110,7 +110,7 @@ def login_post():
                 logmsgdict = newlogheader(2,1,2)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
-                auth.logger.warning(logmsg)
+                current_app.logger.warning(logmsg)
                 return redirect(url_for('main.index'))
         else:
             flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
@@ -121,7 +121,7 @@ def login_post():
             logmsgdict = newlogheader(2,2,2)
             logmsg=newlogmsg(logmsgdict,payloadlist)
             print(logmsg)
-            auth.logger.warning(logmsg)
+            current_app.logger.warning(logmsg)
             return redirect(url_for('main.index'))
     else:
         #print("failed test 1, missing one of two required fields,")
