@@ -26,9 +26,26 @@ def followfile(applog):
 
 
 
-def checkline(thisline):
+def filterline(thisline):
     # test first to see if we get the lines, then start analysing
     print(thisline)
+    # filter out the werkzueg logs, and potentially clean them up to look like standard W3C logs
+    # Using a case statement instead of regex for speed
+    if thisline.startswith('INFO:werkzeug:'):
+        print("send to http log formater")
+        return
+    elif thisline.startswith('WARNING:werkzeug:'):
+        print("send to http log formater")
+        return
+    elif thisline.startswith('ERROR:werkzeug:'):
+        print("send to http log formater")
+        return
+    elif thisline.startswith('CRITICAL:werkzeug:'):
+        print("send to http log formater")
+        return
+    else:
+        print("Send to application monitoring function")
+        print(thisline)
     return
 
 
@@ -37,5 +54,5 @@ if __name__ == '__main__':
     loglines = followfile(applogfile)
 
     for line in loglines:
-        checkline(line)
+        filterline(line)
 
