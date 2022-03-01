@@ -35,8 +35,8 @@ main = Blueprint('main', __name__)
 # Inital page for unathenticated users, presents login section and message updates about the operating environment
 @main.route('/')
 def index():
-    print("inside index function")
-    print(current_user.is_authenticated)
+    #print("inside index function")
+    #print(current_user.is_authenticated)
     return render_template('index.html')
 
 # This is the home page for the data users 

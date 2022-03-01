@@ -3,6 +3,8 @@
 # Version history:  Feb 22/2022 - Migrated login functions back into second view to seperate authentication from presentation
 #                   and business logic
 #                   Feb 23/2022 - Added logout function and Datauser object demonstration
+#                   Feb 28/2022 - Created custom logging protocol for the application targeting sensitive areas of the
+#                                   application that warrant more detailed logging than standard HTTP logging.  
 #
 # Notes: auth.py is the primary script used for user authentication. werkzeug built in functions are used for password
 # validation, flask login method login_user is used to register each successfully authenticated user, allowing the seemless
@@ -108,7 +110,13 @@ def login_post():
                 return redirect(url_for('main.index'))
         else:
             flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
-            print("Failed test 2, Suspicious Username, write to IDS: {}".format(unametest[2]) )
+            #print("Failed test 2, Suspicious Username, write to IDS: {}".format(unametest[2]) )
+            # Result generated from user input that does not confirm to known accessID format, highly unlikley to be an
+            # honest user mistake, highly suspicious so it is being raised to a higher threshold 
+            payloadlist=['URL','/login','HTTPMethod',request.method,'FailureReason','InvalidInputCharacters','AccessID',unametest[2]]
+            logmsgdict = newlogheader(2,2,2)
+            logmsg=newlogmsg(logmsgdict,payloadlist)
+            print(logmsg)
             return redirect(url_for('main.index'))
     else:
         print("failed test 1, missing one of two required fields,")
@@ -124,9 +132,8 @@ def login():
     if current_user.is_authenticated:
         authnzid=current_user.get_id()
         duserobj=getdatauid(authnzid)
-        print(authnzid)
-        print(type(authnzid))
-        #account=User.query.filter_by(id=sessioncid).first()
+        #print(authnzid)
+        #print(type(authnzid))
         msg='already authenticated as {}'.format(duserobj.userdisplayname)
         flash(msg)
         return redirect(url_for('main.presenthome'))
