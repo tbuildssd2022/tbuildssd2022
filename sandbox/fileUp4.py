@@ -83,6 +83,11 @@ def present_files():
     elif (len(searchfname) == 0) and (len(searchkey) > 0 ):
         SQLGETLIST = SQLGETLIST2
     else:
+        # Collect the exception thrown if the connection fails for any reason
+        payloadlist=['UXReport','search failure','keytag',searchkey,'filename',searchfname]
+        logmsgdict = tbsnippets.newlogheader(1,0,0,99)  # faking user 99
+        logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+        app.logger.info(logmsg)
         return'''
         <!doctype html>
             <title>List Database Files -error </title>
@@ -109,6 +114,11 @@ def present_files():
             '''
     except Exception as err:
         print(err)
+        # Collect the exception thrown if the connection fails for any reason
+        payloadlist=['DBError',err]
+        logmsgdict = tbsnippets.newlogheader(3,3,8,99)  # faking user 99
+        logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+        app.logger.error(logmsg)
         return '''
             <!doctype html>
             <title>List Database Files - Error</title>
@@ -137,12 +147,12 @@ def select_file_download():
 
 @app.route('/fdl7', methods=['GET','POST'])
 def download_file2():
-    logdate=getcurdate()
-    logmsg=''''timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"Anomoalous Activity",'msgpayload':"{}"'''.format(logdate,"accessed file dowload with get request - monitor source & frequency")
-    app.logger.warning(logmsg)
-
-    app.logger.warning('Inside fdl17 route - download_file2')
     if request.method == 'GET':
+        # record someone is downloading a file, collect the fileid, filename and userid"
+        payloadlist=['URL','/fdl17','method',request.method]
+        logmsgdict = tbsnippets.newlogheader(2,2,0,99)  # faking user 99
+        logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+        app.logger.warning(logmsg)
         return '''
          <!doctype html>
             <title>Download database Files - Error</title>
@@ -154,10 +164,6 @@ def download_file2():
         # We need to test this to make sure it's a valid UUID hex value
         uuid_hex = request.form['fileid']
         SQLFILEDOWNLOAD= "SELECT filename,filetype,filesize,filedata from storedfiles WHERE uuid_hex='{}'".format(uuid_hex)
-        logdate=getcurdate()
-        logmsg=''''timestamp':"{}",'level':"Info",'type':"ActivityTracking",'category':"File Download",'msgpayload':"{}"'''.format(logdate,uuid_hex)
-        app.logger.info(logmsg)
-
         # Run the search for either partial filename or partial keyword
         try:
             thisdbh=tbsnippets.sbxdbconnect('10.100.200.3','sbxuser','someP@SSwerd','tbsbx')
@@ -173,6 +179,12 @@ def download_file2():
             filename=recordstuple[0]
             filetype=recordstuple[1]   # This should be sent to a function that creates the correct mime type
             thisdbh.close()
+            # record someone is downloading a file, collect the fileid, filename and userid"
+            payloadlist=['FileId',uuid_hex,'FileName',filename]
+            logmsgdict = tbsnippets.newlogheader(1,1,6,99)  # faking user 99
+            logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+            app.logger.info(logmsg)
+
             # Need to process the first three data elements to define the response header? ( depends on send_file)
             # hard coding as text/pain for now
             return send_file(fileblob, as_attachment = True, download_name=filename, mimetype = 'text/plain')
@@ -180,6 +192,11 @@ def download_file2():
 
         except Exception as err:
             print(err)
+            # Collect the exception thrown if the connection fails for any reason
+            payloadlist=['DBError',err]
+            logmsgdict = tbsnippets.newlogheader(3,3,8,99)  # faking user 99
+            logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
+            app.logger.error(logmsg)
             return '''
                 <!doctype html>
                 <title>Download Database Files - Error</title>
@@ -193,8 +210,10 @@ def download_file2():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
-    logdate=getcurdate()
-    logmsg=''''timestamp':"{}",'level':"Info",'type':"ActivityTracking",'category':"Accessed main app",'msgpayload':"{}"'''.format(logdate,"accessed main app")
+    # record someone accessed the URL, no additional info but we can collect the URL & method"
+    payloadlist=['URL','/','method',request.method]
+    logmsgdict = tbsnippets.newlogheader(1,0,0)
+    logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
     app.logger.info(logmsg)
     if request.method == 'POST':
         # check if the post request has the file part
@@ -226,10 +245,12 @@ def upload_file():
             # Required fields + keywords. 
             UPLOADSQL = ''' INSERT INTO storedfiles(uuid_hex,filename,filetype,filedata,fileowner,filecreate,filesize,keywords_tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) '''
             VALUESTUPLE = (fileuuid,filename,filetype,filedata,fileowner,dtcreate,filesize,keywords)
-            VALUESMON = (fileuuid,filename,filetype,fileowner,dtcreate,filesize,keywords)
+            # Each critical section should have a developed function to track the specific additional data that should be included
+            # create as a list so it is easy to load this into the dictionary. Ensure everything is cast as strings  
+            payloadlist = ['FileID',fileuuid,'FileName',filetype,'FileOwner',str(fileowner),'FileCreateDate',str(dtcreate),'FileSize',str(filesize),'keywords',keywords[:60]]
             
-            logdate=getcurdate()
-            logmsg=''''timestamp':"{}",'level':"Warning",'type':"EventOfInterest",'category':"File upload",'msgpayload':"{}"'''.format(logdate,str(VALUESMON))
+            logmsgdict=tbsnippets.newlogheader(2,1,7,int(fileowner))
+            logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
             app.logger.warning(logmsg)
             # Write file to database
             try:
