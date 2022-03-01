@@ -16,7 +16,7 @@
 #from crypt import methods  - test to see if this breaks
 from ast import Str
 from crypt import methods
-import flask
+import flask,logging
 from flask import Blueprint, render_template, redirect, url_for,flash, request
 from flask_login import login_user,current_user, logout_user, login_required
 from werkzeug.security import check_password_hash
@@ -24,6 +24,7 @@ from . import db
 from . models import User,DataUser
 # Import custom module classes and functions
 from . tbutility import testuserstrps,newlogheader,newlogmsg
+
 
 
 auth = Blueprint('auth', __name__)
@@ -74,6 +75,7 @@ def login_post():
                 logmsgdict = newlogheader(2,1,2)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
+                auth.logger.warning(logmsg)
                 return redirect(url_for('main.index'))
             # Check password
             pwdchk=False # ensure authz check comes back true before proceeding
@@ -86,17 +88,18 @@ def login_post():
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 return redirect(url_for('main.index'))
             if pwdchk:
-                print("Setup login manager for this user")
+                #print("Setup login manager for this user")
                 login_user(thisauthzobj)
                 # Records the successful login event, capturing the accessID used, time stamp can be used to correlate 
                 # source IP address with account, potentially useful if account compromise is suspected.
-                payloadlist=['URL','/login','HTTPMethod',request.method,'AccessID',accessid]
+                payloadlist=['URL','/login','HTTPMethod',request.method,'SuccessReason','ValidCredentialUse','AccessID',accessid]
                 logmsgdict = newlogheader(1,0,1)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
+                auth.logger.info(logmsg)
                 return redirect(url_for('main.presenthome'))        
             else:
-                print("Failed test 4, invalid password for valid user")
+                #print("Failed test 4, invalid password for valid user")
                 flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
                 # Records the failed authentication attempt, capturing the accessID used, time stamp can be used to correlate 
                 # source IP address with account used. High volumes of failed authencation and multiple usernames is indicative
@@ -107,6 +110,7 @@ def login_post():
                 logmsgdict = newlogheader(2,1,2)
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 print(logmsg)
+                auth.logger.warning(logmsg)
                 return redirect(url_for('main.index'))
         else:
             flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
@@ -117,9 +121,10 @@ def login_post():
             logmsgdict = newlogheader(2,2,2)
             logmsg=newlogmsg(logmsgdict,payloadlist)
             print(logmsg)
+            auth.logger.warning(logmsg)
             return redirect(url_for('main.index'))
     else:
-        print("failed test 1, missing one of two required fields,")
+        #print("failed test 1, missing one of two required fields,")
         flash(" An access ID and password are required for authentication. Carefully retry your login, contact ISS ground station support if authentication issues persist.")
         return redirect(url_for('main.index'))
 

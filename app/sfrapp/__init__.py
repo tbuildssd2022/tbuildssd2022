@@ -99,6 +99,8 @@ def create_app():
     # secret key initialization from env file
     app.config['SECRET_KEY']=environ.get('SECRET_KEY')
 
+    # implement customized logging for the application, Flask builtin only works for error and higher severities.
+    logging.basicConfig(filename='/var/tmp/sfrdev.log',level=logging.DEBUG)
 
     # Initialize SQLAlchemy plugin so is it globally accessable
     db.init_app(app)
