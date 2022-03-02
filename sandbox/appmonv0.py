@@ -9,7 +9,10 @@
 import time, os, datetime, re, json
 from ast import literal_eval  # a safe way to convert the string to a dictionary
 
-# This function receives security event logs of all severity and writes to a daily file.
+# These function receive event logs of all severity and write to a daily file, 
+# converting the werkzeug events into HTTP NCSA format and the custom application
+# security event log into json.
+
 def updatesecevt(evtline):
     # Create a new logfile daily
     dstamp=datetime.datetime.now().strftime("%Y%m%d")
@@ -37,6 +40,22 @@ def updatehttpevt(evtline):
             httpevtfh.write(ncsalogline + "\n" )
     return
 
+# this function evaluates the application log, forwarding warning events and higher
+# to the ground station security monitoring.  Informational messages are just forwaded to
+# the daily logfile since the do reflect a potential cybersecurity or application usage
+# issue and will be a waste of bandwidth.
+# 
+def testsecevt(secevtline):
+    if secevtline.split(':')[0]=="INFO":
+        updatesecevt(secevtline)
+    else:
+        print("realtime alert")
+        updatesecevt(secevtline)
+
+    return
+
+
+
 # This function sorts the incoming log events into HTTP event and application event logs
 # HTTP logs are high volume and do not contain the contextual information of the custom
 # application logs. The logs are filtered into two different files to allow ingestion into 
@@ -57,9 +76,7 @@ def filterline(thisline):
         updatehttpevt(thisline)
         return
     else:
-        print("Send to application monitoring function, write info messages to log, generate alerts on the higher severity")
-        print(thisline)
-        updatesecevt(thisline)
+        testsecevt(thisline)
 
     return
 
