@@ -53,9 +53,10 @@ def setremotealert(secevtline):
     header="<52>{} {} {}".format(tstamp,sysid,prog)
     syslogmsg=header + ": {}".format(secevtline)
     print(syslogmsg)
-    # Create the UDP socket connection
+    syslogdata=b'syslogmsg'
+    # Create the UDP socket connection, python3 requires bytes rather than string
     syslogsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    syslogsock.sendto(syslogmsg,(remhost,remport))
+    syslogsock.sendto(syslogdata,(remhost,remport))
     syslogsock.close()
     return
 
