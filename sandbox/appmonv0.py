@@ -22,7 +22,7 @@ def updatesecevt(evtline):
         loglinedict=literal_eval(loglinestr)
         with open(secevtlog, "a+") as secevtfh:
             json.dump(loglinedict, secevtfh)
-            secevtfh.write('n')
+            secevtfh.write("\n")
     return
 
 def updatehttpevt(evtline):
