@@ -68,7 +68,7 @@ def setremotealert(secevtline):
     #syslogsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     #syslogsock.sendto(syslogdata,(remhost,remport))
     #syslogsock.close()
-    logtransport=newsyslogclient()
+    logtransport=newsyslogclient('10.100.200.3')
     logtransport.log(secevtline,facility=pysyslogclient.FAC_SECURITY,severity=pysyslogclient.SEV_WARNING,
     program=prog,pid=4242)
     return
