@@ -18,7 +18,7 @@ def updatesecevt(evtline):
     if relinesplit is not None:
         jsonlogline=relinesplit.group(1)
         with open(secevtlog, "a+") as secevtfh:
-            secevtfh.write(jsonlogline)
+            secevtfh.write(jsonlogline + "\n")
     return
 
 def updatehttpevt(evtline):
@@ -30,7 +30,7 @@ def updatehttpevt(evtline):
     if relinesplit is not None:
         ncsalogline=relinesplit.group(1)
         with open(httpevtlog, "a+") as httpevtfh:
-            httpevtfh.write(ncsalogline )
+            httpevtfh.write(ncsalogline + "\n" )
     return
 
 # This function sorts the incoming log events into HTTP event and application event logs
