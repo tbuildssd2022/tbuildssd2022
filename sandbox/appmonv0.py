@@ -12,6 +12,7 @@ import pysyslogclient
 
 from ast import literal_eval  # a safe way to convert the string to a dictionary
 
+################################  Log File Management ###################################
 # These function receive event logs of all severity and write to a daily file, 
 # converting the werkzeug events into HTTP NCSA format and the custom application
 # security event log into json.
@@ -43,31 +44,17 @@ def updatehttpevt(evtline):
             httpevtfh.write(ncsalogline + "\n" )
     return
 
-
+#############################  Remote Logging Transport ##########################################
 # This function creates a syslog client for transporting the log messages to the ground station 
 # security monitoring solution
 def newsyslogclient(hostipstr):
     slogclient= pysyslogclient.SyslogClientRFC3164(hostipstr,601,proto="TCP")
     return slogclient
 
-
 # This function crafts the event log into a syslog formatted message
 # then sends the message to a remote syslog server
 def setremotealert(secevtline):
-    #remhost='10.100.200.3'  # convert to FQDN and include in docker build
-    #remport=514
-    #tstamp=datetime.datetime.now().strftime('%b %d %H:%m:%S')
-    #sysid='mvciss'
     prog='sfralerting'
-    ## Send out as LPR warning for POC, determine correct facility & level with security monitoring team
-    #header="<52>{} {} {}".format(tstamp,sysid,prog)
-    #syslogmsg=header + ": {}".format(secevtline)
-    #print(syslogmsg)
-    #syslogdata=b'syslogmsg'
-    ## Create the UDP socket connection, python3 requires bytes rather than string
-    #syslogsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    #syslogsock.sendto(syslogdata,(remhost,remport))
-    #syslogsock.close()
     logtransport=newsyslogclient('10.100.200.3')
     logtransport.log(secevtline,facility=pysyslogclient.FAC_SECURITY,severity=pysyslogclient.SEV_WARNING,
     program=prog,pid=4242)
@@ -75,6 +62,8 @@ def setremotealert(secevtline):
     return
 
 
+
+#################################  Log Event Filtering ###########################################
 
 # this function evaluates the application log, forwarding warning events and higher
 # to the ground station security monitoring.  Informational messages are just forwaded to
@@ -92,13 +81,11 @@ def testsecevt(secevtline):
     return
 
 
-
 # This function sorts the incoming log events into HTTP event and application event logs
 # HTTP logs are high volume and do not contain the contextual information of the custom
 # application logs. The logs are filtered into two different files to allow ingestion into 
 # a centralized security monitoring solution.  
-def filterline(thisline):
-    
+def filterline(thisline): 
     # Using a case statement instead of regex for speed and reliable parsing
     if thisline.startswith('INFO:werkzeug:'):
         updatehttpevt(thisline)
@@ -114,9 +101,13 @@ def filterline(thisline):
         return
     else:
         testsecevt(thisline)
-
     return
 
+# This function, is the core enabler of this monitoring program. It creates a "generator" that continuously monitors the Flask logging output
+# and sends new event log lines into the monitoring program. The pattern uses yield rather 
+# than the typical function return, allowing the continous output of line data without having
+# to recall the function over an over.  
+# https://wiki.python.org/moin/Generators 
 
 def followfile(applog):
     # File seek ?
@@ -128,8 +119,6 @@ def followfile(applog):
         if not thisline:
             time.sleep(0.2)
             continue
-        # Functions normally return but yield can provide data from a function without needed to be called over and over
-        # This seems to be referred to as a generator, perhaps a pattern
         yield thisline
 
 
