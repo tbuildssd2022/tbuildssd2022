@@ -14,7 +14,7 @@
 #from crypt import methods
 from crypt import methods
 import re
-from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file
+from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file,current_app
 from markupsafe import escape
 from flask_login import  login_required, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,7 +24,7 @@ from . import db, getconnectiondata,newdburi
 from . models import DataUser, User, DataGroup
 import io
 # Import custom module classes and functions
-from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension,getcurdate,getnewuuid,newfileupload,getfiledeletesql,deletefilerecord
+from . tbutility import getauthzfg, getauthzfilesql, getauthzfiles,newresultsdict, getfiledatasql, getfiledata, getmimetype, testfileownersql,testfileownership,getgroupdetails, newsharedgroups,updatesharedgroupssql,updatesharedgrp,testfsradio,getfileextension,testfileextension,getcurdate,getnewuuid,newfileupload,getfiledeletesql,deletefilerecord,newlogmsg,newlogheader
 
 
 
@@ -222,6 +222,15 @@ def proccessupload():
     # Create database connection, then insert the complete file and meta-data 
     dbcondata = getconnectiondata()
     resultslist=newfileupload(dbcondata,uploadsql,valuetuple)
+    # Adding in custom logging event for file uploading & trim keywords 
+    if len(flupkeytag) > 60:
+        logflupkeytag = flupkeytag[:60]
+    else:
+        logflupkeytag = flupkeytag
+    payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'KeyTag',logflupkeytag,'FileUUId',fileuuid,'FileCreate',filecreate]
+    logmsgdict = newlogheader(2,1,7,int(uid))
+    logmsg=newlogmsg(logmsgdict,payloadlist)
+    current_app.logger.warning(logmsg)
  
     return render_template('fileupresp.html',fname=newfilesecname,aid=thisaid)
 
@@ -328,6 +337,11 @@ def getdownload():
                 fileblob=io.BytesIO(thisfilereq[2])  # Convert the byte array into something send-file can read
                 # The filetype is used to determine the correct mimetype for the http response 
                 newmime=getmimetype(filetype)
+                # Log file downloads, asserts access to files for a known user at a specific time
+                payloadlist=['AccessID',aid,'FileName',filename,'FileType',filetype]
+                logmsgdict = newlogheader(1,1,6,int(uid))
+                logmsg=newlogmsg(logmsgdict,payloadlist)
+                current_app.logger.info(logmsg)
                 return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
     # Redirect unauthenticated users
     else:

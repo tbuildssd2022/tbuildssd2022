@@ -12,8 +12,10 @@ Flash Message presenation
 
 
 Logging snippet
+- need current_app if using blueprints, 
+- make sure the severity is correct on logger statement
 # Create a payload list of at least 1 key and 1 value, cast everything as strings
-payloadlist=['UXReport','search failure','keytag',searchkey,'filename',searchfname]
-logmsgdict = tbsnippets.newlogheader(1,0,0,99)  # faking user 99
-logmsg=tbsnippets.newlogmsg(logmsgdict,payloadlist)
-app.logger.info(logmsg)
+payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'KeyTag',logflupkeytag,'FileUUId',fileuuid,'FileCreate',filecreate]
+logmsgdict = newlogheader(2,1,7,int(uid))
+logmsg=newlogmsg(logmsgdict,payloadlist)
+current_app.logger.warning(logmsg)
