@@ -15,9 +15,10 @@ def updatesecevt(evtline):
     secevtlog="/var/tmp/secevt-{}.log".format(dstamp)
     # Remove the Python logging headers to create lines of JSON
     relinesplit= re.search('^\w+:\w+:(.*)',evtline)
-    jsonlogline=relinesplit.group(1)
-    with open(secevtlog, "a+") as secevtfh:
-        secevtfh.write(jsonlogline)
+    if relinesplit is not None:
+        jsonlogline=relinesplit.group(1)
+        with open(secevtlog, "a+") as secevtfh:
+            secevtfh.write(jsonlogline)
     return
 
 def updatehttpevt(evtline):
@@ -26,9 +27,10 @@ def updatehttpevt(evtline):
     httpevtlog="/var/tmp/httpevt-{}.log".format(dstamp)
     # Remove the Python logging headers to create NCSA format log
     relinesplit= re.search('^\w+:\w+:(.*)',evtline)
-    ncsalogline=relinesplit.group(1)
-    with open(httpevtlog, "a+") as httpevtfh:
-        httpevtfh.write(ncsalogline )
+    if relinesplit is not None:
+        ncsalogline=relinesplit.group(1)
+        with open(httpevtlog, "a+") as httpevtfh:
+            httpevtfh.write(ncsalogline )
     return
 
 # This function sorts the incoming log events into HTTP event and application event logs
