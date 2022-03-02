@@ -71,6 +71,7 @@ def setremotealert(secevtline):
     logtransport=newsyslogclient('10.100.200.3')
     logtransport.log(secevtline,facility=pysyslogclient.FAC_SECURITY,severity=pysyslogclient.SEV_WARNING,
     program=prog,pid=4242)
+    logtransport.close()
     return
 
 
