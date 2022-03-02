@@ -168,7 +168,7 @@ def logout():
         logmsgdict = newlogheader(1,0,1)
         logmsg=newlogmsg(logmsgdict,payloadlist)
         print(logmsg)
-        current_app.logger.warning(logmsg)
+        current_app.logger.info(logmsg)
         return redirect(url_for('main.index'))
     else:
         return redirect(url_for('main.index'))  

@@ -247,6 +247,11 @@ def presentfileshare():
         if len(usergroupdict) > 0:
             thisprezgroups=newsharedgroups(usergroupdict)
             print(thisprezgroups)
+        if fileid is None:
+            errmsg="Warning, no file selected, please return to search page select the file you wish to share"
+            print(errmsg)
+            flash(errmsg)
+
     return render_template('fileshare.html',prezgroups=thisprezgroups,ukn=fileid)
 
 
