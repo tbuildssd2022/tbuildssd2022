@@ -6,7 +6,57 @@
 # Starting with this : https://medium.com/@aliasav/how-follow-a-file-in-python-tail-f-in-python-bca026a901cf
 #
 ################################################################################################################
-import time, os
+import time, os, datetime, re
+
+# This function receives security event logs of all severity and writes to a daily file.
+def updatesecevt(evtline):
+    # Create a new logfile daily
+    dstamp=datetime.datetime.now().strftime("%Y%m%d")
+    secevtlog="/var/tmp/secevt-{}.log".format(dstamp)
+    # Remove the Python logging headers to create lines of JSON
+    relinesplit= re.search('^\w+:\w+:(.*)',evtline)
+    jsonlogline=relinesplit.group(1)
+    with open(secevtlog, "a+") as secevtfh:
+        secevtfh.write(jsonlogline)
+    return
+
+def updatehttpevt(evtline):
+    # Create a new logfile daily
+    dstamp=datetime.datetime.now().strftime("%Y%m%d")
+    httpevtlog="/var/tmp/httpevt-{}.log".format(dstamp)
+    # Remove the Python logging headers to create NCSA format log
+    relinesplit= re.search('^\w+:\w+:(.*)',evtline)
+    ncsalogline=relinesplit.group(1)
+    with open(httpevtlog, "a+") as httpevtfh:
+        httpevtlog.write(ncsalogline )
+    return
+
+# This function sorts the incoming log events into HTTP event and application event logs
+# HTTP logs are high volume and do not contain the contextual information of the custom
+# application logs. The logs are filtered into two different files to allow ingestion into 
+# a centralized security monitoring solution.  
+def filterline(thisline):
+    
+    # Using a case statement instead of regex for speed and reliable parsing
+    if thisline.startswith('INFO:werkzeug:'):
+        updatehttpevt(thisline)
+        return
+    elif thisline.startswith('WARNING:werkzeug:'):
+        updatehttpevt(thisline)
+        return
+    elif thisline.startswith('ERROR:werkzeug:'):
+        updatehttpevt(thisline)
+        return
+    elif thisline.startswith('CRITICAL:werkzeug:'):
+        updatehttpevt(thisline)
+        return
+    else:
+        print("Send to application monitoring function, write info messages to log, generate alerts on the higher severity")
+        print(thisline)
+        updatesecevt(thisline)
+
+    return
+
 
 def followfile(applog):
     # File seek ?
@@ -21,32 +71,6 @@ def followfile(applog):
         # Functions normally return but yield can provide data from a function without needed to be called over and over
         # This seems to be referred to as a generator, perhaps a pattern
         yield thisline
-
-
-
-
-
-def filterline(thisline):
-    # test first to see if we get the lines, then start analysing
-    #print(type(thisline))
-    # filter out the werkzueg logs, and potentially clean them up to look like standard W3C logs
-    # Using a case statement instead of regex for speed
-    if thisline.startswith('INFO:werkzeug:'):
-        print("send to http log formater")
-        return
-    elif thisline.startswith('WARNING:werkzeug:'):
-        print("send to http log formater")
-        return
-    elif thisline.startswith('ERROR:werkzeug:'):
-        print("send to http log formater")
-        return
-    elif thisline.startswith('CRITICAL:werkzeug:'):
-        print("send to http log formater")
-        return
-    else:
-        print("Send to application monitoring function")
-        print(thisline)
-    return
 
 
 if __name__ == '__main__':
