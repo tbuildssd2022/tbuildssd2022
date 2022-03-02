@@ -443,7 +443,7 @@ def newlogheader(ld,td,cd,uid=0):  # UID defaults to 0 and can be overridden
     logmsgdict['level']=levelist[ld]
     logmsgdict['type']=typelist[td]
     logmsgdict['category']=categorylist[cd]
-    logmsgdict['userid']=uid
+    logmsgdict['userid']=str(uid)
     return logmsgdict
 
 # this function accepts a dictionary containing the log header values and a list of payload keys & values

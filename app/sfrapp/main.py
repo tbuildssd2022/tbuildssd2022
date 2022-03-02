@@ -228,7 +228,7 @@ def proccessupload():
     else:
         logflupkeytag = flupkeytag
     payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'KeyTag',logflupkeytag,'FileUUId',fileuuid,'FileCreate',filecreate]
-    logmsgdict = newlogheader(2,1,7,int(uid))
+    logmsgdict = newlogheader(2,1,7,str(uid))
     logmsg=newlogmsg(logmsgdict,payloadlist)
     current_app.logger.warning(logmsg)
  
@@ -339,7 +339,7 @@ def getdownload():
                 newmime=getmimetype(filetype)
                 # Log file downloads, asserts access to files for a known user at a specific time
                 payloadlist=['AccessID',aid,'FileName',filename,'FileType',filetype]
-                logmsgdict = newlogheader(1,1,6,int(uid))
+                logmsgdict = newlogheader(1,1,6,str(uid))
                 logmsg=newlogmsg(logmsgdict,payloadlist)
                 current_app.logger.info(logmsg)
                 return send_file(fileblob, as_attachment=True, download_name=filename, mimetype=newmime)
