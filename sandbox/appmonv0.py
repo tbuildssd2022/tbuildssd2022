@@ -46,6 +46,7 @@ def updatehttpevt(evtline):
 # issue and will be a waste of bandwidth.
 # 
 def testsecevt(secevtline):
+    print(secevtline)
     if secevtline.split(':')[0]=="INFO":
         updatesecevt(secevtline)
     else:
