@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
+<div class="columns" >
+  <div class="column is-full" > <hr class="navbar-divider is-light"  >  </div>
+</div>
+<h2 class="title">
   Secure File Repository File Sharing Permissions Modification 
-</h1>
+</h2>
+
+<div class="columns">
+  <div class="column is-two-thirds">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="notification is-warning">
+    {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
 <h2> Future user experience enhancements: </h2>
 <div class="content has-text-justified">
     <p>This section would include the following file details:
@@ -33,5 +46,8 @@
   <button class="button is-block is-info is-large is-fullwidth">Update Sharing</button>
   </form>
 </div>
+</div> <!-- end 2 thirds-->
+<div class="column"> &nbsp;</div> 
+</div> <!-- end class columns-->
 
 {% endblock %}
