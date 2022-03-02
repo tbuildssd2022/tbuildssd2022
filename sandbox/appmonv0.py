@@ -6,19 +6,23 @@
 # Starting with this : https://medium.com/@aliasav/how-follow-a-file-in-python-tail-f-in-python-bca026a901cf
 #
 ################################################################################################################
-import time, os, datetime, re
+import time, os, datetime, re, json
+from ast import literal_eval  # a safe way to convert the string to a dictionary
 
 # This function receives security event logs of all severity and writes to a daily file.
 def updatesecevt(evtline):
     # Create a new logfile daily
     dstamp=datetime.datetime.now().strftime("%Y%m%d")
     secevtlog="/var/tmp/secevt-{}.log".format(dstamp)
-    # Remove the Python logging headers to create lines of JSON
+    # Remove the Python logging headers to expose the dictionary
+    # string that can be turned into JSON
     relinesplit= re.search('^\w+:\w+:(.*)',evtline)
     if relinesplit is not None:
-        jsonlogline=relinesplit.group(1)
+        loglinestr=relinesplit.group(1)
+        loglinedict=literal_eval(loglinestr)
         with open(secevtlog, "a+") as secevtfh:
-            secevtfh.write(jsonlogline + "\n")
+            json.dump(loglinedict, secevtfh)
+            secevtfh.write('n')
     return
 
 def updatehttpevt(evtline):
