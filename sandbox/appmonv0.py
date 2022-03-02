@@ -28,7 +28,7 @@ def updatehttpevt(evtline):
     relinesplit= re.search('^\w+:\w+:(.*)',evtline)
     ncsalogline=relinesplit.group(1)
     with open(httpevtlog, "a+") as httpevtfh:
-        httpevtlog.write(ncsalogline )
+        httpevtfh.write(ncsalogline )
     return
 
 # This function sorts the incoming log events into HTTP event and application event logs
