@@ -7,6 +7,9 @@
 #
 ################################################################################################################
 import time, os, datetime, re, json, socket
+# using third party library for syslog transport
+import pysyslogclient
+
 from ast import literal_eval  # a safe way to convert the string to a dictionary
 
 # These function receive event logs of all severity and write to a daily file, 
@@ -41,23 +44,33 @@ def updatehttpevt(evtline):
     return
 
 
+# This function creates a syslog client for transporting the log messages to the ground station 
+# security monitoring solution
+def newsyslogclient(hostipstr):
+    slogclient= pysyslogclient.SyslogClientRFC3164(hostipstr,601,proto="TCP")
+    return slogclient
+
+
 # This function crafts the event log into a syslog formatted message
 # then sends the message to a remote syslog server
 def setremotealert(secevtline):
-    remhost='10.100.200.3'  # convert to FQDN and include in docker build
-    remport=514
-    tstamp=datetime.datetime.now().strftime('%b %d %H:%m:%S')
-    sysid='mvciss'
+    #remhost='10.100.200.3'  # convert to FQDN and include in docker build
+    #remport=514
+    #tstamp=datetime.datetime.now().strftime('%b %d %H:%m:%S')
+    #sysid='mvciss'
     prog='sfralerting'
-    # Send out as LPR warning for POC, determine correct facility & level with security monitoring team
-    header="<52>{} {} {}".format(tstamp,sysid,prog)
-    syslogmsg=header + ": {}".format(secevtline)
-    print(syslogmsg)
-    syslogdata=b'syslogmsg'
-    # Create the UDP socket connection, python3 requires bytes rather than string
-    syslogsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    syslogsock.sendto(syslogdata,(remhost,remport))
-    syslogsock.close()
+    ## Send out as LPR warning for POC, determine correct facility & level with security monitoring team
+    #header="<52>{} {} {}".format(tstamp,sysid,prog)
+    #syslogmsg=header + ": {}".format(secevtline)
+    #print(syslogmsg)
+    #syslogdata=b'syslogmsg'
+    ## Create the UDP socket connection, python3 requires bytes rather than string
+    #syslogsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #syslogsock.sendto(syslogdata,(remhost,remport))
+    #syslogsock.close()
+    logtransport=newsyslogclient()
+    logtransport.log(secevtline,facility=pysyslogclient.FAC_SECURITY,severity=pysyslogclient.SEV_WARNING,
+    program=prog,pid=4242)
     return
 
 
