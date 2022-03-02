@@ -35,8 +35,6 @@ main = Blueprint('main', __name__)
 # Inital page for unathenticated users, presents login section and message updates about the operating environment
 @main.route('/')
 def index():
-    #print("inside index function")
-    #print(current_user.is_authenticated)
     return render_template('index.html')
 
 # This is the home page for the data users 
@@ -46,11 +44,7 @@ def index():
 # session ID. (use this for valdiating )
 # Login button set to logout
 #  ----- extended capabilities ----------
-# Also looking at messages of the day.  
-# Possibly a way to monitor for state changes, explore threading library
-# and cleary identify all the risks of rolling your own threading based app
-# instead of using well developed solutions like an MQTT callback.
-
+# Also looking at messages of the day, lorum ipsum placeholder for now.  
 
 # If no valid session and access ID then redirect to login page.
 # Flask provides a method called login_required that protects access to
@@ -73,9 +67,9 @@ def presenthome():
         dname=thisdatauser.userdisplayname
         azglist=thisdatauser.authgroups
         # Debuging, comment out for production
-        print(thisdatauser.userdisplayname)
-        print(thisdatauser.useraccessid)
-        print(thisdatauser.authgroups)
+        #print(thisdatauser.userdisplayname)
+        #print(thisdatauser.useraccessid)
+        #print(thisdatauser.authgroups)
     # Use Jinja2 templates to prensent the authenticated user's personal data 
     # from server side database extraction, reducing user input injection points
     return render_template('home2.html', displayname=dname, grouplist=azglist )
@@ -223,11 +217,7 @@ def proccessupload():
     dbcondata = getconnectiondata()
     resultslist=newfileupload(dbcondata,uploadsql,valuetuple)
     # Adding in custom logging event for file uploading & trim keywords 
-    if len(flupkeytag) > 60:
-        logflupkeytag = flupkeytag[:60]
-    else:
-        logflupkeytag = flupkeytag
-    payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'KeyTag',logflupkeytag,'FileUUId',fileuuid,'FileCreate',filecreate]
+    payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'FileUUId',fileuuid,'FileCreate',filecreate]
     logmsgdict = newlogheader(2,1,7,str(uid))
     logmsg=newlogmsg(logmsgdict,payloadlist)
     current_app.logger.warning(logmsg)
@@ -258,7 +248,7 @@ def presentfileshare():
             print(thisprezgroups)
         if fileid is None:
             errmsg="Warning, no file selected, please return to search page select the file you wish to share"
-            print(errmsg)
+            #print(errmsg)
             flash(errmsg)
 
     return render_template('fileshare.html',prezgroups=thisprezgroups,ukn=fileid)
@@ -310,9 +300,8 @@ def getdownload():
             tforesult=testfileownership(dbcondata,tfosql)
             if int(tforesult[0]) != int(uid):
                 errmsg="Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1])
-                print(errmsg)
+                #print(errmsg)
                 flash(errmsg)
-                #print("Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1]))
                 return redirect(request.referrer)
             else:
                 if selaction=="sharefile":
@@ -366,11 +355,14 @@ def delfile():
     # get file information
     fileid=request.args.get('ukn')
     delsql=getfiledeletesql(uid,fileid)
-    print(delsql)
+    #print(delsql)
     dbcondata = getconnectiondata()
     results=deletefilerecord(dbcondata,delsql)
-    print(type(results))
-    print(results)
+    # Log file deletion, asserts access to files and deletion action taken
+    payloadlist=['AccessID',thisaid,'FileId',fileid,'ActivityDetail','SuccessfulFileDeletion']
+    logmsgdict = newlogheader(1,1,6,str(uid))
+    logmsg=newlogmsg(logmsgdict,payloadlist)
+    current_app.logger.info(logmsg)
 
     return render_template('filedelresp.html',aid=thisaid)
 
