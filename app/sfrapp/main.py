@@ -259,9 +259,9 @@ def presentfileshare():
         # confirm user belongs to at least one group
         if len(usergroupdict) > 0:
             thisprezgroups=newsharedgroups(usergroupdict)
-            #print(thisprezgroups)
         else:
             flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
+            return redirect(url_for('main.presentfilevuew'))
         if fileid is None:
             errmsg="Warning, no file selected, please return to search page select the file you wish to share"
             #print(errmsg)
@@ -276,6 +276,8 @@ def processfileshare():
     if current_user.is_authenticated:
         uid=current_user.get_id()
     checkshared=request.form.getlist('sharedgroups')
+    if len(checkshared) == 0:
+
     fileid=request.form.get('ukn2')
     
     updategrpsql=updatesharedgroupssql(checkshared,fileid,uid)
