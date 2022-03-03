@@ -107,6 +107,7 @@ def getfiledatasql(uid,authgroups,fileuuid):
     sqlwhere = sqlwhere + agsql
     # Combine the parts to create the 
     fullsql=sqlselect + sqlwhere
+    print(fullsql)
     return fullsql
 
 
