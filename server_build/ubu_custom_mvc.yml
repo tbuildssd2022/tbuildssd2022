@@ -1,0 +1,172 @@
+- name: Get host info
+  hosts: httpmvc
+  gather_facts: True
+  tasks:
+      # Install required software packages
+      - name: Adding HTTP software
+        become: yes
+        apt:
+            update_cache: yes
+            force_apt_get: yes
+            name: '{{ item }}'
+            state: latest
+        #register: stat_ntp_install
+        loop:
+            - python3-pip
+            - ntp
+            - ntpdate
+            - tcpdump
+            - htop
+            - nginx
+            - snapd
+            
+      # create application node user
+      - name: Adding app process user account
+        become: yes
+        user:
+          name: devops1
+          comment: devops account for MVC node
+          shell: /bin/bash
+          groups: sudo
+          append: yes
+
+      # proper test for package being installed
+      - name:  Gather installed packages list
+        package_facts:
+          manager: apt
+        when: ansible_os_family == 'Debian'
+     
+
+
+      # NTP config, confirm package isinstalled first
+      - name: Change NTP server
+        become: yes
+        copy:
+            src: resource_files/{{item}}
+            dest: /etc/ntp.conf
+            backup: yes
+        with_items:
+          - default-ntp.conf
+      
+    
+      
+      # Restart NTP service to force reload of config
+      - name: read new config, need to stop first
+        become: yes
+        systemd:
+          name: ntp
+          state: stopped
+        when: "'ntp' in ansible_facts.packages"
+
+      # Seems to work more reliably when stopped and started
+      - name: retart ntp
+        become: yes
+        systemd:
+          name: ntp
+          state: started
+          enabled: yes
+        when: "'ntp' in ansible_facts.packages"
+      
+      ## PIP installing software, this looks helpful
+      - name: install flask
+        become: yes
+        pip:
+          executable: pip3
+          name: flask
+          state: latest
+      
+      ## flask sqlalquemy
+      - name: install flask sqlalquemy
+        become: yes
+        pip:
+          executable: pip3
+          name: flask-sqlalchemy
+          state: latest
+      
+      ## flask login
+      - name: install flask login
+        become: yes
+        pip:
+          executable: pip3
+          name: flask-login
+          state: latest
+
+      ## flask database packages
+      - name: install flask database packages
+        become: yes
+        pip:
+          executable: pip3
+          name: mysql-connector-python
+          state: latest
+
+      ## Python environment variable parsing
+      - name: install python environ packages
+        become: yes
+        pip:
+          executable: pip3
+          name: python-dotenv
+          state: latest
+
+      ## Python log transport
+      - name: install syslog python client
+        become: yes
+        pip:
+          executable: pip3
+          name: syslog-py
+          state: latest
+
+
+      ## gunicorn server for flask app
+      - name: install gunicorn
+        become: yes
+        pip:
+          executable: pip3
+          name: gunicorn
+          state: latest
+      
+          
+      # copy test app for flask
+      - name: install flask test app
+        become: yes
+        copy:
+            src: resource_files/flask_configs/{{item}}
+            dest: /home/devops1/wsgi.py
+            backup: yes
+        with_items:
+          - wsgi.py
+      
+      # change mode
+      - name: change executable mode
+        become: yes
+        file:
+          path: /home/devops1/wsgi.py
+          owner: devops1
+          group: devops1
+          mode: 0755
+      
+      #  create system service for gunicorn
+      - name: gunicorn systemd file
+        become: yes
+        copy:
+            src: resource_files/flask_configs/{{item}}
+            dest: /lib/systemd/system/{{item}}
+            backup: yes
+        with_items:
+          - gunicorn.service
+
+
+      # Install lets encrypt capability
+      - name: adding lets encrypt
+        become: yes
+        snap:
+          name: certbot
+          classic: yes
+      # 
+      - name: creating symlink
+        become: yes
+        file:
+          src: /snap/bin/certbot
+          dest: /usr/bin/certbot
+          state: link
+          owner: www-data
+          group: www-data
