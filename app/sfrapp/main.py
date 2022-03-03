@@ -261,7 +261,7 @@ def presentfileshare():
             thisprezgroups=newsharedgroups(usergroupdict)
         else:
             flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
-            return redirect(url_for('main.presentfilevuew'))
+            return redirect(url_for('main.presentfileview'))
         if fileid is None:
             errmsg="Warning, no file selected, please return to search page select the file you wish to share"
             #print(errmsg)
