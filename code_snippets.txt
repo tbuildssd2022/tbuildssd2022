@@ -19,3 +19,13 @@ payloadlist=['AccessID',thisaid,'FileName',newfilesecname,'KeyTag',logflupkeytag
 logmsgdict = newlogheader(2,1,7,int(uid))
 logmsg=newlogmsg(logmsgdict,payloadlist)
 current_app.logger.warning(logmsg)
+
+
+patch
+
+# generate flash warning if user is not assign to any groups
+        if azglist is None:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
+            duserfilegroups=['111','112'] # temporary patch to address users with no assigned groups      
+        else:
+            duserfilegroups=getauthzfg(azglist)

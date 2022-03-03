@@ -8,7 +8,13 @@
     <div class="columns">
         <div class="column is-two-thirds" >
             <h2 class="title">Secure File Repository Search Results</h2>
-            
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-warning">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+            {% endwith %}  
             <p class="has-text-justified"> The following files were located based on the following file name, keyword and file type search conditions:</p>
             <p class="has-text-info"> filename: {{searchfname}} &nbsp;&nbsp;, keywords or tagging: {{searchkeytag}}&nbsp;&nbsp;, file type: {{searchtype}}</p>
             <p> &nbsp;</p>

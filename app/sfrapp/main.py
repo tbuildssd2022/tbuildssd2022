@@ -5,6 +5,7 @@
 #                               modified data model, built user admin tool etc.
 #                   Feb 25/2022 - File search, file sharing, data model adjustments
 #                   Feb 27/2022 - File upload and user details
+#                   Mar 2/2022 - Handling empty set for users with no assigned groups
 #
 # Notes: Main.py is the primary script used for routing the requests to the different URLs into the correct application
 # log functions, (views?). Where possible, the presentation of the results and input forms will be done through HTML
@@ -66,6 +67,8 @@ def presenthome():
     if thisdatauser:
         dname=thisdatauser.userdisplayname
         azglist=thisdatauser.authgroups
+        if azglist is None:
+            azglist="No assigned groups"
         # Debuging, comment out for production
         #print(thisdatauser.userdisplayname)
         #print(thisdatauser.useraccessid)
@@ -94,7 +97,10 @@ def presentfileview():
     if thisdatauser:
         azglist=thisdatauser.authgroups
         duaid=thisdatauser.useraccessid
-        # To-Do  module function for retrieving group lists
+        if azglist is None:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(duaid))    
+            azglist="- No assigned groups -"
+        # To-Do  module function for retrieving group descriptions from list
     return render_template('filesearch.html',grouplist=azglist, aid=duaid )
     
 @main.route('/fsd1', methods=['POST'])
@@ -107,7 +113,12 @@ def presentfileview2():
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
         azglist=thisdatauser.authgroups
-        duserfilegroups=getauthzfg(azglist)
+        # generate flash warning if user is not assign to any groups
+        if azglist is None:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
+            duserfilegroups=['111','112'] # temporary patch to address users with no assigned groups      
+        else:
+            duserfilegroups=getauthzfg(azglist)
         # Generate the SQL based on userid and group for authorization
         # function call modifies SQL based on search fields being populated
         sftype=request.form.get('selectedfiletype')
@@ -238,14 +249,19 @@ def presentfileshare():
     if thisdatauser:
         thisaid=thisdatauser.useraccessid
         azglist=thisdatauser.authgroups
-        # Parse the string into two digit list values
-        azglist=getauthzfg(azglist)
-        usergroupdict=getgroupdetails(azglist)
+        if azglist is None:
+            usergroupdict=dict()
+        else:   
+            # Parse the string into two digit list values
+            azglist=getauthzfg(azglist)
+            usergroupdict=getgroupdetails(azglist)
         fileid=request.args.get('ukn')
         # confirm user belongs to at least one group
         if len(usergroupdict) > 0:
             thisprezgroups=newsharedgroups(usergroupdict)
-            print(thisprezgroups)
+            #print(thisprezgroups)
+        else:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
         if fileid is None:
             errmsg="Warning, no file selected, please return to search page select the file you wish to share"
             #print(errmsg)
@@ -290,6 +306,9 @@ def getdownload():
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
         azglist=thisdatauser.authgroups
+        if azglist is None:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
+            azglist="111,112" # temporary patch to address users with no assigned groups      
         aid=thisdatauser.useraccessid
         # Determine the user's requested action and develop the correct query
         # The first requirement is to determine if the authenticated user is the 

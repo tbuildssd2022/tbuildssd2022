@@ -1,0 +1,7 @@
+SECRET_KEY='giK8SeeBJmAkg0v3gi8ter'
+dbinstance="sfrdev"
+dbuser="devuser"
+dbcred="THEd3vCr3d3#Ssjhq4s"
+dbhost="10.100.200.4"
+APP_DIR='app'
+SERVER_URL='0.0.0.0:8000'
