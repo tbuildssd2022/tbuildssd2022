@@ -306,10 +306,11 @@ def getdownload():
         uid=current_user.get_id()
         thisdatauser=DataUser.query.filter_by(userid=uid).first()
         azglist=thisdatauser.authgroups
-        if azglist is None:
-            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(thisaid))
-            azglist="111,112" # temporary patch to address users with no assigned groups      
         aid=thisdatauser.useraccessid
+        if azglist is None:
+            flash("Warning, the account {} is not currently associated with any authorized groups. If you believe this to be in error contact ISS ground support information services".format(aid))
+            azglist="111,112" # temporary patch to address users with no assigned groups      
+        
         # Determine the user's requested action and develop the correct query
         # The first requirement is to determine if the authenticated user is the 
         # current owner of the file requested, otherwise generate an error message
