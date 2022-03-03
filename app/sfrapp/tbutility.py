@@ -154,14 +154,14 @@ def getauthzfiles(dbconlist,appsql):
         thiscur.execute(appsql)
         # get first 15 records
         tuplelist = thiscur.fetchmany(size=15)
-        print(tuplelist)
+        #print(tuplelist)
         dbhandle.close()
     except Exception as err:
-        print(err)
+        #print(err)
         return None
     # Presuming database query is successful
     if isinstance(tuplelist,list):
-        print("process list")
+        #print("process list")
         return tuplelist
     else:
         return None
@@ -176,12 +176,12 @@ def getfiledata(dbconlist,filesql):
         #print(type(resulttuple))
         dbhandle.close()
     except Exception as err:
-        print(err)
+        #print(err)
         return None
     if isinstance(resulttuple,tuple):
         # test if empty
-        print("filetype: {}".format(resulttuple[0]))
-        print(len(resulttuple[1]))
+        #print("filetype: {}".format(resulttuple[0]))
+        #print(len(resulttuple[1]))
         return resulttuple
     else:
         return None
@@ -193,16 +193,16 @@ def testfileownership(dbconlist,ownersql):
         thiscur.execute(ownersql)
         # get filetype and blob
         resulttuple = thiscur.fetchone()
-        print(resulttuple)
+        #print(resulttuple)
         dbhandle.close()
     except Exception as err:
-        print(err)
+        #print(err)
         return None
     return resulttuple
 
 def updatesharedgrp(dbconlist,shgrpsql):
-    print(shgrpsql)
-    print(dbconlist)
+    #print(shgrpsql)
+    #print(dbconlist)
     try:
         dbhandle=dbconnectalt(dbconlist)
         thiscur=dbhandle.cursor()
@@ -221,7 +221,7 @@ def updatesharedgrp(dbconlist,shgrpsql):
 def getgroupdetails(azglist):
     azgroupdetails=dict()
     for azg in azglist:
-        print(azg)
+        #print(azg)
         tmplist=[]
         grouprecord=DataGroup.query.filter_by(groupid=azg).first()
         if grouprecord is not None:
@@ -281,7 +281,7 @@ def newresultsdict(resultlist):
                 fsize = "{} bytes".format(str(result[5]))
             # converted data placed into a single string for dictionary
             keydata="{} {} {} {} {}".format(result[1].strip(),keytagdisplay,filedate,result[3],fsize)
-            print("key: {}, Value: keydata ".format(result[0]))
+            #print("key: {}, Value: keydata ".format(result[0]))
             filemetadict[result[0]]=keydata
     else:
         print("<empty> HTML stuff")        
@@ -336,7 +336,7 @@ def newsharedgroups(shrgrpdict):
             gdesc=item[1][1]
         gdetails="{}: {}".format(gname,gdesc)
         presgrouplist.append((gid,gdetails))
-    print(presgrouplist)
+    #print(presgrouplist)
     return presgrouplist
 
 
@@ -365,8 +365,8 @@ def testuserstrps(ustr):
 # based on the various possible error states.
 def testfsradio(rb1,rb2):
     # Both radio buttons unselected
-    print(type(rb1))
-    print(type(rb2))
+    #print(type(rb1))
+    #print(type(rb2))
     if (not isinstance(rb1,str)) and (not isinstance(rb2,str)):
         msg="Please repeat your search then select both a file and one of three processing options: download, share or delete."
         return msg
@@ -385,7 +385,7 @@ def testfsradio(rb1,rb2):
 # May not be required if zero length list is a valid response E.G,  removing all sharing, just send the user a warning
 #  
 def testfschkbx(cblist):
-    print(cblist)
+    #print(cblist)
     if len(cblist)== 0:
         msg="Warning, this file will no longer be shared with any groups. If this is in error, please revisit the file sharing page."
         return msg

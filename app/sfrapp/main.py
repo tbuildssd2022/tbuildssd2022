@@ -296,9 +296,7 @@ def getdownload():
     selaction=request.form.get('actionrequest')
     # User input validation & anomalous detection measure
     errmsg=testfsradio(fileuuid,selaction)
-    print(errmsg)
     if errmsg is not None:
-        print(errmsg)
         flash(errmsg)
         return redirect(url_for('main.presentfileview'))
     if current_user.is_authenticated:
@@ -319,7 +317,6 @@ def getdownload():
             tforesult=testfileownership(dbcondata,tfosql)
             if int(tforesult[0]) != int(uid):
                 errmsg="Account {} is not currently the authorized owner of file {}".format(aid, tforesult[1])
-                #print(errmsg)
                 flash(errmsg)
                 return redirect(request.referrer)
             else:
