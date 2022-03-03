@@ -204,7 +204,7 @@ def proccessupload():
         errmsg="Please select the correct file type from the dropdown menu"
         flash(errmsg)
         return redirect(url_for('main.presentupload'))
-    # Confirm valid extension
+    # Confirm valid extension based on user selection and extention extracted from file name
     flupext=getfileextension(newfilesecname)
     errmsg=testfileextension(flupext,fluptype)
     if errmsg is not None:
