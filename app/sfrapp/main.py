@@ -276,10 +276,7 @@ def processfileshare():
     if current_user.is_authenticated:
         uid=current_user.get_id()
     checkshared=request.form.getlist('sharedgroups')
-    if len(checkshared) == 0:
-
     fileid=request.form.get('ukn2')
-    
     updategrpsql=updatesharedgroupssql(checkshared,fileid,uid)
     # Create database connection, then process SQL generated above
     dbcondata = getconnectiondata()
