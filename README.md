@@ -1,25 +1,15 @@
 ### ISS Secure File Repository Installation #############
 
-Split into 3 sections
 
-Flask front end with login, file viewing/download and an upload function
-
-Docker files for nodes once working prototype finished
-
-SQL and HTTP log monitoring
+# 
+# 
 
 
-<!--
-**tbuildssd2022/tbuildssd2022** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# Starting the SFR application
 
-Here are some ideas to get you started:
+1. Change directory to the application home folder, download-location/tbuildssd2022/app
+2. Export two environment variables as shown below:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+export FLASK_APP=sfrapp
+export FLASK_ENV=production
+
