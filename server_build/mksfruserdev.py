@@ -93,6 +93,7 @@ def main():
         useraccessid=input("Access ID for user, AAdddIddi: ")  # 10 character string high entropy
         print("Space agency user is affiliated with, Canada,Europe,Japan,Russia,USA ")
         useragency=input("Space agency affiliation: ")
+        print(usermgtutil.checkuseragency(useragency))
         if usermgtutil.checkuseragency(useragency) != 99:
             authgroups=usermgtutil.checkuseragency(useragency)
         else:
