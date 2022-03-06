@@ -53,10 +53,10 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     grpcnt=len(authgroups) 
     for i in range(grpcnt):
         if i < (grpcnt -1):
-            ag="authgroups={} or ".format(authgroups[i])
+            ag="authgroups like '%{}%' or ".format(authgroups[i])
             agsql = agsql + ag
         else:
-            ag="authgroups={}".format(authgroups[i])
+            ag="authgroups like '%{}%'".format(authgroups[i])
             agsql = agsql + ag
     agsql = agsql + " ))"
     # Allow search filtering by filetype
