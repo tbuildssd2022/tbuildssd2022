@@ -14,8 +14,8 @@
  
 #######################################################################################################################
 
-import time, datetime, sys, os, mysql.connector, uuid, string
-from mysql.connector import errorcode
+import  datetime,  mysql.connector, uuid, string
+#from mysql.connector import errorcode
 
 from . import db, dbconnectalt
 from . models import DataUser, User, DataGroup
@@ -83,7 +83,7 @@ def getauthzfilesql(uid,authgroups,ftype,fname=None,fkeytag=None):
     
     # Combine the parts to create the 
     fullsql=sqlselect + sqlwhere
-    print(fullsql)
+    #print(fullsql)
     return fullsql
 
 # This function generates the SQL needed to retrieve the binary large object data and set the mime type
@@ -99,16 +99,16 @@ def getfiledatasql(uid,authgroups,fileuuid):
     grpcnt=len(authgroups) 
     for i in range(grpcnt):
         if i < (grpcnt -1):
-            ag="authgroups={} or ".format(authgroups[i])
+            ag="authgroups like '%{}%' or ".format(authgroups[i])
             agsql = agsql + ag
         else:
-            ag="authgroups={}".format(authgroups[i])
+            ag="authgroups like '%{}%'".format(authgroups[i])
             agsql = agsql + ag
     agsql = agsql + " ))"
     sqlwhere = sqlwhere + agsql
     # Combine the parts to create the 
     fullsql=sqlselect + sqlwhere
-    print(fullsql)
+    #print(fullsql)
     return fullsql
 
 
