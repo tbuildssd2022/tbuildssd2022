@@ -60,9 +60,7 @@ def checkgenpasswd(pwd):
 #  if not, returns a specifc number to test for as an error condition,
 #  if a valid agency, disregard the case and retrieve the group number through parsing a case statement
 def checkuseragency(agency):
-    print(agency)
-    print(type(agency))
-    agencylist=['Canada','Europe','Japan','Russia','USA']
+    agencylist=['canada','europe','japan','russia','usa']
     if agency.lower() not in agencylist:
         return int(99)
     if agency.lower()=="canada":
