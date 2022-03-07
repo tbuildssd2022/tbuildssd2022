@@ -39,6 +39,7 @@ Any operating system or container supporting MySql version 8 is a suitable data 
 `mysql -u root -p sfrdev < /path/to/sfrdev-v3.sql`
 
 3.	Restore the sample database content using the following command:
+
 `mysql -u root -p sfrdev < /path/to/sdrdev_dump.sql`
 
 4.	Alternatively create application users with mksfruserdev.py and generate groups using sfrgroups-sample.sql. 
@@ -50,6 +51,7 @@ Any operating system or container supporting MySql version 8 is a suitable data 
 2. Export two environment variables as shown below (use development if verbose console output needed):
 
 `export FLASK_APP=sfrapp`
+
 `export FLASK_ENV=production`
 
 3. Start the flask server, specifying the IP address and TCP port as shown below:
