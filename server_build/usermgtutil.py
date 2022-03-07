@@ -3,21 +3,14 @@
 # Version history: Feb 21/2022 - Initial creation
 #                   Mar 3/2022 - Adding function for default user group creation
 # 
-# Notes: One of two command line interfaces developed to support the creation, updating and deleting of datauser accounts
-# Assumption is the administrators will be connecting to a support server via SSH and this server will have host based
-# access to the application database.  
+# Notes: A supporting module for the command line interfaces developed to support the creation, updating and deleting of datauser accounts
+# Ensure this module file is saved to the same path as the mksfruser program.  
 # 
 #######################################################################################################################
-
-
-# Define all libraries an imports here
+# Define all module imports here
 
 import datetime, mysql.connector
 from werkzeug.security import generate_password_hash
-
-
-
-
 
 # Connect to the database 
 #  use host based restriction on SQL server as secondary control.  Must come from 10.100.200.0/24 only
@@ -35,7 +28,6 @@ def devdbconnect(dbhost,dbuser,dbcred,dbname):
     except mysql.connector.Error as err:
         print(err)
         return None
-
 
 
 # extract the current date and time, then format into MySQL datetime

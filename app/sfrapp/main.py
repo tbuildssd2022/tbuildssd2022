@@ -13,12 +13,11 @@
  
 #######################################################################################################################
 #from crypt import methods
-from crypt import methods
 import re
-from flask import Blueprint,render_template, redirect,url_for, request, flash, Markup, send_file,current_app
+from flask import Blueprint,render_template, redirect,url_for, request, flash, send_file,current_app
 from markupsafe import escape
-from flask_login import  login_required, current_user, login_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import  login_required, current_user
+#from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from os import environ, path
 from . import db, getconnectiondata,newdburi

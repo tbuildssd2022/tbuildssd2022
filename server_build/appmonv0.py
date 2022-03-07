@@ -4,6 +4,9 @@
 #
 # Attempting to keep this native python instead of OS specific shelling out to tail -f
 # Starting with this : https://medium.com/@aliasav/how-follow-a-file-in-python-tail-f-in-python-bca026a901cf
+# Requires one third party module, syslog-py. 
+# RFC5424 format was not working with Syslog NG, using 3164. Not too consequential as it's only transport and 
+# still works over TCP. 
 #
 ################################################################################################################
 import time, os, datetime, re, json
