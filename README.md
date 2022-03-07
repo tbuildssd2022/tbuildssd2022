@@ -65,6 +65,6 @@ Server_build/appmon.py is a standalone program for detecting SFR application log
 2.	Modify syslog client destination
 3.	Run in background shell such as screen
 ## Key Python modules
-The application has two custom modules, auth.py and main.py as well as common Flask modules like models.py, __init_py etc.  Flask views related to authentication are contained within auth.py, remaining control functions reside in main.py. The tbutility.py module is used extensively for repeatable functions with extensive comments. 
+The application has two custom modules, auth.py and main.py as well as common Flask modules like models.py, __init_py etc.  Flask views related to authentication are contained within auth.py, remaining control functions reside in main.py. The tbutility.py module is used extensively for repeatable functions, with extensive comments regarding use. 
 
 
